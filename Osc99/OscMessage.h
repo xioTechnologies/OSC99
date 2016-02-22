@@ -30,26 +30,26 @@
  * specification.  The size is 8 bytes which includes the terminating null
  * character.
  */
-#define MIN_OSC_MESSAGE_SIZE sizeof("/\0\0\0,\0\0")
+#define MIN_OSC_MESSAGE_SIZE (sizeof("/\0\0\0,\0\0"))
 
 /**
  * @brief Maximum size (number of bytes) of an OSC message equal to the maximum
  * packet size  permitted by the transport protocol.
  */
-#define MAX_OSC_MESSAGE_SIZE MAX_TRANSPORT_SIZE
+#define MAX_OSC_MESSAGE_SIZE (MAX_TRANSPORT_SIZE)
 
 /**
  * @brief Maximum string length (excludes terminating null characters) of an OSC
  * address pattern.  This value may be modified as required by the user
  * application.
  */
-#define MAX_OSC_ADDRESS_PATTERN_LENGTH 64
+#define MAX_OSC_ADDRESS_PATTERN_LENGTH (64)
 
 /**
  * @brief Maximum number of arguments that may be contained within an OSC
  * message.  This value may be modified as required by the user application.
  */
-#define MAX_NUMBER_OF_ARGUMENTS 16
+#define MAX_NUMBER_OF_ARGUMENTS (16)
 
 /**
  * @brief Maximum length of an OSC type tag string (includes comma but not

@@ -22,7 +22,7 @@
  * @brief OSC SLIP decoder buffer size.  If a packet size exceeds the buffer
  * size then all bytes in the decoder buffer will be discarded.
  */
-#define OSC_SLIP_DECODER_BUFFER_SIZE MAX_TRANSPORT_SIZE
+#define OSC_SLIP_DECODER_BUFFER_SIZE (MAX_TRANSPORT_SIZE)
 
 /**
  * @brief OSC SLIP decoder structure.  Must be initialised using

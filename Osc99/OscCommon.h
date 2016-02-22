@@ -25,7 +25,7 @@
  * size of an OSC packet.  This value may be modified as required by the user
  * application.
  */
-#define MAX_TRANSPORT_SIZE 1472
+#define MAX_TRANSPORT_SIZE (1472)
 
 /**
  * @brief Comment out this definition if the platform is big-endian.  For

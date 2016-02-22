@@ -29,7 +29,7 @@ static bool MatchCurlyBraces(const char* * const oscAddressPattern, const char* 
  * @brief Matches an OSC address pattern with a target OSC address.
  *
  * Returns true if the OSC address pattern matches the target OSC address.  The
- * target OSC address cannot contain any special characters: '?', '*', '[]' or
+ * target OSC address cannot contain any special characters: '?', '*', '[]', or
  * '{}'.
  *
  * Example use:
@@ -55,7 +55,7 @@ bool OscAddressMatch(const char* oscAddressPattern, const char* const oscAddress
  *
  * Returns true if the OSC address pattern matches the partial target OSC
  * address.  The target OSC address cannot contain any special characters:
- * '?', '*', '[]' or '{}'.
+ * '?', '*', '[]', or '{}'.
  *
  * Matching to a partial OSC address can simplify the process of filtering
  * through multiple similar OSC address.  For example, matching to the following
@@ -90,7 +90,7 @@ bool OscAddressMatchPartial(const char* oscAddressPattern, const char* const osc
  * @brief Matches literal OSC address pattern with target OSC address.
  *
  * The OSC address pattern is initially assumed to be literal and not to contain
- * any special characters: '?', '*', '[]' or '{}'.  If a special character is
+ * any special characters: '?', '*', '[]', or '{}'.  If a special character is
  * found then the result of MatchExpression is returned.  Matching literal OSC
  * address patterns is faster than matching OSC address patterns that contain
  * special characters.
@@ -137,7 +137,7 @@ static bool MatchLiteral(const char* oscAddressPattern, const char* oscAddress, 
  * @brief Matches an OSC address pattern expression with a target OSC address.
  *
  * The OSC address pattern expression may contain any combination of special
- * characters: '?', '*', '[]' or '{}'.
+ * characters: '?', '*', '[]', or '{}'.
  *
  * This is an internal function and cannot be called by the user application.
  *
@@ -430,7 +430,7 @@ static bool MatchCurlyBraces(const char* * const oscAddressPattern, const char* 
  * @brief Returns true if the OSC address pattern is literal.
  *
  * A literal OSC address pattern cannot contain any special characters: '?',
- * '*', '[]' or '{}'.  In some applications it is desirable to reject OSC
+ * '*', '[]', or '{}'.  In some applications it is desirable to reject OSC
  * address patterns that contain special characters because the use of special
  * characters risks invoking critical methods unintentionally.  For example,
  * critical methods such as "/shutdown" or "/selfdestruct" risk being invoked

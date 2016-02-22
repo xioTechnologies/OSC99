@@ -36,7 +36,7 @@
  * @brief Maximum size (number of bytes) of an OSC bundle equal to the maximum
  * packet size permitted by the transport protocol.
  */
-#define MAX_OSC_BUNDLE_SIZE MAX_TRANSPORT_SIZE
+#define MAX_OSC_BUNDLE_SIZE (MAX_TRANSPORT_SIZE)
 
 /**
  * @brief Maximum combined size (number of bytes) of all OSC bundle elements

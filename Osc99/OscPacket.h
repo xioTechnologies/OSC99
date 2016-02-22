@@ -25,7 +25,7 @@
  * @brief Maximum OSC packet size.  The OSC packet size is limited by the
  * maximum packet size permitted by the transport protocol.
  */
-#define MAX_OSC_PACKET_SIZE MAX_TRANSPORT_SIZE
+#define MAX_OSC_PACKET_SIZE (MAX_TRANSPORT_SIZE)
 
 /**
  * @brief OSC packet structure.  Must be initialised using either
