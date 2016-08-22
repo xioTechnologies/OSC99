@@ -16,7 +16,7 @@
 #include "OscError.h"
 #include "OscCommon.h"
 #include "OscMessage.h"
-#include <stddef.h> // size_t, NULL
+#include <stddef.h>
 
 //------------------------------------------------------------------------------
 // Definitions
@@ -35,7 +35,7 @@
 typedef struct {
     char contents[MAX_OSC_PACKET_SIZE];
     size_t size;
-    void (*processMessage)(const OscTimeTag * const oscTimeTag, OscMessage * const oscMessage);
+    void ( *processMessage)(const OscTimeTag * const oscTimeTag, OscMessage * const oscMessage);
 } OscPacket;
 
 //------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ typedef struct {
 
 void OscPacketInitialise(OscPacket * const oscPacket);
 OscError OscPacketInitialiseFromContents(OscPacket * const oscPacket, const OscContents * const oscContents);
-OscError OscPacketInitialiseFromCharArray(OscPacket * const oscPacket, const char* const source, const size_t sourceSize);
+OscError OscPacketInitialiseFromCharArray(OscPacket * const oscPacket, const char * const source, const size_t sourceSize);
 OscError OscPacketProcessMessages(OscPacket * const oscPacket);
 
 #endif

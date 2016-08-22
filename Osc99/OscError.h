@@ -17,15 +17,15 @@
 typedef enum {
     OscErrorNone = 0,
 
-    /* Common errors */
+    /* Common errors  */
     OscErrorDestinationTooSmall,
     OscErrorSizeIsNotMultipleOfFour,
     OscErrorCallbackFunctionUndefined,
 
-    /* OscAddress errors */
+    /* OscAddress errors  */
     OscErrorNotEnoughPartsInAddressPattern,
 
-    /* OscMessage errors */
+    /* OscMessage errors  */
     OscErrorNoSlashAtStartOfMessage,
     OscErrorAddressPatternTooLong,
     OscErrorTooManyArguments,
@@ -42,7 +42,7 @@ typedef enum {
     OscErrorUnexpectedArgumentType,
     OscErrorMessageTooShortForArgumentType,
 
-    /* OscBundle errors */
+    /* OscBundle errors  */
     OscErrorBundleFull,
     OscErrorBundleSizeTooSmall,
     OscErrorBundleSizeTooLarge,
@@ -51,12 +51,12 @@ typedef enum {
     OscErrorNegativeBundleElementSize,
     OscErrorInvalidElementSize,
 
-    /* OscPacket errors */
+    /* OscPacket errors  */
     OscErrorInvalidContents,
     OscErrorPacketSizeTooLarge,
     OscErrorContentsEmpty,
 
-    /* OscSlip errors */
+    /* OscSlip errors  */
     OscErrorEncodedSlipPacketTooLong,
     OscErrorUnexpectedByteAfterSlipEsc,
     OscErrorDecodedSlipPacketTooLong,
@@ -66,7 +66,7 @@ typedef enum {
 //------------------------------------------------------------------------------
 // Function prototypes
 
-char* OscErrorGetMessage(const OscError oscError);
+char * OscErrorGetMessage(const OscError oscError);
 
 #endif
 

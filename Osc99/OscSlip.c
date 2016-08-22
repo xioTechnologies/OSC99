@@ -10,7 +10,7 @@
 // Includes
 
 #include "OscSlip.h"
-#include <stddef.h> // size_t, NULL
+#include <stddef.h>
 
 //------------------------------------------------------------------------------
 // Definitions
@@ -32,7 +32,7 @@
  *
  * Example use:
  * @code
- * void ProcessPacket(OscPacket * const oscPacket){
+ * void ProcessPacket(OscPacket  * const oscPacket){
  * }
  *
  * void Main() {
@@ -149,7 +149,7 @@ void OscSlipDecoderClearBuffer(OscSlipDecoder * const oscSlipDecoder) {
  * @param destinationSize Size of the destination.
  * @return Error code (0 if successful).
  */
-OscError OscSlipEncodePacket(const OscPacket * const oscPacket, size_t * const slipPacketSize, char* const destination, const size_t destinationSize) {
+OscError OscSlipEncodePacket(const OscPacket * const oscPacket, size_t * const slipPacketSize, char * const destination, const size_t destinationSize) {
     *slipPacketSize = 0; // size will be 0 if function unsuccessful
     int encodedPacketSize = 0;
     int packetIndex;

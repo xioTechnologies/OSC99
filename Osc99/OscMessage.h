@@ -18,9 +18,9 @@
 
 #include "OscCommon.h"
 #include "OscError.h"
-#include <stdbool.h> // bool, true, false
-#include <stddef.h> // size_t, NULL
-#include <stdint.h> // int32_t, int64_t
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
 
 //------------------------------------------------------------------------------
 // Definitions
@@ -66,7 +66,7 @@
 #define MAX_ARGUMENTS_SIZE (MAX_OSC_MESSAGE_SIZE - (MAX_OSC_ADDRESS_PATTERN_LENGTH + 4) - (MAX_OSC_TYPE_TAG_STRING_LENGTH + 4))
 
 /**
- * @brief OSC bundle structure.  Must be initialised using either
+ * @brief OSC message structure.  Must be initialised using either
  * OscMessageInitialise or OscMessageInitialiseFromCharArray.
  */
 typedef struct {
@@ -107,17 +107,17 @@ typedef enum {
 // Function prototypes
 
 // Message construction
-OscError OscMessageInitialise(OscMessage * const oscMessage, const char* oscAddressPattern);
-OscError OscMessageSetAddressPattern(OscMessage * const oscMessage, const char* oscAddressPattern);
-OscError OscMessageAppendAddressPattern(OscMessage * const oscMessage, const char* appendedParts);
+OscError OscMessageInitialise(OscMessage * const oscMessage, const char * oscAddressPattern);
+OscError OscMessageSetAddressPattern(OscMessage * const oscMessage, const char * oscAddressPattern);
+OscError OscMessageAppendAddressPattern(OscMessage * const oscMessage, const char * appendedParts);
 OscError OscMessageAddInt32(OscMessage * const oscMessage, const int32_t int32);
 OscError OscMessageAddFloat32(OscMessage * const oscMessage, const float float32);
-OscError OscMessageAddString(OscMessage * const oscMessage, const char* string);
-OscError OscMessageAddBlob(OscMessage * const oscMessage, const char* const source, const size_t sourceSize);
+OscError OscMessageAddString(OscMessage * const oscMessage, const char * string);
+OscError OscMessageAddBlob(OscMessage * const oscMessage, const char * const source, const size_t sourceSize);
 OscError OscMessageAddInt64(OscMessage * const oscMessage, const uint64_t int64);
 OscError OscMessageAddTimeTag(OscMessage * const oscMessage, const OscTimeTag oscTimeTag);
 OscError OscMessageAddDouble(OscMessage * const oscMessage, const Double64 double64);
-OscError OscMessageAddAlternateString(OscMessage * const oscMessage, const char* string);
+OscError OscMessageAddAlternateString(OscMessage * const oscMessage, const char * string);
 OscError OscMessageAddCharacter(OscMessage * const oscMessage, const char asciiChar);
 OscError OscMessageAddRgbaColour(OscMessage * const oscMessage, const RgbaColour rgbaColour);
 OscError OscMessageAddMidiMessage(OscMessage * const oscMessage, const MidiMessage midiMessage);
@@ -127,23 +127,34 @@ OscError OscMessageAddInfinitum(OscMessage * const oscMessage);
 OscError OscMessageAddBeginArray(OscMessage * const oscMessage);
 OscError OscMessageAddEndArray(OscMessage * const oscMessage);
 size_t OscMessageGetSize(const OscMessage * const oscMessage);
-OscError OscMessageToCharArray(const OscMessage * const oscMessage, size_t * const oscMessageSize, char* const destination, const size_t destinationSize);
+OscError OscMessageToCharArray(const OscMessage * const oscMessage, size_t * const oscMessageSize, char * const destination, const size_t destinationSize);
 
 // Message deconstruction
-OscError OscMessageInitialiseFromCharArray(OscMessage * const oscMessage, const char* const source, const size_t size);
+OscError OscMessageInitialiseFromCharArray(OscMessage * const oscMessage, const char * const source, const size_t size);
 bool OscMessageIsArgumentAvailable(OscMessage * const oscMessage);
 OscTypeTag OscMessageGetArgumentType(OscMessage * const oscMessage);
 OscError OscMessageSkipArgument(OscMessage * const oscMessage);
 OscError OscMessageGetInt32(OscMessage * const oscMessage, int32_t * const int32);
 OscError OscMessageGetFloat32(OscMessage * const oscMessage, float * const float32);
-OscError OscMessageGetString(OscMessage * const oscMessage, char* const destination, const size_t destinationSize);
-OscError OscMessageGetBlob(OscMessage * const oscMessage, size_t * const blobSize, char* const destination, const size_t destinationSize);
+OscError OscMessageGetString(OscMessage * const oscMessage, char * const destination, const size_t destinationSize);
+OscError OscMessageGetBlob(OscMessage * const oscMessage, size_t * const blobSize, char * const destination, const size_t destinationSize);
 OscError OscMessageGetInt64(OscMessage * const oscMessage, int64_t * const int64);
 OscError OscMessageGetTimeTag(OscMessage * const oscMessage, OscTimeTag * const oscTimeTag);
 OscError OscMessageGetDouble(OscMessage * const oscMessage, Double64 * const double64);
-OscError OscMessageGetCharacter(OscMessage * const oscMessage, char* const character);
+OscError OscMessageGetCharacter(OscMessage * const oscMessage, char * const character);
 OscError OscMessageGetRgbaColour(OscMessage * const oscMessage, RgbaColour * const rgbaColour);
 OscError OscMessageGetMidiMessage(OscMessage * const oscMessage, MidiMessage * const midiMessage);
+OscError OscMessageGetArgumentAsInt32(OscMessage * const oscMessage, int32_t * const int32);
+OscError OscMessageGetArgumentAsFloat32(OscMessage * const oscMessage, float * const float32);
+OscError OscMessageGetArgumentAsString(OscMessage * const oscMessage, char * const destination, const size_t destinationSize);
+OscError OscMessageGetArgumentAsBlob(OscMessage * const oscMessage, size_t * const blobSize, char * const destination, const size_t destinationSize);
+OscError OscMessageGetArgumentAsInt64(OscMessage * const oscMessage, int64_t * const int64);
+OscError OscMessageGetArgumentAsTimeTag(OscMessage * const oscMessage, OscTimeTag * const oscTimeTag);
+OscError OscMessageGetArgumentAsDouble(OscMessage * const oscMessage, Double64 * const double64);
+OscError OscMessageGetArgumentAsCharacter(OscMessage * const oscMessage, char * const character);
+OscError OscMessageGetArgumentAsRgbaColour(OscMessage * const oscMessage, RgbaColour * const rgbaColour);
+OscError OscMessageGetArgumentAsMidiMessage(OscMessage * const oscMessage, MidiMessage * const midiMessage);
+OscError OscMessageGetArgumentAsBool(OscMessage * const oscMessage, bool * const boolean);
 
 #endif
 

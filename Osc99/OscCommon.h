@@ -15,7 +15,7 @@
 // Includes
 
 #include <float.h> // DBL_MANT_DIG
-#include <stdint.h> // int32_t, uint32_t, uint64_t
+#include <stdint.h>
 
 //------------------------------------------------------------------------------
 // Definitions - Application/platform specific
@@ -55,12 +55,12 @@ typedef enum {
 /**
  * @brief Macro that resolves as true if oscContents points to an OSC message.
  */
-#define OSC_CONTENTS_IS_MESSAGE(oscContents) (*(char*) (oscContents) == OscContentsTypeMessage)
+#define OSC_CONTENTS_IS_MESSAGE(oscContents) ( *(char *) (oscContents) == OscContentsTypeMessage)
 
 /**
  * @brief Macro that resolves as true if oscContents points to an OSC bundle.
  */
-#define OSC_CONTENTS_IS_BUNDLE(oscContents) (*(char*) (oscContents) == OscContentsTypeBundle)
+#define OSC_CONTENTS_IS_BUNDLE(oscContents) ( *(char *) (oscContents) == OscContentsTypeBundle)
 
 //------------------------------------------------------------------------------
 // Definitions - 32-bit argument types
@@ -70,10 +70,17 @@ typedef enum {
  * @see http://en.wikipedia.org/wiki/RGBA_color_space
  */
 typedef struct __attribute__((__packed__)) {
-    char blue; // LSB
+#ifdef LITTLE_ENDIAN_PLATFORM
+    char alpha; // LSB
+    char blue;
     char green;
-    char red;
-    char alpha; // MSB
+    char red; // MSB
+#else
+    char red; // MSB
+    char green;
+    char blue;
+    char alpha; // LSB
+#endif
 }
 RgbaColour;
 
@@ -81,10 +88,17 @@ RgbaColour;
  * @brief 4 byte MIDI message as described in OSC 1.0 specification.
  */
 typedef struct __attribute__((__packed__)) {
+#ifdef LITTLE_ENDIAN_PLATFORM
     char data2; // LSB
     char data1;
     char status;
     char portID; // MSB
+#else
+    char portID; // MSB
+    char status;
+    char data1;
+    char data2; // LSB
+#endif
 }
 MidiMessage;
 

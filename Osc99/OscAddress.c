@@ -15,12 +15,12 @@
 //------------------------------------------------------------------------------
 // Function prototypes
 
-static bool MatchLiteral(const char* oscAddressPattern, const char* oscAddress, const bool isPartial);
-static bool MatchExpression(const char* * const oscAddressPattern, const char* * const oscAddress, const bool isPartial);
-static bool MatchStar(const char* * const oscAddressPattern, const char* * const oscAddress, const bool isPartial);
-static bool MatchCharacter(const char* * const oscAddressPattern, const char* * const oscAddress, const bool isPartial);
-static bool MatchBrackets(const char* * const oscAddressPattern, const char* * const oscAddress);
-static bool MatchCurlyBraces(const char* * const oscAddressPattern, const char* * const oscAddress, const bool isPartial);
+static bool MatchLiteral(const char * oscAddressPattern, const char * oscAddress, const bool isPartial);
+static bool MatchExpression(const char * * const oscAddressPattern, const char * * const oscAddress, const bool isPartial);
+static bool MatchStar(const char * * const oscAddressPattern, const char * * const oscAddress, const bool isPartial);
+static bool MatchCharacter(const char * * const oscAddressPattern, const char * * const oscAddress, const bool isPartial);
+static bool MatchBrackets(const char * * const oscAddressPattern, const char * * const oscAddress);
+static bool MatchCurlyBraces(const char * * const oscAddressPattern, const char * * const oscAddress, const bool isPartial);
 
 //------------------------------------------------------------------------------
 // Functions
@@ -29,7 +29,7 @@ static bool MatchCurlyBraces(const char* * const oscAddressPattern, const char* 
  * @brief Matches an OSC address pattern with a target OSC address.
  *
  * Returns true if the OSC address pattern matches the target OSC address.  The
- * target OSC address cannot contain any special characters: '?', '*', '[]', or
+ * target OSC address cannot contain any special characters: '?', ' *', '[]', or
  * '{}'.
  *
  * Example use:
@@ -45,7 +45,7 @@ static bool MatchCurlyBraces(const char* * const oscAddressPattern, const char* 
  * @param oscAddress Target OSC address.
  * @return true if the OSC address pattern and target oscAddress match.
  */
-bool OscAddressMatch(const char* oscAddressPattern, const char* const oscAddress) {
+bool OscAddressMatch(const char * oscAddressPattern, const char * const oscAddress) {
     return MatchLiteral(oscAddressPattern, oscAddress, false);
 }
 
@@ -55,7 +55,7 @@ bool OscAddressMatch(const char* oscAddressPattern, const char* const oscAddress
  *
  * Returns true if the OSC address pattern matches the partial target OSC
  * address.  The target OSC address cannot contain any special characters:
- * '?', '*', '[]', or '{}'.
+ * '?', ' *', '[]', or '{}'.
  *
  * Matching to a partial OSC address can simplify the process of filtering
  * through multiple similar OSC address.  For example, matching to the following
@@ -82,7 +82,7 @@ bool OscAddressMatch(const char* oscAddressPattern, const char* const oscAddress
  * @return true if the OSC address pattern matches the partial target OSC
  * oscAddress.
  */
-bool OscAddressMatchPartial(const char* oscAddressPattern, const char* const oscAddress) {
+bool OscAddressMatchPartial(const char * oscAddressPattern, const char * const oscAddress) {
     return MatchLiteral(oscAddressPattern, oscAddress, true);
 }
 
@@ -90,7 +90,7 @@ bool OscAddressMatchPartial(const char* oscAddressPattern, const char* const osc
  * @brief Matches literal OSC address pattern with target OSC address.
  *
  * The OSC address pattern is initially assumed to be literal and not to contain
- * any special characters: '?', '*', '[]', or '{}'.  If a special character is
+ * any special characters: '?', ' *', '[]', or '{}'.  If a special character is
  * found then the result of MatchExpression is returned.  Matching literal OSC
  * address patterns is faster than matching OSC address patterns that contain
  * special characters.
@@ -102,7 +102,7 @@ bool OscAddressMatchPartial(const char* oscAddressPattern, const char* const osc
  * @param isPartial Flag indicating if a partial match is acceptable.
  * @return true if OSC address pattern and target OSC address match.
  */
-static bool MatchLiteral(const char* oscAddressPattern, const char* oscAddress, const bool isPartial) {
+static bool MatchLiteral(const char * oscAddressPattern, const char * oscAddress, const bool isPartial) {
     while (*oscAddressPattern != '\0') {
         if (*oscAddress == '\0') {
             if (isPartial) {
@@ -137,7 +137,7 @@ static bool MatchLiteral(const char* oscAddressPattern, const char* oscAddress, 
  * @brief Matches an OSC address pattern expression with a target OSC address.
  *
  * The OSC address pattern expression may contain any combination of special
- * characters: '?', '*', '[]', or '{}'.
+ * characters: '?', ' *', '[]', or '{}'.
  *
  * This is an internal function and cannot be called by the user application.
  *
@@ -146,7 +146,7 @@ static bool MatchLiteral(const char* oscAddressPattern, const char* oscAddress, 
  * @param isPartial Flag indicating if a partial match is acceptable.
  * @return true if OSC address pattern and target OSC address match.
  */
-static bool MatchExpression(const char* * const oscAddressPattern, const char* * const oscAddress, const bool isPartial) {
+static bool MatchExpression(const char * * const oscAddressPattern, const char * * const oscAddress, const bool isPartial) {
     while (**oscAddressPattern != '\0') {
         if (**oscAddress == '\0') {
             if (isPartial) {
@@ -173,10 +173,10 @@ static bool MatchExpression(const char* * const oscAddressPattern, const char* *
  * @brief Matches an OSC address pattern expression starting with a star with
  * the next character(s) in the target OSC address.
  *
- * The OSC address pattern must start with a '*' character.  A '*' character
+ * The OSC address pattern must start with a ' *' character.  A ' *' character
  * will be matched to any sequence of zero or more characters in the OSC address
  * up to the next '/' character or to the end of the OSC address.  For example,
- * the OSC address pattern "/colour/b*" would match the OSC addresses
+ * the OSC address pattern "/colour/b *" would match the OSC addresses
  * "/colour/blue", "/colour/black" and "/colour/brown".
  *
  * The oscAddressPattern and oscAddress pointers are advanced to the character
@@ -190,7 +190,7 @@ static bool MatchExpression(const char* * const oscAddressPattern, const char* *
  * @param isPartial Flag indicating if a partial match is acceptable.
  * @return true if OSC address pattern and target OSC address match.
  */
-static bool MatchStar(const char* * const oscAddressPattern, const char* * const oscAddress, const bool isPartial) {
+static bool MatchStar(const char * * const oscAddressPattern, const char * * const oscAddress, const bool isPartial) {
 
     // Advance OSC address pattern pointer to character proceeding star(s)
     while (**oscAddressPattern == '*') {
@@ -207,7 +207,7 @@ static bool MatchStar(const char* * const oscAddressPattern, const char* * const
 
     // Attempt to match remainder of expression for each possible star match
     do {
-        const char* oscAddressPatternCache = *oscAddressPattern; // cache character oscAddress proceeding star
+        const char * oscAddressPatternCache = *oscAddressPattern; // cache character oscAddress proceeding star
 
         // Advance OSC address pattern to next match of character proceeding star
         while (!MatchCharacter(oscAddressPattern, oscAddress, isPartial)) {
@@ -219,7 +219,7 @@ static bool MatchStar(const char* * const oscAddressPattern, const char* * const
                 return false; // fail: OSC address pattern part ended before match
             }
         }
-        const char* oscAddressCache = (*oscAddress); // cache character oscAddress proceeding current star match
+        const char * oscAddressCache = (*oscAddress); // cache character oscAddress proceeding current star match
 
         // Attempt to match remainder of expression
         if (MatchExpression(oscAddressPattern, oscAddress, isPartial)) { // potentially recursive
@@ -247,9 +247,9 @@ static bool MatchStar(const char* * const oscAddressPattern, const char* * const
  * @param isPartial Flag indicating if a partial match is acceptable.
  * @return true if OSC address pattern and target OSC address match.
  */
-static bool MatchCharacter(const char* * const oscAddressPattern, const char* * const oscAddress, const bool isPartial) {
-    const char* oscAddressPatternCache = *oscAddressPattern;
-    const char* oscAddressCache = *oscAddress;
+static bool MatchCharacter(const char * * const oscAddressPattern, const char * * const oscAddress, const bool isPartial) {
+    const char * oscAddressPatternCache = *oscAddressPattern;
+    const char * oscAddressCache = *oscAddress;
     switch (**oscAddressPattern) {
         case '[':
             if (MatchBrackets(oscAddressPattern, oscAddress)) {
@@ -304,7 +304,7 @@ static bool MatchCharacter(const char* * const oscAddressPattern, const char* * 
  * @param oscAddress Pointer to first character of target OSC address.
  * @return true if OSC address pattern and target OSC address match.
  */
-static bool MatchBrackets(const char* * const oscAddressPattern, const char* * const oscAddress) {
+static bool MatchBrackets(const char * * const oscAddressPattern, const char * * const oscAddress) {
     (*oscAddressPattern)++; // increment past opening bracket
 
     // Check if list is negated
@@ -384,8 +384,8 @@ static bool MatchBrackets(const char* * const oscAddressPattern, const char* * c
  * @param isPartial Flag indicating if a partial match is acceptable.
  * @return true if OSC address pattern and target OSC address match.
  */
-static bool MatchCurlyBraces(const char* * const oscAddressPattern, const char* * const oscAddress, const bool isPartial) {
-    const char* endOfSubstring = *oscAddressPattern;
+static bool MatchCurlyBraces(const char * * const oscAddressPattern, const char * * const oscAddress, const bool isPartial) {
+    const char * endOfSubstring = *oscAddressPattern;
     size_t matchedSubStringLength = 0;
     bool match = false;
     while (**oscAddressPattern != '}') {
@@ -430,11 +430,11 @@ static bool MatchCurlyBraces(const char* * const oscAddressPattern, const char* 
  * @brief Returns true if the OSC address pattern is literal.
  *
  * A literal OSC address pattern cannot contain any special characters: '?',
- * '*', '[]', or '{}'.  In some applications it is desirable to reject OSC
+ * ' *', '[]', or '{}'.  In some applications it is desirable to reject OSC
  * address patterns that contain special characters because the use of special
  * characters risks invoking critical methods unintentionally.  For example,
  * critical methods such as "/shutdown" or "/selfdestruct" risk being invoked
- * unintentionally the OSC address pattern "/s*".
+ * unintentionally the OSC address pattern "/s *".
  *
  * Example use:
  * @code
@@ -448,7 +448,7 @@ static bool MatchCurlyBraces(const char* * const oscAddressPattern, const char* 
  * @param oscAddressPattern Pointer to first character of OSC address pattern.
  * @return true if the OSC address pattern is literal.
  */
-bool OscAddressIsLiteral(const char* oscAddressPattern) {
+bool OscAddressIsLiteral(const char * oscAddressPattern) {
     while (*oscAddressPattern != '\0') {
         switch (*oscAddressPattern) {
             case '?':
@@ -485,7 +485,7 @@ bool OscAddressIsLiteral(const char* oscAddressPattern) {
  * @return Number of parts that make up the message OSC address or an OSC
  * oscAddress pattern.
  */
-int OscAddressGetNumberOfParts(const char* oscAddressPattern) {
+int OscAddressGetNumberOfParts(const char * oscAddressPattern) {
     int numberOfParts = 0;
     while (*oscAddressPattern != '\0') {
         if (*oscAddressPattern == '/') {
@@ -526,7 +526,7 @@ int OscAddressGetNumberOfParts(const char* oscAddressPattern) {
  * @param destinationSize Destination size that cannot be exceeded.
  * @return Error code (0 if successful).
  */
-OscError OscAddressGetPartAtIndex(const char* oscAddressPattern, const int index, char* const destination, const size_t destinationSize) {
+OscError OscAddressGetPartAtIndex(const char * oscAddressPattern, const int index, char * const destination, const size_t destinationSize) {
 
     // Advance oscAddressPattern oscAddress to start of part
     int partCount = 0;

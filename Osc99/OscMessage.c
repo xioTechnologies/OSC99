@@ -9,12 +9,14 @@
 //------------------------------------------------------------------------------
 // Includes
 
+#include <limits.h> // SCHAR_MAX
 #include "OscMessage.h"
+#include <string.h> // strlen
 
 //------------------------------------------------------------------------------
 // Function prototypes
 
-static int TerminateOscString(char* const oscString, size_t * const oscStringSize, const size_t maxOscStringSize);
+static int TerminateOscString(char * const oscString, size_t * const oscStringSize, const size_t maxOscStringSize);
 
 //------------------------------------------------------------------------------
 // Functions - Message construction
@@ -39,7 +41,7 @@ static int TerminateOscString(char* const oscString, size_t * const oscStringSiz
  * @param oscAddressPattern OSC address pattern as null terminated string.
  * @return Error code (0 if successful).
  */
-OscError OscMessageInitialise(OscMessage * const oscMessage, const char* oscAddressPattern) {
+OscError OscMessageInitialise(OscMessage * const oscMessage, const char * oscAddressPattern) {
     oscMessage->oscAddressPattern[0] = '\0'; // null terminate string
     oscMessage->oscTypeTagString[0] = ',';
     oscMessage->oscTypeTagString[1] = '\0'; // null terminate string
@@ -71,7 +73,7 @@ OscError OscMessageInitialise(OscMessage * const oscMessage, const char* oscAddr
  * @param oscAddressPattern OSC address pattern as null terminated string.
  * @return Error code (0 if successful).
  */
-OscError OscMessageSetAddressPattern(OscMessage * const oscMessage, const char* oscAddressPattern) {
+OscError OscMessageSetAddressPattern(OscMessage * const oscMessage, const char * oscAddressPattern) {
     oscMessage->oscAddressPatternLength = 0;
     return OscMessageAppendAddressPattern(oscMessage, oscAddressPattern);
 }
@@ -95,7 +97,7 @@ OscError OscMessageSetAddressPattern(OscMessage * const oscMessage, const char* 
  * @param appendedParts Address of the OSC pattern parts to be appended.
  * @return Error code (0 if successful).
  */
-OscError OscMessageAppendAddressPattern(OscMessage * const oscMessage, const char* appendedParts) {
+OscError OscMessageAppendAddressPattern(OscMessage * const oscMessage, const char * appendedParts) {
     if (*appendedParts != (char) OscContentsTypeMessage) {
         return OscErrorNoSlashAtStartOfMessage; // error: address must start with '/'
     }
@@ -216,7 +218,7 @@ OscError OscMessageAddString(OscMessage * const oscMessage, const char * string)
  * argument.
  * @return Error code (0 if successful).
  */
-OscError OscMessageAddBlob(OscMessage * const oscMessage, const char* const source, const size_t sourceSize) {
+OscError OscMessageAddBlob(OscMessage * const oscMessage, const char * const source, const size_t sourceSize) {
     if (oscMessage->oscTypeTagStringLength > MAX_NUMBER_OF_ARGUMENTS) {
         return OscErrorTooManyArguments; // error: too many arguments
     }
@@ -358,7 +360,7 @@ OscError OscMessageAddDouble(OscMessage * const oscMessage, const Double64 doubl
  * @param string String to be added as argument to the OSC message.
  * @return Error code (0 if successful).
  */
-OscError OscMessageAddAlternateString(OscMessage * const oscMessage, const char* string) {
+OscError OscMessageAddAlternateString(OscMessage * const oscMessage, const char * string) {
     const OscError oscError = OscMessageAddString(oscMessage, string);
     if (oscError != OscErrorNone) {
         return oscError;
@@ -604,7 +606,7 @@ size_t OscMessageGetSize(const OscMessage * const oscMessage) {
  * @param destinationSize Destination size that cannot exceed.
  * @return Error code (0 if successful).
  */
-OscError OscMessageToCharArray(const OscMessage * const oscMessage, size_t * const oscMessageSize, char* const destination, const size_t destinationSize) {
+OscError OscMessageToCharArray(const OscMessage * const oscMessage, size_t * const oscMessageSize, char * const destination, const size_t destinationSize) {
     *oscMessageSize = 0; // size will be 0 if function unsuccessful
     size_t messageSize = 0;
     int i;
@@ -661,7 +663,7 @@ OscError OscMessageToCharArray(const OscMessage * const oscMessage, size_t * con
  * exceeded.
  * @return 0 if successful.
  */
-static int TerminateOscString(char* const oscString, size_t * const oscStringSize, const size_t maxOscStringSize) {
+static int TerminateOscString(char * const oscString, size_t * const oscStringSize, const size_t maxOscStringSize) {
     do {
         if (*oscStringSize >= maxOscStringSize) {
             return 1; // error: string exceeds maximum size
@@ -686,7 +688,7 @@ static int TerminateOscString(char* const oscString, size_t * const oscStringSiz
  * @param sourceSize Number of bytes within the char array.
  * @return Error code (0 if successful).
  */
-OscError OscMessageInitialiseFromCharArray(OscMessage * const oscMessage, const char* const source, const size_t sourceSize) {
+OscError OscMessageInitialiseFromCharArray(OscMessage * const oscMessage, const char * const source, const size_t sourceSize) {
     OscMessageInitialise(oscMessage, "");
 
     // Return error if not valid OSC message
@@ -821,8 +823,8 @@ OscError OscMessageSkipArgument(OscMessage * const oscMessage) {
  * @brief Gets a 32-bit integer argument from an OSC message.
  *
  * The next argument available within the OSC message (indicated by the internal
- * index, oscTypeTagStringIndex) must be a 32-bit integer else this function
- * will return an error.  The internal index, oscTypeTagStringIndex, will only
+ * index oscTypeTagStringIndex) must be a 32-bit integer else this function
+ * will return an error.  The internal index oscTypeTagStringIndex, will only
  * be incremented to the next argument if this function is successful.  The user
  * application may determine the next argument type by first calling
  * OscMessageGetArgumentType.
@@ -871,8 +873,8 @@ OscError OscMessageGetInt32(OscMessage * const oscMessage, int32_t * const int32
  * @brief Gets a 32-bit float argument from an OSC message.
  *
  * The next argument available within the OSC message (indicated by the internal
- * index, oscTypeTagStringIndex) must be a 32-bit float else this function
- * will return an error.  The internal index, oscTypeTagStringIndex, will only
+ * index oscTypeTagStringIndex) must be a 32-bit float else this function
+ * will return an error.  The internal index oscTypeTagStringIndex, will only
  * be incremented to the next argument if this function is successful.  The user
  * application may determine the next argument type by first calling
  * OscMessageGetArgumentType.
@@ -921,8 +923,8 @@ OscError OscMessageGetFloat32(OscMessage * const oscMessage, float * const float
  * @brief Gets a string or alternate string argument from an OSC message.
  *
  * The next argument available within the OSC message (indicated by the internal
- * index, oscTypeTagStringIndex) must be a string else this function will return
- * an error.  The internal index, oscTypeTagStringIndex, will only be
+ * index oscTypeTagStringIndex) must be a string else this function will return
+ * an error.  The internal index oscTypeTagStringIndex, will only be
  * incremented to the next argument if this function is successful.  The user
  * application may determine the next argument type by first calling
  * OscMessageGetArgumentType.
@@ -948,7 +950,7 @@ OscError OscMessageGetFloat32(OscMessage * const oscMessage, float * const float
  * @param destinationSize Size of the destination that cannot be exceeded.
  * @return Error code (0 if successful).
  */
-OscError OscMessageGetString(OscMessage * const oscMessage, char* const destination, const size_t destinationSize) {
+OscError OscMessageGetString(OscMessage * const oscMessage, char * const destination, const size_t destinationSize) {
     if (oscMessage->oscTypeTagString[oscMessage->oscTypeTagStringIndex] == '\0') {
         return OscErrorNoArgumentsAvailable; // error: end of type tag string
     }
@@ -984,8 +986,8 @@ OscError OscMessageGetString(OscMessage * const oscMessage, char* const destinat
  * @brief Gets a blob (byte array) argument from an OSC message.
  *
  * The next argument available within the OSC message (indicated by the internal
- * index, oscTypeTagStringIndex) must be a blob else this function will return
- * an error.  The internal index, oscTypeTagStringIndex, will only be
+ * index oscTypeTagStringIndex) must be a blob else this function will return
+ * an error.  The internal index oscTypeTagStringIndex, will only be
  * incremented to the next argument if this function is successful.  The user
  * application may determine the next argument type by first calling
  * OscMessageGetArgumentType.
@@ -1017,7 +1019,7 @@ OscError OscMessageGetString(OscMessage * const oscMessage, char* const destinat
  * @param destinationSize Size of the destination that cannot be exceeded.
  * @return Error code (0 if successful).
  */
-OscError OscMessageGetBlob(OscMessage * const oscMessage, size_t * const blobSize, char* const destination, const size_t destinationSize) {
+OscError OscMessageGetBlob(OscMessage * const oscMessage, size_t * const blobSize, char * const destination, const size_t destinationSize) {
     if (oscMessage->oscTypeTagString[oscMessage->oscTypeTagStringIndex] == '\0') {
         return OscErrorNoArgumentsAvailable; // error: end of type tag string
     }
@@ -1058,8 +1060,8 @@ OscError OscMessageGetBlob(OscMessage * const oscMessage, size_t * const blobSiz
  * @brief Gets a 64-bit integer argument from an OSC message.
  *
  * The next argument available within the OSC message (indicated by the internal
- * index, oscTypeTagStringIndex) must be a 64-bit integer else this function
- * will return an error.  The internal index, oscTypeTagStringIndex, will only
+ * index oscTypeTagStringIndex) must be a 64-bit integer else this function
+ * will return an error.  The internal index oscTypeTagStringIndex, will only
  * be incremented to the next argument if this function is successful.  The user
  * application may determine the next argument type by first calling
  * OscMessageGetArgumentType.
@@ -1112,8 +1114,8 @@ OscError OscMessageGetInt64(OscMessage * const oscMessage, int64_t * const int64
  * @brief Gets an OSC time tag argument from an OSC message.
  *
  * The next argument available within the OSC message (indicated by the internal
- * index, oscTypeTagStringIndex) must be an OSC time tag else this function
- * will return an error.  The internal index, oscTypeTagStringIndex, will only
+ * index oscTypeTagStringIndex) must be an OSC time tag else this function
+ * will return an error.  The internal index oscTypeTagStringIndex, will only
  * be incremented to the next argument if this function is successful.  The user
  * application may determine the next argument type by first calling
  * OscMessageGetArgumentType.
@@ -1164,8 +1166,8 @@ OscError OscMessageGetTimeTag(OscMessage * const oscMessage, OscTimeTag * const 
  * @brief Gets a 64-bit double argument from an OSC message.
  *
  * The next argument available within the OSC message (indicated by the internal
- * index, oscTypeTagStringIndex) must be a 64-bit double else this function
- * will return an error.  The internal index, oscTypeTagStringIndex, will only
+ * index oscTypeTagStringIndex) must be a 64-bit double else this function
+ * will return an error.  The internal index oscTypeTagStringIndex, will only
  * be incremented to the next argument if this function is successful.  The user
  * application may determine the next argument type by first calling
  * OscMessageGetArgumentType.
@@ -1218,8 +1220,8 @@ OscError OscMessageGetDouble(OscMessage * const oscMessage, Double64 * const dou
  * @brief Gets a character argument from an OSC message.
  *
  * The next argument available within the OSC message (indicated by the internal
- * index, oscTypeTagStringIndex) must be a character else this function will
- * return an error.  The internal index, oscTypeTagStringIndex, will only be
+ * index oscTypeTagStringIndex) must be a character else this function will
+ * return an error.  The internal index oscTypeTagStringIndex, will only be
  * incremented to the next argument if this function is successful.  The user
  * application may determine the next argument type by first calling
  * OscMessageGetArgumentType.
@@ -1244,7 +1246,7 @@ OscError OscMessageGetDouble(OscMessage * const oscMessage, Double64 * const dou
  * @param character Address where the character value will be written.
  * @return Error code (0 if successful).
  */
-OscError OscMessageGetCharacter(OscMessage * const oscMessage, char* const character) {
+OscError OscMessageGetCharacter(OscMessage * const oscMessage, char * const character) {
     if (oscMessage->oscTypeTagString[oscMessage->oscTypeTagStringIndex] == '\0') {
         return OscErrorNoArgumentsAvailable; // error: end of type tag string
     }
@@ -1264,8 +1266,8 @@ OscError OscMessageGetCharacter(OscMessage * const oscMessage, char* const chara
  * @brief Gets a 32 bit RGBA colour argument from an OSC message.
  *
  * The next argument available within the OSC message (indicated by the internal
- * index, oscTypeTagStringIndex) must be a 32 bit RGBA colour else this function
- * will return an error.  The internal index, oscTypeTagStringIndex, will only
+ * index oscTypeTagStringIndex) must be a 32 bit RGBA colour else this function
+ * will return an error.  The internal index oscTypeTagStringIndex, will only
  * be incremented to the next argument if this function is successful.  The user
  * application may determine the next argument type by first calling
  * OscMessageGetArgumentType.
@@ -1314,8 +1316,8 @@ OscError OscMessageGetRgbaColour(OscMessage * const oscMessage, RgbaColour * con
  * @brief Gets a 4 byte MIDI message argument from an OSC message.
  *
  * The next argument available within the OSC message (indicated by the internal
- * index, oscTypeTagStringIndex) must be a 4 byte MIDI message else this
- * function will return an error.  The internal index, oscTypeTagStringIndex,
+ * index oscTypeTagStringIndex) must be a 4 byte MIDI message else this
+ * function will return an error.  The internal index oscTypeTagStringIndex,
  * will only be incremented to the next argument if this function is successful.
  * The user application may determine the next argument type by first calling
  * OscMessageGetArgumentType.
@@ -1357,6 +1359,783 @@ OscError OscMessageGetMidiMessage(OscMessage * const oscMessage, MidiMessage * c
     oscArgument32.byteStruct.byte0 = oscMessage->arguments[oscMessage->argumentsIndex++];
     *midiMessage = oscArgument32.midiMessage;
     oscMessage->oscTypeTagStringIndex++;
+    return OscErrorNone;
+}
+
+/**
+ * @brief Interprets the next argument in the OSC message as an int32 even if
+ * the argument is of another type.
+ *
+ * The argument provided must be of a numerical type: int32, float32, int64,
+ * OSC time tag, 64-bit double, character, boolean, nil, or infinitum.  The
+ * internal index oscTypeTagStringIndex will only be incremented to the next
+ * argument if this function is successful.
+ *
+ * @param oscMessage Address of OSC message.
+ * @param int32 Address value will be written to.
+ * @return Error code (0 if successful).
+ */
+OscError OscMessageGetArgumentAsInt32(OscMessage * const oscMessage, int32_t * const int32) {
+    if (OscMessageIsArgumentAvailable(oscMessage) == false) {
+        return OscErrorNoArgumentsAvailable;
+    }
+    switch (OscMessageGetArgumentType(oscMessage)) {
+        case OscTypeTagInt32:
+        {
+            return OscMessageGetInt32(oscMessage, int32);
+        }
+        case OscTypeTagFloat32:
+        {
+            float float32;
+            const OscError oscError = OscMessageGetFloat32(oscMessage, &float32);
+            *int32 = (int32_t) float32;
+            return oscError;
+        }
+        case OscTypeTagInt64:
+        {
+            int64_t int64;
+            const OscError oscError = OscMessageGetInt64(oscMessage, &int64);
+            *int32 = (int32_t) int64;
+            return oscError;
+        }
+        case OscTypeTagTimeTag:
+        {
+            OscTimeTag oscTimeTag;
+            const OscError oscError = OscMessageGetTimeTag(oscMessage, &oscTimeTag);
+            *int32 = (int32_t) oscTimeTag.value;
+            return oscError;
+        }
+        case OscTypeTagDouble:
+        {
+            Double64 double64;
+            const OscError oscError = OscMessageGetDouble(oscMessage, &double64);
+            *int32 = (int32_t) double64;
+            return oscError;
+        }
+        case OscTypeTagCharacter:
+        {
+            char character;
+            const OscError oscError = OscMessageGetCharacter(oscMessage, &character);
+            *int32 = (int32_t) character;
+            return oscError;
+        }
+        case OscTypeTagTrue:
+        {
+            *int32 = (int32_t) true;
+            return OscErrorNone;
+        }
+        case OscTypeTagFalse:
+        {
+            *int32 = (int32_t) false;
+            return OscErrorNone;
+        }
+        case OscTypeTagNil:
+        {
+            *int32 = 0;
+            return OscErrorNone;
+        }
+        case OscTypeTagInfinitum:
+        {
+            *int32 = UINT32_MAX;
+            return OscErrorNone;
+        }
+        default:
+            return OscErrorUnexpectedArgumentType; // error: unexpected argument type
+    }
+    return OscErrorNone;
+}
+
+/**
+ * @brief Interprets the next argument in the OSC message as an float32 even if
+ * the argument is of another type.
+ *
+ * The argument provided must be of a numerical type: int32, float32, int64,
+ * OSC time tag, 64-bit double, character, boolean, nil, or infinitum.  The
+ * internal index oscTypeTagStringIndex will only be incremented to the next
+ * argument if this function is successful.
+ *
+ * @param oscMessage Address of OSC message.
+ * @param float32 Address value will be written to.
+ * @return Error code (0 if successful).
+ */
+OscError OscMessageGetArgumentAsFloat32(OscMessage * const oscMessage, float * const float32) {
+    if (OscMessageIsArgumentAvailable(oscMessage) == false) {
+        return OscErrorNoArgumentsAvailable;
+    }
+    switch (OscMessageGetArgumentType(oscMessage)) {
+        case OscTypeTagInt32:
+        {
+            int32_t int32;
+            const OscError oscError = OscMessageGetInt32(oscMessage, &int32);
+            *float32 = (float) int32;
+            return oscError;
+        }
+        case OscTypeTagFloat32:
+        {
+            return OscMessageGetFloat32(oscMessage, float32);
+        }
+        case OscTypeTagInt64:
+        {
+            int64_t int64;
+            const OscError oscError = OscMessageGetInt64(oscMessage, &int64);
+            *float32 = (float) int64;
+            return oscError;
+        }
+        case OscTypeTagTimeTag:
+        {
+            OscTimeTag oscTimeTag;
+            const OscError oscError = OscMessageGetTimeTag(oscMessage, &oscTimeTag);
+            *float32 = (float) oscTimeTag.value;
+            return oscError;
+        }
+        case OscTypeTagDouble:
+        {
+            Double64 double64;
+            const OscError oscError = OscMessageGetDouble(oscMessage, &double64);
+            *float32 = (float) double64;
+            return oscError;
+        }
+        case OscTypeTagCharacter:
+        {
+            char character;
+            const OscError oscError = OscMessageGetCharacter(oscMessage, &character);
+            *float32 = (float) character;
+            return oscError;
+        }
+        case OscTypeTagTrue:
+        {
+            *float32 = (float) true;
+            return OscErrorNone;
+        }
+        case OscTypeTagFalse:
+        {
+            *float32 = (float) false;
+            return OscErrorNone;
+        }
+        case OscTypeTagNil:
+        {
+            *float32 = 0.0f;
+            return OscErrorNone;
+        }
+        case OscTypeTagInfinitum:
+        {
+            *float32 = 1.0f / 0.0f;
+            return OscErrorNone;
+        }
+        default:
+            return OscErrorUnexpectedArgumentType; // error: unexpected argument type
+    }
+    return OscErrorNone;
+}
+
+/**
+ * @brief Interprets the next argument in the OSC message as a string even if
+ * the argument is of another type.
+ *
+ * The argument provided must be either a string, blob, alternate string, or
+ * character.  The internal index oscTypeTagStringIndex will only be incremented
+ * to the next argument if this function is successful.
+ *
+ * @param oscMessage Address of the OSC message structure.
+ * @param destination Address where the string will be written.
+ * @param destinationSize Size of the destination that cannot be exceeded.
+ * @return Error code (0 if successful).
+ */
+OscError OscMessageGetArgumentAsString(OscMessage * const oscMessage, char * const destination, const size_t destinationSize) {
+    if (OscMessageIsArgumentAvailable(oscMessage) == false) {
+        return OscErrorNoArgumentsAvailable;
+    }
+    switch (OscMessageGetArgumentType(oscMessage)) {
+        case OscTypeTagString:
+        {
+            return OscMessageGetString(oscMessage, destination, destinationSize);
+        }
+        case OscTypeTagBlob:
+        {
+            size_t blobSize;
+            const OscError oscError = OscMessageGetBlob(oscMessage, &blobSize, destination, destinationSize);
+            if (oscError != 0) {
+                return oscError;
+            }
+            if (destination[blobSize - 1] != '\0') { // if blob not null terminated
+                if (blobSize >= destinationSize) {
+                    return OscErrorDestinationTooSmall; // error: destination too small
+                }
+                destination[blobSize] = '\0';
+            }
+            return OscErrorNone;
+        }
+        case OscTypeTagAlternateString:
+        {
+            return OscMessageGetString(oscMessage, destination, destinationSize);
+        }
+        case OscTypeTagCharacter:
+        {
+            char character;
+            const OscError oscError = OscMessageGetCharacter(oscMessage, &character);
+            if (oscError != 0) {
+                return oscError;
+            }
+            if (destinationSize < 2) {
+                return OscErrorDestinationTooSmall;
+            }
+            destination[0] = character;
+            destination[1] = '\0'; // null terminate string
+            return OscErrorNone;
+        }
+        default:
+            return OscErrorUnexpectedArgumentType; // error: unexpected argument type
+    }
+    return OscErrorNone;
+}
+
+/**
+ * @brief Interprets the next argument in the OSC message as a blob even if
+ * the argument is of another type.
+ *
+ * The argument provided must be either a string, blob, alternate string, or
+ * character.  The internal index oscTypeTagStringIndex will only be incremented
+ * to the next argument if this function is successful.
+ *
+ * @param oscMessage Address of the OSC message structure.
+ * @param blobSize Address where the blob size (number of bytes) will be
+ * written.
+ * @param destination Address where the byte array will be written.
+ * @param destinationSize Size of the destination that cannot be exceeded.
+ * @return Error code (0 if successful).
+ */
+OscError OscMessageGetArgumentAsBlob(OscMessage * const oscMessage, size_t * const blobSize, char * const destination, const size_t destinationSize) {
+    if (OscMessageIsArgumentAvailable(oscMessage) == false) {
+        return OscErrorNoArgumentsAvailable;
+    }
+    switch (OscMessageGetArgumentType(oscMessage)) {
+        case OscTypeTagString:
+        case OscTypeTagAlternateString:
+        {
+            const OscError oscError = OscMessageGetString(oscMessage, destination, destinationSize);
+            if (oscError != 0) {
+                return oscError;
+            }
+            *blobSize = strlen(destination);
+            return OscErrorNone;
+        }
+        case OscTypeTagBlob:
+        {
+            return OscMessageGetBlob(oscMessage, blobSize, destination, destinationSize);
+        }
+        case OscTypeTagCharacter:
+        {
+            char character;
+            const OscError oscError = OscMessageGetCharacter(oscMessage, &character);
+            if (oscError != 0) {
+                return oscError;
+            }
+            if (destinationSize < 1) {
+                return OscErrorDestinationTooSmall;
+            }
+            destination[0] = character;
+            *blobSize = 1;
+            return OscErrorNone;
+        }
+        default:
+            return OscErrorUnexpectedArgumentType; // error: unexpected argument type
+    }
+    return OscErrorNone;
+}
+
+/**
+ * @brief Interprets the next argument in the OSC message as an int64 even if
+ * the argument is of another type.
+ *
+ * The argument provided must be of a numerical type: int32, float32, int64,
+ * OSC time tag, 64-bit double, character, boolean, nil, or infinitum.  The
+ * internal index oscTypeTagStringIndex will only be incremented to the next
+ * argument if this function is successful.
+ *
+ * @param oscMessage Address of OSC message.
+ * @param int64 Address value will be written to.
+ * @return Error code (0 if successful).
+ */
+OscError OscMessageGetArgumentAsInt64(OscMessage * const oscMessage, int64_t * const int64) {
+    if (OscMessageIsArgumentAvailable(oscMessage) == false) {
+        return OscErrorNoArgumentsAvailable;
+    }
+    switch (OscMessageGetArgumentType(oscMessage)) {
+        case OscTypeTagInt32:
+        {
+            int32_t int32;
+            const OscError oscError = OscMessageGetInt32(oscMessage, &int32);
+            *int64 = (int64_t) int32;
+            return oscError;
+        }
+        case OscTypeTagFloat32:
+        {
+            float float32;
+            const OscError oscError = OscMessageGetFloat32(oscMessage, &float32);
+            *int64 = (int64_t) float32;
+            return oscError;
+        }
+        case OscTypeTagInt64:
+        {
+            return OscMessageGetInt64(oscMessage, int64);
+        }
+        case OscTypeTagTimeTag:
+        {
+            OscTimeTag oscTimeTag;
+            const OscError oscError = OscMessageGetTimeTag(oscMessage, &oscTimeTag);
+            *int64 = (int64_t) oscTimeTag.value;
+            return oscError;
+        }
+        case OscTypeTagDouble:
+        {
+            Double64 double64;
+            const OscError oscError = OscMessageGetDouble(oscMessage, &double64);
+            *int64 = (int64_t) double64;
+            return oscError;
+        }
+        case OscTypeTagCharacter:
+        {
+            char character;
+            const OscError oscError = OscMessageGetCharacter(oscMessage, &character);
+            *int64 = (int64_t) character;
+            return oscError;
+        }
+        case OscTypeTagTrue:
+        {
+            *int64 = (int64_t) true;
+            return OscErrorNone;
+        }
+        case OscTypeTagFalse:
+        {
+            *int64 = (int64_t) false;
+            return OscErrorNone;
+        }
+        case OscTypeTagNil:
+        {
+            *int64 = (int64_t) 0;
+            return OscErrorNone;
+        }
+        case OscTypeTagInfinitum:
+        {
+            *int64 = INT64_MAX;
+            return OscErrorNone;
+        }
+        default:
+            return OscErrorUnexpectedArgumentType; // error: unexpected argument type
+    }
+    return OscErrorNone;
+}
+
+/**
+ * @brief Interprets the next argument in the OSC message as an OSC Time Tag
+ * even if the argument is of another type.
+ *
+ * The argument provided must be of a numerical type: int32, float32, int64,
+ * OSC time tag, 64-bit double, character, boolean, nil, or infinitum.  The
+ * internal index oscTypeTagStringIndex will only be incremented to the next
+ * argument if this function is successful.
+ *
+ * @param oscMessage Address of OSC message.
+ * @param oscTimeTag Address value will be written to.
+ * @return Error code (0 if successful).
+ */
+OscError OscMessageGetArgumentAsTimeTag(OscMessage * const oscMessage, OscTimeTag * const oscTimeTag) {
+    if (OscMessageIsArgumentAvailable(oscMessage) == false) {
+        return OscErrorNoArgumentsAvailable;
+    }
+    switch (OscMessageGetArgumentType(oscMessage)) {
+        case OscTypeTagInt32:
+        {
+            int32_t int32;
+            const OscError oscError = OscMessageGetInt32(oscMessage, &int32);
+            oscTimeTag->value = (uint64_t) int32;
+            return oscError;
+        }
+        case OscTypeTagFloat32:
+        {
+            float float32;
+            const OscError oscError = OscMessageGetFloat32(oscMessage, &float32);
+            oscTimeTag->value = (uint64_t) float32;
+            return oscError;
+        }
+        case OscTypeTagInt64:
+        {
+            int64_t int64;
+            const OscError oscError = OscMessageGetInt64(oscMessage, &int64);
+            oscTimeTag->value = (uint64_t) int64;
+            return oscError;
+        }
+        case OscTypeTagTimeTag:
+        {
+            return OscMessageGetTimeTag(oscMessage, oscTimeTag);
+        }
+        case OscTypeTagDouble:
+        {
+            Double64 double64;
+            const OscError oscError = OscMessageGetDouble(oscMessage, &double64);
+            oscTimeTag->value = (uint64_t) double64;
+            return oscError;
+        }
+        case OscTypeTagCharacter:
+        {
+            char character;
+            const OscError oscError = OscMessageGetCharacter(oscMessage, &character);
+            oscTimeTag->value = (uint64_t) character;
+            return oscError;
+        }
+        case OscTypeTagTrue:
+        {
+            oscTimeTag->value = (uint64_t) true;
+            return OscErrorNone;
+        }
+        case OscTypeTagFalse:
+        {
+            oscTimeTag->value = (uint64_t) false;
+            return OscErrorNone;
+        }
+        case OscTypeTagNil:
+        {
+            oscTimeTag->value = (uint64_t) 0;
+            return OscErrorNone;
+        }
+        case OscTypeTagInfinitum:
+        {
+            oscTimeTag->value = (uint64_t) INT64_MAX;
+            return OscErrorNone;
+        }
+        default:
+            return OscErrorUnexpectedArgumentType; // error: unexpected argument type
+    }
+    return OscErrorNone;
+}
+
+/**
+ * @brief Interprets the next argument in the OSC message as a 64-bit double
+ * even if the argument is of another type.
+ *
+ * The argument provided must be of a numerical type: int32, float32, int64,
+ * OSC time tag, 64-bit double, character, boolean, nil, or infinitum.  The
+ * internal index oscTypeTagStringIndex will only be incremented to the next
+ * argument if this function is successful.
+ *
+ * @param oscMessage Address of OSC message.
+ * @param double64 Address value will be written to.
+ * @return Error code (0 if successful).
+ */
+OscError OscMessageGetArgumentAsDouble(OscMessage * const oscMessage, Double64 * const double64) {
+    if (OscMessageIsArgumentAvailable(oscMessage) == false) {
+        return OscErrorNoArgumentsAvailable;
+    }
+    switch (OscMessageGetArgumentType(oscMessage)) {
+        case OscTypeTagInt32:
+        {
+            int32_t int32;
+            const OscError oscError = OscMessageGetInt32(oscMessage, &int32);
+            *double64 = (Double64) int32;
+            return oscError;
+        }
+        case OscTypeTagFloat32:
+        {
+            float float32;
+            const OscError oscError = OscMessageGetFloat32(oscMessage, &float32);
+            *double64 = (Double64) float32;
+            return oscError;
+        }
+        case OscTypeTagInt64:
+        {
+            int64_t int64;
+            const OscError oscError = OscMessageGetInt64(oscMessage, &int64);
+            *double64 = (Double64) int64;
+            return oscError;
+        }
+        case OscTypeTagTimeTag:
+        {
+            OscTimeTag oscTimeTag;
+            const OscError oscError = OscMessageGetTimeTag(oscMessage, &oscTimeTag);
+            *double64 = (Double64) oscTimeTag.value;
+            return oscError;
+        }
+        case OscTypeTagDouble:
+        {
+            return OscMessageGetDouble(oscMessage, double64);
+        }
+        case OscTypeTagCharacter:
+        {
+            char character;
+            const OscError oscError = OscMessageGetCharacter(oscMessage, &character);
+            *double64 = (Double64) character;
+            return oscError;
+        }
+        case OscTypeTagTrue:
+        {
+            *double64 = (Double64) true;
+            return OscErrorNone;
+        }
+        case OscTypeTagFalse:
+        {
+            *double64 = (Double64) false;
+            return OscErrorNone;
+        }
+        case OscTypeTagNil:
+        {
+            *double64 = (Double64) 0;
+            return OscErrorNone;
+        }
+        case OscTypeTagInfinitum:
+        {
+            *double64 = (Double64) 1 / (Double64) 0;
+            return OscErrorNone;
+        }
+        default:
+            return OscErrorUnexpectedArgumentType; // error: unexpected argument type
+    }
+    return OscErrorNone;
+}
+
+/**
+ * @brief Interprets the next argument in the OSC message as a character even if
+ * the argument is of another type.
+ *
+ * The argument provided must be of a numerical type: int32, float32, int64,
+ * OSC time tag, 64-bit double, character, boolean, nil, or infinitum.  The
+ * internal index oscTypeTagStringIndex will only be incremented to the next
+ * argument if this function is successful.
+ *
+ * @param oscMessage Address of OSC message.
+ * @param character Address value will be written to.
+ * @return Error code (0 if successful).
+ */
+OscError OscMessageGetArgumentAsCharacter(OscMessage * const oscMessage, char * const character) {
+    if (OscMessageIsArgumentAvailable(oscMessage) == false) {
+        return OscErrorNoArgumentsAvailable;
+    }
+    switch (OscMessageGetArgumentType(oscMessage)) {
+        case OscTypeTagInt32:
+        {
+            int32_t int32;
+            const OscError oscError = OscMessageGetInt32(oscMessage, &int32);
+            *character = (char) int32;
+            return oscError;
+        }
+        case OscTypeTagFloat32:
+        {
+            float float32;
+            const OscError oscError = OscMessageGetFloat32(oscMessage, &float32);
+            *character = (char) float32;
+            return oscError;
+        }
+        case OscTypeTagInt64:
+        {
+            int64_t int64;
+            const OscError oscError = OscMessageGetInt64(oscMessage, &int64);
+            *character = (char) int64;
+            return oscError;
+        }
+        case OscTypeTagTimeTag:
+        {
+            OscTimeTag oscTimeTag;
+            const OscError oscError = OscMessageGetTimeTag(oscMessage, &oscTimeTag);
+            *character = (char) oscTimeTag.value;
+            return oscError;
+        }
+        case OscTypeTagDouble:
+        {
+            Double64 double64;
+            const OscError oscError = OscMessageGetDouble(oscMessage, &double64);
+            *character = (char) double64;
+            return oscError;
+        }
+        case OscTypeTagCharacter:
+        {
+            return OscMessageGetCharacter(oscMessage, character);
+        }
+        case OscTypeTagTrue:
+        {
+            *character = (char) true;
+            return OscErrorNone;
+        }
+        case OscTypeTagFalse:
+        {
+            *character = (char) false;
+            return OscErrorNone;
+        }
+        case OscTypeTagNil:
+        {
+            *character = (char) 0;
+            return OscErrorNone;
+        }
+        case OscTypeTagInfinitum:
+        {
+            *character = CHAR_MAX;
+            return OscErrorNone;
+        }
+        default:
+            return OscErrorUnexpectedArgumentType; // error: unexpected argument type
+    }
+    return OscErrorNone;
+}
+
+/**
+ * @brief Interprets the next argument in the OSC message as a 32 bit RGBA
+ * colour even if the argument is of another type.
+ *
+ * The argument provided must be either a blob or 32 bit RGBA colour.  The
+ * internal index oscTypeTagStringIndex will only be incremented to the next
+ * argument if this function is successful.
+ *
+ * @param oscMessage Address of the OSC message structure.
+ * @param rgbaColour Address where the 32 bit RGBA colour will be written.
+ * @return Error code (0 if successful).
+ */
+OscError OscMessageGetArgumentAsRgbaColour(OscMessage * const oscMessage, RgbaColour * const rgbaColour) {
+    if (OscMessageIsArgumentAvailable(oscMessage) == false) {
+        return OscErrorNoArgumentsAvailable;
+    }
+    switch (OscMessageGetArgumentType(oscMessage)) {
+        case OscTypeTagBlob:
+        {
+            size_t blobSize;
+            const OscError oscError = OscMessageGetBlob(oscMessage, &blobSize, (char *) &rgbaColour, sizeof (RgbaColour));
+            if (oscError != 0) {
+                return oscError;
+            }
+            if (blobSize != sizeof (RgbaColour)) {
+                return OscErrorUnexpectedEndOfSource; // error: not enough bytes in blob
+            }
+            return OscErrorNone;
+        }
+        case OscTypeTagRgbaColour:
+        {
+            return OscMessageGetRgbaColour(oscMessage, rgbaColour);
+        }
+        default:
+            return OscErrorUnexpectedArgumentType; // error: unexpected argument type
+    }
+    return OscErrorNone;
+}
+
+/**
+ * @brief Interprets the next argument in the OSC message as a 4 byte MIDI
+ * message even if the argument is of another type.
+ *
+ * The argument provided must be either a blob or 4 byte MIDI message.  The
+ * internal index oscTypeTagStringIndex will only be incremented to the next
+ * argument if this function is successful.
+ *
+ * @param oscMessage Address of the OSC message structure.
+ * @param midiMessage Address where the 4 byte MIDI message will be written.
+ * @return Error code (0 if successful).
+ */
+OscError OscMessageGetArgumentAsMidiMessage(OscMessage * const oscMessage, MidiMessage * const midiMessage) {
+    if (OscMessageIsArgumentAvailable(oscMessage) == false) {
+        return OscErrorNoArgumentsAvailable;
+    }
+    switch (OscMessageGetArgumentType(oscMessage)) {
+        case OscTypeTagBlob:
+        {
+            size_t blobSize;
+            const OscError oscError = OscMessageGetBlob(oscMessage, &blobSize, (char *) &midiMessage, sizeof (MidiMessage));
+            if (oscError != 0) {
+                return oscError;
+            }
+            if (blobSize != sizeof (MidiMessage)) {
+                return OscErrorUnexpectedEndOfSource; // error: not enough bytes in blob
+            }
+            return OscErrorNone;
+        }
+        case OscTypeTagMidiMessage:
+        {
+            return OscMessageGetMidiMessage(oscMessage, midiMessage);
+        }
+        default:
+            return OscErrorUnexpectedArgumentType; // error: unexpected argument type
+    }
+    return OscErrorNone;
+}
+
+/**
+ * @brief Interprets the next argument in the OSC message as a boolean even if
+ * the argument is of another type.
+ *
+ * The argument provided must be of a numerical type: int32, float32, int64,
+ * OSC time tag, 64-bit double, character, boolean, nil, or infinitum.  The
+ * internal index oscTypeTagStringIndex will only be incremented to the next
+ * argument if this function is successful.
+ *
+ * @param oscMessage Address of OSC message.
+ * @param boolean Address value will be written to.
+ * @return Error code (0 if successful).
+ */
+OscError OscMessageGetArgumentAsBool(OscMessage * const oscMessage, bool * const boolean) {
+    if (OscMessageIsArgumentAvailable(oscMessage) == false) {
+        return OscErrorNoArgumentsAvailable;
+    }
+    switch (OscMessageGetArgumentType(oscMessage)) {
+        case OscTypeTagInt32:
+        {
+            int32_t int32;
+            const OscError oscError = OscMessageGetInt32(oscMessage, &int32);
+            *boolean = (bool) int32;
+            return oscError;
+        }
+        case OscTypeTagFloat32:
+        {
+            float float32;
+            const OscError oscError = OscMessageGetFloat32(oscMessage, &float32);
+            *boolean = (bool) float32;
+            return oscError;
+        }
+        case OscTypeTagInt64:
+        {
+            int64_t int64;
+            const OscError oscError = OscMessageGetInt64(oscMessage, &int64);
+            *boolean = (bool) int64;
+            return oscError;
+        }
+        case OscTypeTagTimeTag:
+        {
+            OscTimeTag oscTimeTag;
+            const OscError oscError = OscMessageGetTimeTag(oscMessage, &oscTimeTag);
+            *boolean = (bool) oscTimeTag.value;
+            return oscError;
+        }
+        case OscTypeTagDouble:
+        {
+            Double64 double64;
+            const OscError oscError = OscMessageGetDouble(oscMessage, &double64);
+            *boolean = (bool) double64;
+            return oscError;
+        }
+        case OscTypeTagCharacter:
+        {
+            char character;
+            const OscError oscError = OscMessageGetCharacter(oscMessage, &character);
+            *boolean = (bool) character;
+            return oscError;
+        }
+        case OscTypeTagTrue:
+        {
+            *boolean = true;
+            return OscErrorNone;
+        }
+        case OscTypeTagFalse:
+        {
+            *boolean = false;
+            return OscErrorNone;
+        }
+        case OscTypeTagNil:
+        {
+            *boolean = (bool) 0;
+            return OscErrorNone;
+        }
+        case OscTypeTagInfinitum:
+        {
+            *boolean = true;
+            return OscErrorNone;
+        }
+        default:
+            return OscErrorUnexpectedArgumentType; // error: unexpected argument type
+    }
     return OscErrorNone;
 }
 

@@ -10,7 +10,7 @@
 // Includes
 
 #include "OscPacket.h"
-#include <stdbool.h> // bool, true, false
+#include <stdbool.h>
 
 //------------------------------------------------------------------------------
 // Function prototypes
@@ -71,10 +71,10 @@ void OscPacketInitialise(OscPacket * const oscPacket) {
 OscError OscPacketInitialiseFromContents(OscPacket * const oscPacket, const OscContents * const oscContents) {
     oscPacket->processMessage = NULL;
     if (OSC_CONTENTS_IS_MESSAGE(oscContents)) {
-        return OscMessageToCharArray((OscMessage*) oscContents, &oscPacket->size, oscPacket->contents, MAX_OSC_PACKET_SIZE);
+        return OscMessageToCharArray((OscMessage *) oscContents, &oscPacket->size, oscPacket->contents, MAX_OSC_PACKET_SIZE);
     }
     if (OSC_CONTENTS_IS_BUNDLE(oscContents)) {
-        return OscBundleToCharArray((OscBundle*) oscContents, &oscPacket->size, oscPacket->contents, MAX_OSC_PACKET_SIZE);
+        return OscBundleToCharArray((OscBundle *) oscContents, &oscPacket->size, oscPacket->contents, MAX_OSC_PACKET_SIZE);
     }
     return OscErrorInvalidContents; // error: invalid or uninitialised OSC contents
 }
@@ -98,7 +98,7 @@ OscError OscPacketInitialiseFromContents(OscPacket * const oscPacket, const OscC
  * @param sourceSize Source size.
  * @return Error code (0 if successful).
  */
-OscError OscPacketInitialiseFromCharArray(OscPacket * const oscPacket, const char* const source, const size_t sourceSize) {
+OscError OscPacketInitialiseFromCharArray(OscPacket * const oscPacket, const char * const source, const size_t sourceSize) {
     oscPacket->size = 0;
     if (sourceSize > MAX_OSC_PACKET_SIZE) {
         return OscErrorPacketSizeTooLarge; // error: size exceeds maximum packet size
@@ -123,7 +123,7 @@ OscError OscPacketInitialiseFromCharArray(OscPacket * const oscPacket, const cha
  *
  * Example use:
  * @code
- * void ProcessMessage(const OscTimeTag * const oscTimeTag, OscMessage * const oscMessage){
+ * void ProcessMessage(const OscTimeTag  * const oscTimeTag, OscMessage  * const oscMessage){
  * }
  *
  * void Main() {

@@ -85,10 +85,10 @@ OscError OscBundleAddContents(OscBundle * const oscBundle, const OscContents * c
     oscBundleElement.contents = &oscBundle->oscBundleElements[oscBundle->oscBundleElementsSize + sizeof (OscArgument32)];
     OscError oscError = OscErrorInvalidContents; // error: invalid or uninitialised OSC contents
     if (OSC_CONTENTS_IS_MESSAGE(oscContents)) {
-        oscError = OscMessageToCharArray((OscMessage*) oscContents, (size_t*) & oscBundleElement.size.int32, oscBundleElement.contents, OscBundleGetRemainingCapacity(oscBundle));
+        oscError = OscMessageToCharArray((OscMessage *) oscContents, (size_t *) & oscBundleElement.size.int32, oscBundleElement.contents, OscBundleGetRemainingCapacity(oscBundle));
     }
     if (OSC_CONTENTS_IS_BUNDLE(oscContents)) {
-        oscError = OscBundleToCharArray((OscBundle*) oscContents, (size_t*) & oscBundleElement.size.int32, oscBundleElement.contents, OscBundleGetRemainingCapacity(oscBundle));
+        oscError = OscBundleToCharArray((OscBundle *) oscContents, (size_t *) & oscBundleElement.size.int32, oscBundleElement.contents, OscBundleGetRemainingCapacity(oscBundle));
     }
     if (oscError != 0) {
         return oscError; // error: ???
@@ -193,7 +193,7 @@ size_t OscBundleGetSize(const OscBundle * const oscBundle) {
  * @param destinationSize Destination size that cannot exceed.
  * @return Error code (0 if successful).
  */
-OscError OscBundleToCharArray(const OscBundle * const oscBundle, size_t * const oscBundleSize, char* const destination, const size_t destinationSize) {
+OscError OscBundleToCharArray(const OscBundle * const oscBundle, size_t * const oscBundleSize, char * const destination, const size_t destinationSize) {
     *oscBundleSize = 0; // size will be 0 if function unsuccessful
     if (sizeof (OSC_BUNDLE_HEADER) + sizeof (OscTimeTag) + oscBundle->oscBundleElementsSize > destinationSize) {
         return OscErrorDestinationTooSmall; // error: destination too small
@@ -233,7 +233,7 @@ OscError OscBundleToCharArray(const OscBundle * const oscBundle, size_t * const 
  * @param sourceSize Number of bytes within the char array.
  * @return Error code (0 if successful).
  */
-OscError OscBundleInitialiseFromCharArray(OscBundle * const oscBundle, const char* const source, const size_t sourceSize) {
+OscError OscBundleInitialiseFromCharArray(OscBundle * const oscBundle, const char * const source, const size_t sourceSize) {
     int sourceIndex = 0;
 
     // Return error if not valid bundle

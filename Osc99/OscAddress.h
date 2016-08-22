@@ -13,17 +13,17 @@
 // Includes
 
 #include "OscError.h"
-#include <stdbool.h> // bool, true, false
-#include <stddef.h> // size_t
+#include <stdbool.h>
+#include <stddef.h>
 
 //------------------------------------------------------------------------------
 // Function prototypes
 
-bool OscAddressMatch(const char* oscAddressPattern, const char* const oscAddress);
-bool OscAddressMatchPartial(const char* oscAddressPattern, const char* const oscAddress);
-bool OscAddressIsLiteral(const char* oscAddressPattern);
-int OscAddressGetNumberOfParts(const char* oscAddressPattern);
-OscError OscAddressGetPartAtIndex(const char* oscAddressPattern, const int index, char* const destination, const size_t destinationSize);
+bool OscAddressMatch(const char * oscAddressPattern, const char * const oscAddress);
+bool OscAddressMatchPartial(const char * oscAddressPattern, const char * const oscAddress);
+bool OscAddressIsLiteral(const char * oscAddressPattern);
+int OscAddressGetNumberOfParts(const char * oscAddressPattern);
+OscError OscAddressGetPartAtIndex(const char * oscAddressPattern, const int index, char * const destination, const size_t destinationSize);
 
 #endif
 
