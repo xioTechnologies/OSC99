@@ -123,7 +123,7 @@ OscError OscPacketInitialiseFromCharArray(OscPacket * const oscPacket, const cha
  *
  * Example use:
  * @code
- * void ProcessMessage(const OscTimeTag  * const oscTimeTag, OscMessage  * const oscMessage){
+ * void ProcessMessage(const OscTimeTag * const oscTimeTag, OscMessage * const oscMessage) {
  * }
  *
  * void Main() {

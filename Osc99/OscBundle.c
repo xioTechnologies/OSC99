@@ -126,7 +126,7 @@ void OscBundleEmpty(OscBundle * const oscBundle) {
  *
  * Example use:
  * @code
- * if(OscBundleIsEmpty(&oscBundle) {
+ * if(OscBundleIsEmpty(&oscBundle)) {
  *     printf("oscBundle is empty.");
  * }
  * @endcode

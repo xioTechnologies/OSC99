@@ -778,7 +778,7 @@ bool OscMessageIsArgumentAvailable(OscMessage * const oscMessage) {
  *
  * Example use:
  * @code
- * const OscTypeTag oscTypeTag = OscMessageGetArgumentType(&oscMessage));
+ * const OscTypeTag oscTypeTag = OscMessageGetArgumentType(&oscMessage);
  * printf("The next argument is: %c", (char)oscTypeTag);
  * @endcode
  *
@@ -1127,7 +1127,7 @@ OscError OscMessageGetInt64(OscMessage * const oscMessage, int64_t * const int64
  *     {
  *         OscTimeTag oscTimeTag;
  *         OscMessageGetTimeTag(&oscMessage, &oscTimeTag);
- *         printf("Value = %u", (unsigned int)oscTimeTag.seconds);
+ *         printf("Value = %u", (unsigned int)oscTimeTag.dwordStruct.seconds);
  *         break;
  *     }
  *     default:
@@ -1371,6 +1371,13 @@ OscError OscMessageGetMidiMessage(OscMessage * const oscMessage, MidiMessage * c
  * internal index oscTypeTagStringIndex will only be incremented to the next
  * argument if this function is successful.
  *
+ * Example use:
+ * @code
+ * int32_t int32;
+ * OscMessageGetArgumentAsInt32(&oscMessage, &int32);
+ * printf("Value = %d", int32);
+ * @endcode
+ *
  * @param oscMessage Address of OSC message.
  * @param int32 Address value will be written to.
  * @return Error code (0 if successful).
@@ -1454,6 +1461,13 @@ OscError OscMessageGetArgumentAsInt32(OscMessage * const oscMessage, int32_t * c
  * internal index oscTypeTagStringIndex will only be incremented to the next
  * argument if this function is successful.
  *
+ * Example use:
+ * @code
+ * float float32;
+ * OscMessageGetArgumentAsFloat32(&oscMessage, &float32);
+ * printf("Value = %f", float32);
+ * @endcode
+ *
  * @param oscMessage Address of OSC message.
  * @param float32 Address value will be written to.
  * @return Error code (0 if successful).
@@ -1536,6 +1550,13 @@ OscError OscMessageGetArgumentAsFloat32(OscMessage * const oscMessage, float * c
  * character.  The internal index oscTypeTagStringIndex will only be incremented
  * to the next argument if this function is successful.
  *
+ * Example use:
+ * @code
+ * char string[128];
+ * OscMessageGetArgumentAsString(&oscMessage, string, sizeof(string));
+ * printf("Value = %s", string);
+ * @endcode
+ *
  * @param oscMessage Address of the OSC message structure.
  * @param destination Address where the string will be written.
  * @param destinationSize Size of the destination that cannot be exceeded.
@@ -1577,7 +1598,7 @@ OscError OscMessageGetArgumentAsString(OscMessage * const oscMessage, char * con
                 return oscError;
             }
             if (destinationSize < 2) {
-                return OscErrorDestinationTooSmall;
+                return OscErrorDestinationTooSmall; // error: destination too small
             }
             destination[0] = character;
             destination[1] = '\0'; // null terminate string
@@ -1596,6 +1617,17 @@ OscError OscMessageGetArgumentAsString(OscMessage * const oscMessage, char * con
  * The argument provided must be either a string, blob, alternate string, or
  * character.  The internal index oscTypeTagStringIndex will only be incremented
  * to the next argument if this function is successful.
+ *
+ * Example use:
+ * @code
+ * char byteArray[128];
+ * size_t numberOfBytes;
+ * OscMessageGetArgumentAsBlob(&oscMessage, &numberOfBytes, byteArray, sizeof(byteArray));
+ * int i = 0;
+ * while(i <= numberOfBytes) {
+ *     printf("%u,", (unsigned int)byteArray[i]);
+ * }
+ * @endcode
  *
  * @param oscMessage Address of the OSC message structure.
  * @param blobSize Address where the blob size (number of bytes) will be
@@ -1651,6 +1683,13 @@ OscError OscMessageGetArgumentAsBlob(OscMessage * const oscMessage, size_t * con
  * OSC time tag, 64-bit double, character, boolean, nil, or infinitum.  The
  * internal index oscTypeTagStringIndex will only be incremented to the next
  * argument if this function is successful.
+ *
+ * Example use:
+ * @code
+ * int64_t int64;
+ * OscMessageGetArgumentAsInt64(&oscMessage, &int64);
+ * printf("Value = %d", int64);
+ * @endcode
  *
  * @param oscMessage Address of OSC message.
  * @param int64 Address value will be written to.
@@ -1735,6 +1774,13 @@ OscError OscMessageGetArgumentAsInt64(OscMessage * const oscMessage, int64_t * c
  * internal index oscTypeTagStringIndex will only be incremented to the next
  * argument if this function is successful.
  *
+ * Example use:
+ * @code
+ * OscTimeTag oscTimeTag;
+ * OscMessageGetArgumentAsTimeTag(&oscMessage, &oscTimeTag);
+ * printf("Value = %u", (unsigned int)oscTimeTag.dwordStruct.seconds);
+ * @endcode
+ *
  * @param oscMessage Address of OSC message.
  * @param oscTimeTag Address value will be written to.
  * @return Error code (0 if successful).
@@ -1817,6 +1863,13 @@ OscError OscMessageGetArgumentAsTimeTag(OscMessage * const oscMessage, OscTimeTa
  * OSC time tag, 64-bit double, character, boolean, nil, or infinitum.  The
  * internal index oscTypeTagStringIndex will only be incremented to the next
  * argument if this function is successful.
+ *
+ * Example use:
+ * @code
+ * double double64;
+ * OscMessageGetArgumentAsDouble(&oscMessage, &double64);
+ * printf("Value = %f", double64);
+ * @endcode
  *
  * @param oscMessage Address of OSC message.
  * @param double64 Address value will be written to.
@@ -1901,6 +1954,13 @@ OscError OscMessageGetArgumentAsDouble(OscMessage * const oscMessage, Double64 *
  * internal index oscTypeTagStringIndex will only be incremented to the next
  * argument if this function is successful.
  *
+ * Example use:
+ * @code
+ * char character;
+ * OscMessageGetArgumentAsCharacter(&oscMessage, &character);
+ * printf("Value = %c", character);
+ * @endcode
+ *
  * @param oscMessage Address of OSC message.
  * @param character Address value will be written to.
  * @return Error code (0 if successful).
@@ -1983,6 +2043,13 @@ OscError OscMessageGetArgumentAsCharacter(OscMessage * const oscMessage, char * 
  * internal index oscTypeTagStringIndex will only be incremented to the next
  * argument if this function is successful.
  *
+ * Example use:
+ * @code
+ * RgbaColour rgbaColour;
+ * OscMessageGetArgumentAsRgbaColour(&oscMessage, &rgbaColour);
+ * printf("Value = %u,%u,%u,%u", rgbaColour.red, rgbaColour.green, rgbaColour.blue, rgbaColour.alpha);
+ * @endcode
+ *
  * @param oscMessage Address of the OSC message structure.
  * @param rgbaColour Address where the 32 bit RGBA colour will be written.
  * @return Error code (0 if successful).
@@ -2021,6 +2088,13 @@ OscError OscMessageGetArgumentAsRgbaColour(OscMessage * const oscMessage, RgbaCo
  * The argument provided must be either a blob or 4 byte MIDI message.  The
  * internal index oscTypeTagStringIndex will only be incremented to the next
  * argument if this function is successful.
+ *
+ * Example use:
+ * @code
+ * MidiMessage midiMessage;
+ * OscMessageGetArgumentAsMidiMessage(&oscMessage, &midiMessage);
+ * printf("Value = %u,%u,%u,%u", midiMessage.portID, midiMessage.status, midiMessage.data1, midiMessage.data2);
+ * @endcode
  *
  * @param oscMessage Address of the OSC message structure.
  * @param midiMessage Address where the 4 byte MIDI message will be written.
@@ -2061,6 +2135,13 @@ OscError OscMessageGetArgumentAsMidiMessage(OscMessage * const oscMessage, MidiM
  * OSC time tag, 64-bit double, character, boolean, nil, or infinitum.  The
  * internal index oscTypeTagStringIndex will only be incremented to the next
  * argument if this function is successful.
+ *
+ * Example use:
+ * @code
+ * bool boolean;
+ * OscMessageGetArgumentAsBool(&oscMessage, &boolean);
+ * printf("Value = %u", boolean);
+ * @endcode
  *
  * @param oscMessage Address of OSC message.
  * @param boolean Address value will be written to.

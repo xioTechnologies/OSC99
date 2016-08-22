@@ -30,7 +30,7 @@
  * @code
  * OscMessage oscMessage;
  * const OscError oscError = OscMessageInitialise(&oscMessage, "/example/address/pattern");
- * printf(OscErrorGetText(oscError));
+ * printf(OscErrorGetMessage(oscError));
  * @endcode
  *
  * @param oscError Error code returned by library function.

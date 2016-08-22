@@ -32,7 +32,7 @@
  *
  * Example use:
  * @code
- * void ProcessPacket(OscPacket  * const oscPacket){
+ * void ProcessPacket(OscPacket * const oscPacket){
  * }
  *
  * void Main() {
