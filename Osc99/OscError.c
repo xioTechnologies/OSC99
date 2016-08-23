@@ -15,10 +15,10 @@
 // Definitions
 
 /**
- * @brief Comment out this definition if the the OscErrorGetText function is not
+ * @brief Comment out this definition if the OscErrorGetMessage function is not
  * required.  This will reduce the amount of program memory required.
  */
-#define OSC_ERROR_TEXT_AVAILABLE
+#define OSC_ERROR_MESSAGE_AVAILABLE
 
 //------------------------------------------------------------------------------
 // Functions
@@ -37,7 +37,7 @@
  * @return Address of string.
  */
 char * OscErrorGetMessage(const OscError oscError) {
-#ifdef OSC_ERROR_TEXT_AVAILABLE
+#ifdef OSC_ERROR_MESSAGE_AVAILABLE
     switch (oscError) {
         case OscErrorNone:
             return (char *) &"No error.";
