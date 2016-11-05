@@ -85,10 +85,14 @@ OscError OscBundleAddContents(OscBundle * const oscBundle, const OscContents * c
     oscBundleElement.contents = &oscBundle->oscBundleElements[oscBundle->oscBundleElementsSize + sizeof (OscArgument32)];
     OscError oscError = OscErrorInvalidContents; // error: invalid or uninitialised OSC contents
     if (OSC_CONTENTS_IS_MESSAGE(oscContents)) {
-        oscError = OscMessageToCharArray((OscMessage *) oscContents, (size_t *) & oscBundleElement.size.int32, oscBundleElement.contents, OscBundleGetRemainingCapacity(oscBundle));
+        size_t oscBundleElementSize;
+        oscError = OscMessageToCharArray((OscMessage *) oscContents, &oscBundleElementSize, oscBundleElement.contents, OscBundleGetRemainingCapacity(oscBundle));
+        oscBundleElement.size.int32 = (int32_t) oscBundleElementSize;
     }
     if (OSC_CONTENTS_IS_BUNDLE(oscContents)) {
-        oscError = OscBundleToCharArray((OscBundle *) oscContents, (size_t *) & oscBundleElement.size.int32, oscBundleElement.contents, OscBundleGetRemainingCapacity(oscBundle));
+        size_t oscBundleElementSize;
+        oscError = OscBundleToCharArray((OscBundle *) oscContents, &oscBundleElementSize, oscBundleElement.contents, OscBundleGetRemainingCapacity(oscBundle));
+        oscBundleElement.size.int32 = (int32_t) oscBundleElementSize;
     }
     if (oscError != 0) {
         return oscError; // error: ???
