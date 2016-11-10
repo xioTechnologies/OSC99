@@ -78,18 +78,18 @@ void OscBundleInitialise(OscBundle * const oscBundle, const OscTimeTag oscTimeTa
  * @return Error code (0 if successful).
  */
 OscError OscBundleAddContents(OscBundle * const oscBundle, const OscContents * const oscContents) {
-    if (oscBundle->oscBundleElementsSize + sizeof (OscArgument32) > MAX_OSC_BUNDLE_ELEMENTS_SIZE) {
+    if ((oscBundle->oscBundleElementsSize + sizeof (OscArgument32)) > MAX_OSC_BUNDLE_ELEMENTS_SIZE) {
         return OscErrorBundleFull; // error: bundle full
     }
     OscBundleElement oscBundleElement;
     oscBundleElement.contents = &oscBundle->oscBundleElements[oscBundle->oscBundleElementsSize + sizeof (OscArgument32)];
     OscError oscError = OscErrorInvalidContents; // error: invalid or uninitialised OSC contents
-    if (OSC_CONTENTS_IS_MESSAGE(oscContents)) {
+    if (OSC_CONTENTS_IS_MESSAGE(oscContents) == true) {
         size_t oscBundleElementSize;
         oscError = OscMessageToCharArray((OscMessage *) oscContents, &oscBundleElementSize, oscBundleElement.contents, OscBundleGetRemainingCapacity(oscBundle));
         oscBundleElement.size.int32 = (int32_t) oscBundleElementSize;
     }
-    if (OSC_CONTENTS_IS_BUNDLE(oscContents)) {
+    if (OSC_CONTENTS_IS_BUNDLE(oscContents) == true) {
         size_t oscBundleElementSize;
         oscError = OscBundleToCharArray((OscBundle *) oscContents, &oscBundleElementSize, oscBundleElement.contents, OscBundleGetRemainingCapacity(oscBundle));
         oscBundleElement.size.int32 = (int32_t) oscBundleElementSize;
@@ -199,7 +199,7 @@ size_t OscBundleGetSize(const OscBundle * const oscBundle) {
  */
 OscError OscBundleToCharArray(const OscBundle * const oscBundle, size_t * const oscBundleSize, char * const destination, const size_t destinationSize) {
     *oscBundleSize = 0; // size will be 0 if function unsuccessful
-    if (sizeof (OSC_BUNDLE_HEADER) + sizeof (OscTimeTag) + oscBundle->oscBundleElementsSize > destinationSize) {
+    if ((sizeof (OSC_BUNDLE_HEADER) + sizeof (OscTimeTag) + oscBundle->oscBundleElementsSize) > destinationSize) {
         return OscErrorDestinationTooSmall; // error: destination too small
     }
     size_t destinationIndex = 0;
@@ -295,7 +295,7 @@ OscError OscBundleInitialiseFromCharArray(OscBundle * const oscBundle, const cha
  * @return true if a bundle element is available.
  */
 bool OscBundleIsBundleElementAvailable(const OscBundle * const oscBundle) {
-    return oscBundle->oscBundleElementsIndex + sizeof (OscArgument32) < oscBundle->oscBundleElementsSize;
+    return (oscBundle->oscBundleElementsIndex + sizeof (OscArgument32)) < oscBundle->oscBundleElementsSize;
 }
 
 /**
@@ -314,7 +314,7 @@ bool OscBundleIsBundleElementAvailable(const OscBundle * const oscBundle) {
  * @return Error code (0 if successful).
  */
 OscError OscBundleGetBundleElement(OscBundle * const oscBundle, OscBundleElement * const oscBundleElement) {
-    if (oscBundle->oscBundleElementsIndex + sizeof (OscArgument32) >= oscBundle->oscBundleElementsSize) {
+    if ((oscBundle->oscBundleElementsIndex + sizeof (OscArgument32)) >= oscBundle->oscBundleElementsSize) {
         return OscErrorBundleElementNotAvailable; // error: too few bytes to contain bundle element
     }
     oscBundleElement->size.byteStruct.byte3 = oscBundle->oscBundleElements[oscBundle->oscBundleElementsIndex++];
@@ -324,10 +324,10 @@ OscError OscBundleGetBundleElement(OscBundle * const oscBundle, OscBundleElement
     if (oscBundleElement->size.int32 < 0) {
         return OscErrorNegativeBundleElementSize; // error: size cannot be negative
     }
-    if (oscBundleElement->size.int32 % 4 != 0) {
+    if ((oscBundleElement->size.int32 % 4) != 0) {
         return OscErrorSizeIsNotMultipleOfFour; // error: size not multiple of 4
     }
-    if (oscBundle->oscBundleElementsIndex + oscBundleElement->size.int32 > oscBundle->oscBundleElementsSize) {
+    if ((oscBundle->oscBundleElementsIndex + oscBundleElement->size.int32) > oscBundle->oscBundleElementsSize) {
         return OscErrorInvalidElementSize; // error: too few bytes for indicated size
     }
     oscBundleElement->contents = &oscBundle->oscBundleElements[oscBundle->oscBundleElementsIndex];

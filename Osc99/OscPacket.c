@@ -70,10 +70,10 @@ void OscPacketInitialise(OscPacket * const oscPacket) {
  */
 OscError OscPacketInitialiseFromContents(OscPacket * const oscPacket, const OscContents * const oscContents) {
     oscPacket->processMessage = NULL;
-    if (OSC_CONTENTS_IS_MESSAGE(oscContents)) {
+    if (OSC_CONTENTS_IS_MESSAGE(oscContents) == true) {
         return OscMessageToCharArray((OscMessage *) oscContents, &oscPacket->size, oscPacket->contents, MAX_OSC_PACKET_SIZE);
     }
-    if (OSC_CONTENTS_IS_BUNDLE(oscContents)) {
+    if (OSC_CONTENTS_IS_BUNDLE(oscContents) == true) {
         return OscBundleToCharArray((OscBundle *) oscContents, &oscPacket->size, oscPacket->contents, MAX_OSC_PACKET_SIZE);
     }
     return OscErrorInvalidContents; // error: invalid or uninitialised OSC contents
@@ -166,7 +166,7 @@ static OscError DeconstructContents(OscPacket * const oscPacket, const OscTimeTa
     }
 
     // Contents is an OSC message
-    if (OSC_CONTENTS_IS_MESSAGE(oscContents)) {
+    if (OSC_CONTENTS_IS_MESSAGE(oscContents) == true) {
         OscMessage oscMessage;
         const OscError oscError = OscMessageInitialiseFromCharArray(&oscMessage, oscContents, contentsSize);
         if (oscError != OscErrorNone) {
@@ -177,7 +177,7 @@ static OscError DeconstructContents(OscPacket * const oscPacket, const OscTimeTa
     }
 
     // Contents is an OSC bundle
-    if (OSC_CONTENTS_IS_BUNDLE(oscContents)) {
+    if (OSC_CONTENTS_IS_BUNDLE(oscContents) == true) {
         OscBundle oscBundle;
         OscError oscError = OscBundleInitialiseFromCharArray(&oscBundle, oscContents, contentsSize);
         if (oscError != OscErrorNone) {
@@ -185,7 +185,7 @@ static OscError DeconstructContents(OscPacket * const oscPacket, const OscTimeTa
         }
         do {
             OscBundleElement oscBundleElement;
-            if (!OscBundleIsBundleElementAvailable(&oscBundle)) {
+            if (OscBundleIsBundleElementAvailable(&oscBundle) == false) {
                 break; // no more bundle elements
             }
             oscError = OscBundleGetBundleElement(&oscBundle, &oscBundleElement);

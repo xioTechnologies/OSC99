@@ -154,7 +154,7 @@ OscError OscSlipEncodePacket(const OscPacket * const oscPacket, size_t * const s
     int encodedPacketSize = 0;
     int packetIndex;
     for (packetIndex = 0; packetIndex < oscPacket->size; packetIndex++) {
-        if (encodedPacketSize + 1 > destinationSize) {
+        if ((encodedPacketSize + 1) > destinationSize) {
             return OscErrorDestinationTooSmall; // error: destination too small
         }
         switch (oscPacket->contents[packetIndex]) {

@@ -36,7 +36,7 @@ static bool MatchCurlyBraces(const char * * const oscAddressPattern, const char 
  * @code
  * OscMessage oscMessage;
  * OscMessageInitialise(&oscMessage, "/example/oscAddress/pattern");
- * if(OscAddressMatch(oscMessage.oscAddressPattern, "/example/oscAddress/pattern")) {
+ * if(OscAddressMatch(oscMessage.oscAddressPattern, "/example/oscAddress/pattern") == true) {
  *     printf("Match!");
  * }
  * @endcode
@@ -72,7 +72,7 @@ bool OscAddressMatch(const char * oscAddressPattern, const char * const oscAddre
  * @code
  * OscMessage oscMessage;
  * OscMessageInitialise(&oscMessage, "/example/oscAddress/pattern");
- * if(OscAddressMatch(oscMessage.oscAddressPattern, "/example")) {
+ * if(OscAddressMatch(oscMessage.oscAddressPattern, "/example") == true) {
  *     printf("Match!");
  * }
  * @endcode
@@ -105,7 +105,7 @@ bool OscAddressMatchPartial(const char * oscAddressPattern, const char * const o
 static bool MatchLiteral(const char * oscAddressPattern, const char * oscAddress, const bool isPartial) {
     while (*oscAddressPattern != '\0') {
         if (*oscAddress == '\0') {
-            if (isPartial) {
+            if (isPartial == true) {
                 return true;
             } else {
                 return MatchExpression(&oscAddressPattern, &oscAddress, isPartial); // handle trailing 'zero character' expressions
@@ -149,16 +149,16 @@ static bool MatchLiteral(const char * oscAddressPattern, const char * oscAddress
 static bool MatchExpression(const char * * const oscAddressPattern, const char * * const oscAddress, const bool isPartial) {
     while (**oscAddressPattern != '\0') {
         if (**oscAddress == '\0') {
-            if (isPartial) {
+            if (isPartial == true) {
                 return true;
             }
         }
         if (**oscAddressPattern == '*') {
-            if (!MatchStar(oscAddressPattern, oscAddress, isPartial)) {
+            if (MatchStar(oscAddressPattern, oscAddress, isPartial) == false) {
                 return false; // fail: unable to match star sequence
             }
         } else {
-            if (!MatchCharacter(oscAddressPattern, oscAddress, isPartial)) {
+            if (MatchCharacter(oscAddressPattern, oscAddress, isPartial) == false) {
                 return false; // fail: unable to match single character, bracketed list or curly braced list
             }
         }
@@ -198,8 +198,8 @@ static bool MatchStar(const char * * const oscAddressPattern, const char * * con
     }
 
     // Advance OSC address pattern pointer to end of part if star is last character
-    if (**oscAddressPattern == '/' || **oscAddressPattern == '\0') {
-        while (**oscAddress != '/' && **oscAddress != '\0') {
+    if ((**oscAddressPattern == '/') || (**oscAddressPattern == '\0')) {
+        while ((**oscAddress != '/') && (**oscAddress != '\0')) {
             (*oscAddress)++;
         }
         return true;
@@ -210,10 +210,10 @@ static bool MatchStar(const char * * const oscAddressPattern, const char * * con
         const char * oscAddressPatternCache = *oscAddressPattern; // cache character oscAddress proceeding star
 
         // Advance OSC address pattern to next match of character proceeding star
-        while (!MatchCharacter(oscAddressPattern, oscAddress, isPartial)) {
+        while (MatchCharacter(oscAddressPattern, oscAddress, isPartial) == false) {
             (*oscAddress)++;
-            if (**oscAddress == '/' || **oscAddress == '\0') {
-                if (isPartial && **oscAddress == '\0') {
+            if ((**oscAddress == '/') || (**oscAddress == '\0')) {
+                if ((isPartial == true) && (**oscAddress == '\0')) {
                     return true;
                 }
                 return false; // fail: OSC address pattern part ended before match
@@ -222,7 +222,7 @@ static bool MatchStar(const char * * const oscAddressPattern, const char * * con
         const char * oscAddressCache = (*oscAddress); // cache character oscAddress proceeding current star match
 
         // Attempt to match remainder of expression
-        if (MatchExpression(oscAddressPattern, oscAddress, isPartial)) { // potentially recursive
+        if (MatchExpression(oscAddressPattern, oscAddress, isPartial) == true) { // potentially recursive
             return true;
         } else {
             *oscAddressPattern = oscAddressPatternCache;
@@ -252,21 +252,21 @@ static bool MatchCharacter(const char * * const oscAddressPattern, const char * 
     const char * oscAddressCache = *oscAddress;
     switch (**oscAddressPattern) {
         case '[':
-            if (MatchBrackets(oscAddressPattern, oscAddress)) {
+            if (MatchBrackets(oscAddressPattern, oscAddress) == true) {
                 return true;
             }
             break;
         case ']':
             break; // fail: unbalanced brackets
         case '{':
-            if (MatchCurlyBraces(oscAddressPattern, oscAddress, isPartial)) {
+            if (MatchCurlyBraces(oscAddressPattern, oscAddress, isPartial) == true) {
                 return true;
             }
             break;
         case '}':
             break; // fail: unbalanced curly braces
         default:
-            if (**oscAddressPattern == **oscAddress || **oscAddressPattern == '?') {
+            if ((**oscAddressPattern == **oscAddress) || (**oscAddressPattern == '?')) {
                 (*oscAddressPattern)++;
                 (*oscAddress)++;
                 return true;
@@ -317,13 +317,13 @@ static bool MatchBrackets(const char * * const oscAddressPattern, const char * *
     // Match each character in list
     bool match = negatedList;
     while (**oscAddressPattern != ']') {
-        if (**oscAddressPattern == '/' || **oscAddressPattern == '\0') {
+        if ((**oscAddressPattern == '/') || (**oscAddressPattern == '\0')) {
             return false; // fail: unbalanced brackets
         }
 
         // If character is part of hyphenated range
-        if (*(*oscAddressPattern + 1) == '-' && *(*oscAddressPattern + 2) != ']') {
-            if (*(*oscAddressPattern + 2) == '/' || *(*oscAddressPattern + 2) == '\0') {
+        if ((*(*oscAddressPattern + 1) == '-') && (*(*oscAddressPattern + 2) != ']')) {
+            if ((*(*oscAddressPattern + 2) == '/') || (*(*oscAddressPattern + 2) == '\0')) {
                 return false; // fail: unbalanced brackets
             }
 
@@ -336,8 +336,8 @@ static bool MatchBrackets(const char * * const oscAddressPattern, const char * *
             }
 
             // Check if target character in range
-            if (**oscAddress >= lowerChar && **oscAddress <= upperChar) {
-                if (negatedList) {
+            if ((**oscAddress >= lowerChar) && (**oscAddress <= upperChar)) {
+                if (negatedList == true) {
                     match = false; // fail: character matched in negated list
                 } else {
                     match = true;
@@ -348,7 +348,7 @@ static bool MatchBrackets(const char * * const oscAddressPattern, const char * *
 
             // Else match single character
             if (**oscAddressPattern == **oscAddress) {
-                if (negatedList) {
+                if (negatedList == true) {
                     match = false; // fail: character matched in negated list
                 } else {
                     match = true;
@@ -389,13 +389,13 @@ static bool MatchCurlyBraces(const char * * const oscAddressPattern, const char 
     size_t matchedSubStringLength = 0;
     bool match = false;
     while (**oscAddressPattern != '}') {
-        if (**oscAddressPattern == '/' || **oscAddressPattern == '\0') {
+        if ((**oscAddressPattern == '/') || (**oscAddressPattern == '\0')) {
             return false; // fail: unbalanced curly braces
         }
 
         // Advance to end of substring
-        while (*endOfSubstring != ',' && *endOfSubstring != '}') {
-            if (*endOfSubstring == '/' || *endOfSubstring == '\0') {
+        while ((*endOfSubstring != ',') && (*endOfSubstring != '}')) {
+            if ((*endOfSubstring == '/') || (*endOfSubstring == '\0')) {
                 return false; // fail: unbalanced curly braces
             }
             endOfSubstring++;
@@ -404,7 +404,7 @@ static bool MatchCurlyBraces(const char * * const oscAddressPattern, const char 
         // Determine substring length
         (*oscAddressPattern)++; // increment past '{' or ','
         size_t subStringLength = endOfSubstring - *oscAddressPattern;
-        if (isPartial) {
+        if (isPartial == true) {
             size_t oscAddressLength = strlen(*oscAddress);
             if (subStringLength > oscAddressLength) {
                 subStringLength = oscAddressLength; // limit length to not exceed partial target
