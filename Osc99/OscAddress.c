@@ -15,6 +15,8 @@
 //------------------------------------------------------------------------------
 // Function prototypes
 
+#ifdef OSC_RECIEVE_ENABLED
+
 static bool MatchLiteral(const char * oscAddressPattern, const char * oscAddress, const bool isPartial);
 static bool MatchExpression(const char * * const oscAddressPattern, const char * * const oscAddress, const bool isPartial);
 static bool MatchStar(const char * * const oscAddressPattern, const char * * const oscAddress, const bool isPartial);
@@ -22,8 +24,12 @@ static bool MatchCharacter(const char * * const oscAddressPattern, const char * 
 static bool MatchBrackets(const char * * const oscAddressPattern, const char * * const oscAddress);
 static bool MatchCurlyBraces(const char * * const oscAddressPattern, const char * * const oscAddress, const bool isPartial);
 
+#endif
+
 //------------------------------------------------------------------------------
 // Functions
+
+#ifdef OSC_RECIEVE_ENABLED
 
 /**
  * @brief Matches an OSC address pattern with a target OSC address.
@@ -558,6 +564,8 @@ OscError OscAddressGetPartAtIndex(const char * oscAddressPattern, const int inde
     destination[destinationIndex] = '\0'; // terminate as string
     return OscErrorNone;
 }
+
+#endif
 
 //------------------------------------------------------------------------------
 // End of file

@@ -23,6 +23,56 @@
 //------------------------------------------------------------------------------
 // Functions
 
+#ifdef OSC_SEND_ENABLED
+
+/**
+ * @brief Encodes an OSC packet as a SLIP packet.
+ *
+ * The OSC packet is encoded as a SLIP packet and written to the destination
+ * address.  The size of the encoded SLIP packet is written to the
+ * destinationSize address.  If the destination is too small to contain the
+ * encoded SLIP packet then the written size will be 0.
+ *
+ * Example use:
+ * @code
+ * char slipPacket[1024];
+ * size slipPacketSize;
+ * OscSlipEncodePacket(&oscPacket, slipPacket, &slipPacketSize, sizeof(slipPacket));
+ * @endcode
+ *
+ * @param oscPacket Address of OSC packet to be encoded.
+ * @param destination Destination address of the OSC SLIP packet.
+ * @param destinationSize Size of the destination.
+ * @return Error code (0 if successful).
+ */
+OscError OscSlipEncodePacket(const OscPacket * const oscPacket, size_t * const slipPacketSize, char * const destination, const size_t destinationSize) {
+    *slipPacketSize = 0; // size will be 0 if function unsuccessful
+    int encodedPacketSize = 0;
+    int packetIndex;
+    for (packetIndex = 0; packetIndex < oscPacket->size; packetIndex++) {
+        if ((encodedPacketSize + 1) > destinationSize) {
+            return OscErrorDestinationTooSmall; // error: destination too small
+        }
+        switch (oscPacket->contents[packetIndex]) {
+            case SLIP_END:
+                destination[encodedPacketSize++] = SLIP_ESC;
+                destination[encodedPacketSize++] = SLIP_ESC_END;
+                break;
+            case SLIP_ESC:
+                destination[encodedPacketSize++] = SLIP_ESC;
+                destination[encodedPacketSize++] = SLIP_ESC_ESC;
+                break;
+            default:
+                destination[encodedPacketSize++] = oscPacket->contents[packetIndex];
+        }
+    }
+    destination[encodedPacketSize++] = SLIP_END;
+    *slipPacketSize = encodedPacketSize;
+    return OscErrorNone;
+}
+
+#ifdef OSC_RECIEVE_ENABLED
+
 /**
  * @brief Initialises an OSC SLIP decoder structure.
  *
@@ -129,51 +179,9 @@ void OscSlipDecoderClearBuffer(OscSlipDecoder * const oscSlipDecoder) {
     oscSlipDecoder->bufferIndex = 0;
 }
 
-/**
- * @brief Encodes an OSC packet as a SLIP packet.
- *
- * The OSC packet is encoded as a SLIP packet and written to the destination
- * address.  The size of the encoded SLIP packet is written to the
- * destinationSize address.  If the destination is too small to contain the
- * encoded SLIP packet then the written size will be 0.
- *
- * Example use:
- * @code
- * char slipPacket[1024];
- * size slipPacketSize;
- * OscSlipEncodePacket(&oscPacket, slipPacket, &slipPacketSize, sizeof(slipPacket));
- * @endcode
- *
- * @param oscPacket Address of OSC packet to be encoded.
- * @param destination Destination address of the OSC SLIP packet.
- * @param destinationSize Size of the destination.
- * @return Error code (0 if successful).
- */
-OscError OscSlipEncodePacket(const OscPacket * const oscPacket, size_t * const slipPacketSize, char * const destination, const size_t destinationSize) {
-    *slipPacketSize = 0; // size will be 0 if function unsuccessful
-    int encodedPacketSize = 0;
-    int packetIndex;
-    for (packetIndex = 0; packetIndex < oscPacket->size; packetIndex++) {
-        if ((encodedPacketSize + 1) > destinationSize) {
-            return OscErrorDestinationTooSmall; // error: destination too small
-        }
-        switch (oscPacket->contents[packetIndex]) {
-            case SLIP_END:
-                destination[encodedPacketSize++] = SLIP_ESC;
-                destination[encodedPacketSize++] = SLIP_ESC_END;
-                break;
-            case SLIP_ESC:
-                destination[encodedPacketSize++] = SLIP_ESC;
-                destination[encodedPacketSize++] = SLIP_ESC_ESC;
-                break;
-            default:
-                destination[encodedPacketSize++] = oscPacket->contents[packetIndex];
-        }
-    }
-    destination[encodedPacketSize++] = SLIP_END;
-    *slipPacketSize = encodedPacketSize;
-    return OscErrorNone;
-}
+#endif
+
+#endif
 
 //------------------------------------------------------------------------------
 // End of file

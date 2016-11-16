@@ -21,18 +21,36 @@
 // Definitions - Application/platform specific
 
 /**
+ * @brief Comment out this definition if the platform is big-endian.  For
+ * example: Arduino, Atmel AVR, Microchip PIC, Intel x86-64 are little-endian.
+ * @see http://en.wikipedia.org/wiki/Endianness
+ */
+#define LITTLE_ENDIAN_PLATFORM
+
+/**
  * @brief Maximum packet size permitted by transport layer.  Defines the maximum
- * size of an OSC packet.  This value may be modified as required by the user
- * application.
+ * size of an OSC packet.  Reducing this value will reduce the amount of RAM
+ * required.
  */
 #define MAX_TRANSPORT_SIZE (1472)
 
 /**
- * @brief Comment out this definition if the platform is big-endian.  For
- * example, Arduino, Atmel AVR, Microchip PIC, Intel x86-64 are little-endian.
- * @see http://en.wikipedia.org/wiki/Endianness
+ * @brief Comment out this definition to remove all code for sending OSC.  This
+ * will reduce the amount of program memory required.
  */
-#define LITTLE_ENDIAN_PLATFORM
+#define OSC_SEND_ENABLED
+
+/**
+ * @brief Comment out this definition to remove all code for receiving OSC.
+ * This will reduce the amount of program memory required.
+ */
+#define OSC_RECIEVE_ENABLED
+
+/**
+ * @brief Comment out this definition if the OscErrorGetMessage function is not
+ * required.  This will reduce the amount of program memory required.
+ */
+#define OSC_ERROR_MESSAGES_ENABLED
 
 //------------------------------------------------------------------------------
 // Definitions - OSC contents

@@ -4,10 +4,14 @@
  * @brief Main header file for the library.  This is the only file that needs to
  * be included when using the library.
  *
- * OSC99 is a highly portable ANSI C99 compliant OSC library developed for use
- * with embedded systems.  OSC99 implements the OSC 1.0 specification including
- * all optional argument types.  The library also includes a SLIP  module for
+ * OSC99 is a portable ANSI C99 compliant OSC library developed for use with
+ * embedded systems.  OSC99 implements the OSC 1.0 specification including all
+ * optional argument types.  The library also includes a SLIP  module for
  * encoding and decoding OSC packets via unframed protocols such as UART/serial.
+ *
+ * The following definitions may be modified in OscCommon.h as required by the
+ * user application: LITTLE_ENDIAN_PLATFORM, MAX_TRANSPORT_SIZE,
+ * OSC_SEND_ENABLED, OSC_RECIEVE_ENABLED, OSC_ERROR_MESSAGES_ENABLED.
  *
  * @see http://opensoundcontrol.org/spec-1_0
  */

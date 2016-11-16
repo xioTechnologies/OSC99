@@ -8,20 +8,13 @@
 //------------------------------------------------------------------------------
 // Includes
 
+#include "OscCommon.h"
 #include "OscError.h"
-#include <stddef.h>
-
-//------------------------------------------------------------------------------
-// Definitions
-
-/**
- * @brief Comment out this definition if the OscErrorGetMessage function is not
- * required.  This will reduce the amount of program memory required.
- */
-#define OSC_ERROR_MESSAGE_AVAILABLE
 
 //------------------------------------------------------------------------------
 // Functions
+
+#ifdef OSC_ERROR_MESSAGES_ENABLED
 
 /**
  * @brief Returns the error message associated with the error code.
@@ -37,7 +30,6 @@
  * @return Address of string.
  */
 char * OscErrorGetMessage(const OscError oscError) {
-#ifdef OSC_ERROR_MESSAGE_AVAILABLE
     switch (oscError) {
         case OscErrorNone:
             return (char *) &"No error.";
@@ -118,9 +110,10 @@ char * OscErrorGetMessage(const OscError oscError) {
         case OscErrorDecodedSlipPacketTooLong:
             return (char *) &"Decoded SLIP packet size cannot exceed MAX_OSC_PACKET_SIZE.";
     }
-#endif
-    return (char *) &"Error message not available.";
+    return (char *) &"Unknown error.";
 }
+
+#endif
 
 //------------------------------------------------------------------------------
 // End of file

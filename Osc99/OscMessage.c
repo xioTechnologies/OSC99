@@ -16,10 +16,14 @@
 //------------------------------------------------------------------------------
 // Function prototypes
 
+#ifdef OSC_SEND_ENABLED
+
 static int TerminateOscString(char * const oscString, size_t * const oscStringSize, const size_t maxOscStringSize);
 
+#endif
+
 //------------------------------------------------------------------------------
-// Functions - Message construction
+// Functions
 
 /**
  * @brief Initialises an OSC message structure.
@@ -110,6 +114,8 @@ OscError OscMessageAppendAddressPattern(OscMessage * const oscMessage, const cha
     oscMessage->oscAddressPattern[oscMessage->oscAddressPatternLength] = '\0'; // null terminate string
     return OscErrorNone;
 }
+
+#ifdef OSC_SEND_ENABLED
 
 /**
  * @brief Adds a 32-bit integer argument to an OSC message.
@@ -673,8 +679,9 @@ static int TerminateOscString(char * const oscString, size_t * const oscStringSi
     return 0;
 }
 
-//------------------------------------------------------------------------------
-// Functions - Message deconstruction
+#endif
+
+#ifdef OSC_RECIEVE_ENABLED
 
 /**
  * @brief Initialises an OSC message from a char array contained within an OSC
@@ -2219,6 +2226,8 @@ OscError OscMessageGetArgumentAsBool(OscMessage * const oscMessage, bool * const
     }
     return OscErrorNone;
 }
+
+#endif
 
 //------------------------------------------------------------------------------
 // End of file

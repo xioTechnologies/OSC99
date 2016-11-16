@@ -13,8 +13,8 @@
 // Includes
 
 #include "OscBundle.h"
-#include "OscError.h"
 #include "OscCommon.h"
+#include "OscError.h"
 #include "OscMessage.h"
 #include <stddef.h>
 
@@ -41,10 +41,19 @@ typedef struct {
 //------------------------------------------------------------------------------
 // Function prototypes
 
+#ifdef OSC_SEND_ENABLED
+
 void OscPacketInitialise(OscPacket * const oscPacket);
 OscError OscPacketInitialiseFromContents(OscPacket * const oscPacket, const OscContents * const oscContents);
+
+#endif
+
+#ifdef OSC_RECIEVE_ENABLED
+
 OscError OscPacketInitialiseFromCharArray(OscPacket * const oscPacket, const char * const source, const size_t sourceSize);
 OscError OscPacketProcessMessages(OscPacket * const oscPacket);
+
+#endif
 
 #endif
 

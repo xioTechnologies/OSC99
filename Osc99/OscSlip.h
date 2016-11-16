@@ -12,6 +12,7 @@
 //------------------------------------------------------------------------------
 // Includes
 
+#include "OscCommon.h"
 #include "OscError.h"
 #include "OscPacket.h"
 
@@ -37,10 +38,19 @@ typedef struct {
 //------------------------------------------------------------------------------
 // Function prototypes
 
+#ifdef OSC_SEND_ENABLED
+
+OscError OscSlipEncodePacket(const OscPacket * const oscPacket, size_t * const slipPacketSize, char * const destination, const size_t destinationSize);
+
+#endif
+
+#ifdef OSC_RECIEVE_ENABLED
+
 void OscSlipDecoderInitialise(OscSlipDecoder * const oscSlipDecoder);
 OscError OscSlipDecoderProcessByte(OscSlipDecoder * const oscSlipDecoder, const char byte);
 void OscSlipDecoderClearBuffer(OscSlipDecoder * const oscSlipDecoder);
-OscError OscSlipEncodePacket(const OscPacket * const oscPacket, size_t * const slipPacketSize, char * const destination, const size_t destinationSize);
+
+#endif
 
 #endif
 

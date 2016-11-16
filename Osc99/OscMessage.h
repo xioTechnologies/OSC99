@@ -106,10 +106,12 @@ typedef enum {
 //------------------------------------------------------------------------------
 // Function prototypes
 
-// Message construction
 OscError OscMessageInitialise(OscMessage * const oscMessage, const char * oscAddressPattern);
 OscError OscMessageSetAddressPattern(OscMessage * const oscMessage, const char * oscAddressPattern);
 OscError OscMessageAppendAddressPattern(OscMessage * const oscMessage, const char * appendedParts);
+
+#ifdef OSC_SEND_ENABLED
+
 OscError OscMessageAddInt32(OscMessage * const oscMessage, const int32_t int32);
 OscError OscMessageAddFloat32(OscMessage * const oscMessage, const float float32);
 OscError OscMessageAddString(OscMessage * const oscMessage, const char * string);
@@ -129,7 +131,10 @@ OscError OscMessageAddEndArray(OscMessage * const oscMessage);
 size_t OscMessageGetSize(const OscMessage * const oscMessage);
 OscError OscMessageToCharArray(const OscMessage * const oscMessage, size_t * const oscMessageSize, char * const destination, const size_t destinationSize);
 
-// Message deconstruction
+#endif
+
+#ifdef OSC_RECIEVE_ENABLED
+
 OscError OscMessageInitialiseFromCharArray(OscMessage * const oscMessage, const char * const source, const size_t size);
 bool OscMessageIsArgumentAvailable(OscMessage * const oscMessage);
 OscTypeTag OscMessageGetArgumentType(OscMessage * const oscMessage);
@@ -155,6 +160,8 @@ OscError OscMessageGetArgumentAsCharacter(OscMessage * const oscMessage, char * 
 OscError OscMessageGetArgumentAsRgbaColour(OscMessage * const oscMessage, RgbaColour * const rgbaColour);
 OscError OscMessageGetArgumentAsMidiMessage(OscMessage * const oscMessage, MidiMessage * const midiMessage);
 OscError OscMessageGetArgumentAsBool(OscMessage * const oscMessage, bool * const boolean);
+
+#endif
 
 #endif
 

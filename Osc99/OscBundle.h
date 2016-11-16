@@ -67,7 +67,8 @@ typedef struct {
 //------------------------------------------------------------------------------
 // Function prototypes
 
-// Bundle construction
+#ifdef OSC_SEND_ENABLED
+
 void OscBundleInitialise(OscBundle * const oscBundle, const OscTimeTag oscTimeTag);
 OscError OscBundleAddContents(OscBundle * const oscBundle, const OscContents * const oscContents);
 void OscBundleEmpty(OscBundle * const oscBundle);
@@ -76,10 +77,15 @@ size_t OscBundleGetRemainingCapacity(const OscBundle * const oscBundle);
 size_t OscBundleGetSize(const OscBundle * const oscBundle);
 OscError OscBundleToCharArray(const OscBundle * const oscBundle, size_t * const oscBundleSize, char * const destination, const size_t destinationSize);
 
-// Bundle deconstruction
+#endif
+
+#ifdef OSC_RECIEVE_ENABLED
+
 OscError OscBundleInitialiseFromCharArray(OscBundle * const oscBundle, const char * const source, const size_t sourceSize);
 bool OscBundleIsBundleElementAvailable(const OscBundle * const oscBundle);
 OscError OscBundleGetBundleElement(OscBundle * const oscBundle, OscBundleElement * const oscBundleElement);
+
+#endif
 
 #endif
 
