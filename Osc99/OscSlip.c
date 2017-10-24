@@ -23,8 +23,6 @@
 //------------------------------------------------------------------------------
 // Functions
 
-#ifdef OSC_SEND_ENABLED
-
 /**
  * @brief Encodes an OSC packet as a SLIP packet.
  *
@@ -70,8 +68,6 @@ OscError OscSlipEncodePacket(const OscPacket * const oscPacket, size_t * const s
     *slipPacketSize = encodedPacketSize;
     return OscErrorNone;
 }
-
-#ifdef OSC_RECIEVE_ENABLED
 
 /**
  * @brief Initialises an OSC SLIP decoder structure.
@@ -178,10 +174,6 @@ OscError OscSlipDecoderProcessByte(OscSlipDecoder * const oscSlipDecoder, const 
 void OscSlipDecoderClearBuffer(OscSlipDecoder * const oscSlipDecoder) {
     oscSlipDecoder->bufferIndex = 0;
 }
-
-#endif
-
-#endif
 
 //------------------------------------------------------------------------------
 // End of file

@@ -14,8 +14,6 @@
 //------------------------------------------------------------------------------
 // Functions
 
-#ifdef OSC_SEND_ENABLED
-
 /**
  * @brief Initialises an OSC bundle structure with a specified OSC time tag.
  *
@@ -224,10 +222,6 @@ OscError OscBundleToCharArray(const OscBundle * const oscBundle, size_t * const 
     return OscErrorNone;
 }
 
-#endif
-
-#ifdef OSC_RECIEVE_ENABLED
-
 /**
  * @brief Initialises an OSC bundle from a char array contained within an OSC
  * packet or containing OSC bundle.
@@ -337,8 +331,6 @@ OscError OscBundleGetBundleElement(OscBundle * const oscBundle, OscBundleElement
     oscBundle->oscBundleElementsIndex += oscBundleElement->size.int32;
     return OscErrorNone;
 }
-
-#endif
 
 //------------------------------------------------------------------------------
 // End of file

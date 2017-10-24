@@ -15,16 +15,10 @@
 //------------------------------------------------------------------------------
 // Function prototypes
 
-#ifdef OSC_RECIEVE_ENABLED
-
 static OscError DeconstructContents(OscPacket * const oscPacket, const OscTimeTag * const oscTimeTag, const OscContents * const oscContents, const size_t contentsSize);
-
-#endif
 
 //------------------------------------------------------------------------------
 // Functions
-
-#ifdef OSC_SEND_ENABLED
 
 /**
  * @brief Initialises an OSC packet structure.
@@ -84,10 +78,6 @@ OscError OscPacketInitialiseFromContents(OscPacket * const oscPacket, const OscC
     }
     return OscErrorInvalidContents; // error: invalid or uninitialised OSC contents
 }
-
-#endif
-
-#ifdef OSC_RECIEVE_ENABLED
 
 /**
  * @brief Initialises an OSC packet structure from byte array.
@@ -212,8 +202,6 @@ static OscError DeconstructContents(OscPacket * const oscPacket, const OscTimeTa
 
     return OscErrorInvalidContents; // error: invalid or uninitialised contents
 }
-
-#endif
 
 //------------------------------------------------------------------------------
 // End of file
