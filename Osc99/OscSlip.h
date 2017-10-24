@@ -31,7 +31,7 @@
  */
 typedef struct {
     char buffer[OSC_SLIP_DECODER_BUFFER_SIZE];
-    int bufferIndex;
+    unsigned int bufferIndex;
     void ( *processPacket)(OscPacket * const oscPacket);
 } OscSlipDecoder;
 

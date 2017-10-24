@@ -76,8 +76,8 @@ typedef struct {
     size_t oscAddressPatternLength; // does not include null characters
     size_t oscTypeTagStringLength; // includes comma but not null characters
     size_t argumentsSize;
-    int oscTypeTagStringIndex;
-    int argumentsIndex;
+    unsigned int oscTypeTagStringIndex;
+    unsigned int argumentsIndex;
 } OscMessage;
 
 /**

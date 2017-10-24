@@ -231,7 +231,7 @@ OscError OscMessageAddBlob(OscMessage * const oscMessage, const char * const sou
     oscMessage->arguments[argumentsSize++] = blobSize.byteStruct.byte2;
     oscMessage->arguments[argumentsSize++] = blobSize.byteStruct.byte1;
     oscMessage->arguments[argumentsSize++] = blobSize.byteStruct.byte0;
-    int sourceIndex;
+    unsigned int sourceIndex;
     for (sourceIndex = 0; sourceIndex < numberOfBytes; sourceIndex++) {
         oscMessage->arguments[argumentsSize++] = source[sourceIndex];
     }
@@ -608,7 +608,7 @@ size_t OscMessageGetSize(const OscMessage * const oscMessage) {
 OscError OscMessageToCharArray(const OscMessage * const oscMessage, size_t * const oscMessageSize, char * const destination, const size_t destinationSize) {
     *oscMessageSize = 0; // size will be 0 if function unsuccessful
     size_t destinationIndex = 0;
-    int i;
+    unsigned int index;
 
     // Address pattern
     if (oscMessage->oscAddressPatternLength == 0) {
@@ -620,8 +620,8 @@ OscError OscMessageToCharArray(const OscMessage * const oscMessage, size_t * con
     if (oscMessage->oscAddressPatternLength > destinationSize) {
         return OscErrorDestinationTooSmall; // error: destination too small
     }
-    for (i = 0; i < oscMessage->oscAddressPatternLength; i++) {
-        destination[destinationIndex++] = oscMessage->oscAddressPattern[i];
+    for (index = 0; index < oscMessage->oscAddressPatternLength; index++) {
+        destination[destinationIndex++] = oscMessage->oscAddressPattern[index];
     }
     if (TerminateOscString(destination, &destinationIndex, destinationSize) != 0) {
         return OscErrorDestinationTooSmall; // error: destination too small
@@ -631,8 +631,8 @@ OscError OscMessageToCharArray(const OscMessage * const oscMessage, size_t * con
     if ((destinationIndex + oscMessage->oscTypeTagStringLength) > destinationSize) {
         return OscErrorDestinationTooSmall; // error: destination too small
     }
-    for (i = 0; i < oscMessage->oscTypeTagStringLength; i++) {
-        destination[destinationIndex++] = oscMessage->oscTypeTagString[i];
+    for (index = 0; index < oscMessage->oscTypeTagStringLength; index++) {
+        destination[destinationIndex++] = oscMessage->oscTypeTagString[index];
     }
     if (TerminateOscString(destination, &destinationIndex, destinationSize) != 0) {
         return OscErrorDestinationTooSmall; // error: destination too small
@@ -642,8 +642,8 @@ OscError OscMessageToCharArray(const OscMessage * const oscMessage, size_t * con
     if ((destinationIndex + oscMessage->argumentsSize) > destinationSize) {
         return OscErrorDestinationTooSmall; // error: destination too small
     }
-    for (i = 0; i < oscMessage->argumentsSize; i++) {
-        destination[destinationIndex++] = oscMessage->arguments[i];
+    for (index = 0; index < oscMessage->argumentsSize; index++) {
+        destination[destinationIndex++] = oscMessage->arguments[index];
     }
 
     *oscMessageSize = destinationIndex;
@@ -705,7 +705,7 @@ OscError OscMessageInitialiseFromCharArray(OscMessage * const oscMessage, const 
     }
 
     // OSC address pattern
-    int sourceIndex = 0;
+    unsigned int sourceIndex = 0;
     while (source[sourceIndex] != '\0') {
         oscMessage->oscAddressPattern[oscMessage->oscAddressPatternLength] = source[sourceIndex];
         if (++oscMessage->oscAddressPatternLength > MAX_OSC_ADDRESS_PATTERN_LENGTH) {
@@ -963,8 +963,8 @@ OscError OscMessageGetString(OscMessage * const oscMessage, char * const destina
     if (sizeof ("\0\0\0") > destinationSize) {
         return OscErrorDestinationTooSmall; // error: destination too small
     }
-    int argumentsIndex = oscMessage->argumentsIndex; // local copy in case function returns error
-    int destinationIndex = 0;
+    unsigned int argumentsIndex = oscMessage->argumentsIndex; // local copy in case function returns error
+    unsigned int destinationIndex = 0;
     do {
         destination[destinationIndex] = oscMessage->arguments[argumentsIndex];
         if (++destinationIndex > destinationSize) {
@@ -999,9 +999,9 @@ OscError OscMessageGetString(OscMessage * const oscMessage, char * const destina
  *         char byteArray[128];
  *         size_t numberOfBytes;
  *         OscMessageGetBlob(&oscMessage, &numberOfBytes, byteArray, sizeof(byteArray));
- *         int i = 0;
- *         while(i <= numberOfBytes) {
- *             printf("%u,", (unsigned int)byteArray[i]);
+ *         unsigned int index = 0;
+ *         while(index <= numberOfBytes) {
+ *             printf("%u,", (unsigned int)byteArray[index]);
  *         }
  *         break;
  *     }
@@ -1028,7 +1028,7 @@ OscError OscMessageGetBlob(OscMessage * const oscMessage, size_t * const blobSiz
     if ((oscMessage->argumentsIndex + sizeof (OscArgument32)) > oscMessage->argumentsSize) {
         return OscErrorMessageTooShortForArgumentType; // error: message too short to contain argument
     }
-    int argumentsIndex = oscMessage->argumentsIndex; // local copy in case function returns error
+    unsigned int argumentsIndex = oscMessage->argumentsIndex; // local copy in case function returns error
     OscArgument32 blobSizeArgument;
     blobSizeArgument.byteStruct.byte3 = oscMessage->arguments[argumentsIndex++];
     blobSizeArgument.byteStruct.byte2 = oscMessage->arguments[argumentsIndex++];
@@ -1040,7 +1040,7 @@ OscError OscMessageGetBlob(OscMessage * const oscMessage, size_t * const blobSiz
     if (blobSizeArgument.int32 > destinationSize) {
         return OscErrorDestinationTooSmall; // error: destination too small
     }
-    int destinationIndex;
+    unsigned int destinationIndex;
     for (destinationIndex = 0; destinationIndex < blobSizeArgument.int32; destinationIndex++) {
         destination[destinationIndex] = oscMessage->arguments[argumentsIndex++];
     }
@@ -1622,9 +1622,9 @@ OscError OscMessageGetArgumentAsString(OscMessage * const oscMessage, char * con
  * char byteArray[128];
  * size_t numberOfBytes;
  * OscMessageGetArgumentAsBlob(&oscMessage, &numberOfBytes, byteArray, sizeof(byteArray));
- * int i = 0;
- * while(i <= numberOfBytes) {
- *     printf("%u,", (unsigned int)byteArray[i]);
+ * unsigned int index = 0;
+ * while(index <= numberOfBytes) {
+ *     printf("%u,", (unsigned int)byteArray[index]);
  * }
  * @endcode
  *

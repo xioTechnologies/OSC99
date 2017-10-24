@@ -53,7 +53,7 @@ typedef struct {
     OscTimeTag oscTimeTag;
     char oscBundleElements[MAX_OSC_BUNDLE_ELEMENTS_SIZE];
     size_t oscBundleElementsSize;
-    int oscBundleElementsIndex;
+    unsigned int oscBundleElementsIndex;
 } OscBundle;
 
 /**

@@ -203,9 +203,9 @@ OscError OscBundleToCharArray(const OscBundle * const oscBundle, size_t * const 
         return OscErrorDestinationTooSmall; // error: destination too small
     }
     size_t destinationIndex = 0;
-    int i;
-    for (i = 0; i < sizeof (OSC_BUNDLE_HEADER); i++) {
-        destination[destinationIndex++] = oscBundle->header[i];
+    unsigned int index;
+    for (index = 0; index < sizeof (OSC_BUNDLE_HEADER); index++) {
+        destination[destinationIndex++] = oscBundle->header[index];
     }
     destination[destinationIndex++] = oscBundle->oscTimeTag.byteStruct.byte7;
     destination[destinationIndex++] = oscBundle->oscTimeTag.byteStruct.byte6;
@@ -215,8 +215,8 @@ OscError OscBundleToCharArray(const OscBundle * const oscBundle, size_t * const 
     destination[destinationIndex++] = oscBundle->oscTimeTag.byteStruct.byte2;
     destination[destinationIndex++] = oscBundle->oscTimeTag.byteStruct.byte1;
     destination[destinationIndex++] = oscBundle->oscTimeTag.byteStruct.byte0;
-    for (i = 0; i < oscBundle->oscBundleElementsSize; i++) {
-        destination[destinationIndex++] = oscBundle->oscBundleElements[i];
+    for (index = 0; index < oscBundle->oscBundleElementsSize; index++) {
+        destination[destinationIndex++] = oscBundle->oscBundleElements[index];
     }
     *oscBundleSize = destinationIndex;
     return OscErrorNone;
@@ -235,7 +235,7 @@ OscError OscBundleToCharArray(const OscBundle * const oscBundle, size_t * const 
  * @return Error code (0 if successful).
  */
 OscError OscBundleInitialiseFromCharArray(OscBundle * const oscBundle, const char * const source, const size_t numberOfBytes) {
-    int sourceIndex = 0;
+    unsigned int sourceIndex = 0;
 
     // Return error if not valid bundle
     if (numberOfBytes % 4 != 0) {

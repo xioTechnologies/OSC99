@@ -45,8 +45,8 @@
  */
 OscError OscSlipEncodePacket(const OscPacket * const oscPacket, size_t * const slipPacketSize, char * const destination, const size_t destinationSize) {
     *slipPacketSize = 0; // size will be 0 if function unsuccessful
-    int encodedPacketSize = 0;
-    int packetIndex;
+    unsigned int encodedPacketSize = 0;
+    unsigned int packetIndex;
     for (packetIndex = 0; packetIndex < oscPacket->size; packetIndex++) {
         if ((encodedPacketSize + 1) > destinationSize) {
             return OscErrorDestinationTooSmall; // error: destination too small

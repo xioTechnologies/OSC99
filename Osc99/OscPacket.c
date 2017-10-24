@@ -33,9 +33,9 @@ static OscError DeconstructContents(OscPacket * const oscPacket, const OscTimeTa
  * OscPacket oscPacket;
  * OscPacketInitialise(&oscPacket);
  * const char source[] = "/example\0\0\0\0,\0\0"; // string terminating null character is part of OSC message
- * int i = 0;
- * while(i++ < sizeof(source)) {
- *     oscPacket.contents[i] = source[i];
+ * unsigned int index = 0;
+ * while(index++ < sizeof(source)) {
+ *     oscPacket.contents[index] = source[index];
  * }
  * oscPacket.size = sizeof(source);
  * @endcode

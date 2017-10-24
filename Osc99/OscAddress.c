@@ -477,7 +477,7 @@ bool OscAddressIsLiteral(const char * oscAddressPattern) {
  * @code
  * OscMessage oscMessage;
  * OscMessageInitialise(&oscMessage, "/example/oscAddress/pattern");
- * const int numberOfParts = OscAddressGetNumberOfParts(oscMessage.oscAddressPattern);
+ * const unsigned int numberOfParts = OscAddressGetNumberOfParts(oscMessage.oscAddressPattern);
  * printf("Number of parts = %d", numberOfParts); // should be 3
  * @endcode
  *
@@ -485,8 +485,8 @@ bool OscAddressIsLiteral(const char * oscAddressPattern) {
  * @return Number of parts that make up the message OSC address or an OSC
  * oscAddress pattern.
  */
-int OscAddressGetNumberOfParts(const char * oscAddressPattern) {
-    int numberOfParts = 0;
+unsigned int OscAddressGetNumberOfParts(const char * oscAddressPattern) {
+    unsigned int numberOfParts = 0;
     while (*oscAddressPattern != '\0') {
         if (*oscAddressPattern == '/') {
             numberOfParts++;
@@ -511,11 +511,11 @@ int OscAddressGetNumberOfParts(const char * oscAddressPattern) {
  * @code
  * OscMessage oscMessage;
  * OscMessageInitialise(&oscMessage, "/example/oscAddress/pattern");
- * const int numberOfParts = OscAddressGetNumberOfParts(oscMessage.oscAddressPattern);
- * int i;
- * for (i = 0; i < numberOfParts; i++) {
+ * const unsigned int numberOfParts = OscAddressGetNumberOfParts(oscMessage.oscAddressPattern);
+ * unsigned int index;
+ * for (index = 0; index < numberOfParts; index++) {
  *     char string[16];
- *     OscAddressGetPartAtIndex(oscMessage.oscAddressPattern, i, string, sizeof (string));
+ *     OscAddressGetPartAtIndex(oscMessage.oscAddressPattern, index, string, sizeof (string));
  *     printf("%s ", string);
  * }
  * @endcode
@@ -526,10 +526,10 @@ int OscAddressGetNumberOfParts(const char * oscAddressPattern) {
  * @param destinationSize Destination size that cannot be exceeded.
  * @return Error code (0 if successful).
  */
-OscError OscAddressGetPartAtIndex(const char * oscAddressPattern, const int index, char * const destination, const size_t destinationSize) {
+OscError OscAddressGetPartAtIndex(const char * oscAddressPattern, const unsigned int index, char * const destination, const size_t destinationSize) {
 
     // Advance oscAddressPattern oscAddress to start of part
-    int partCount = 0;
+    unsigned int partCount = 0;
     while (partCount < (index + 1)) {
         while (*oscAddressPattern != '\0') {
             if (*oscAddressPattern == '/') {
@@ -544,7 +544,7 @@ OscError OscAddressGetPartAtIndex(const char * oscAddressPattern, const int inde
     }
 
     // Copy part to destination as string
-    int destinationIndex = 0;
+    unsigned int destinationIndex = 0;
     while (*oscAddressPattern != '\0') {
         destination[destinationIndex] = *oscAddressPattern;
         if (++destinationIndex >= destinationSize) {
