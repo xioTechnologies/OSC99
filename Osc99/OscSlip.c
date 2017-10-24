@@ -127,37 +127,44 @@ OscError OscSlipDecoderProcessByte(OscSlipDecoder * const oscSlipDecoder, const 
         return OscErrorEncodedSlipPacketTooLong; // error: SLIP packet is too long
     }
 
-    // Decode packet if END byte
-    if (byte == SLIP_END) {
-        oscSlipDecoder->bufferIndex = 0;
-        if (oscSlipDecoder->processPacket == NULL) {
-            return OscErrorCallbackFunctionUndefined; // error: user function undefined
-        }
-        OscPacket oscPacket;
-        OscPacketInitialise(&oscPacket);
-        int i = 0;
-        while (oscSlipDecoder->buffer[i] != SLIP_END) {
-            if (oscSlipDecoder->buffer[i] == SLIP_ESC) {
-                switch (oscSlipDecoder->buffer[++i]) {
-                    case SLIP_ESC_END:
-                        oscPacket.contents[oscPacket.size++] = SLIP_END;
-                        break;
-                    case SLIP_ESC_ESC:
-                        oscPacket.contents[oscPacket.size++] = SLIP_ESC;
-                        break;
-                    default:
-                        return OscErrorUnexpectedByteAfterSlipEsc; // error: unexpected byte value
-                }
-            } else {
-                oscPacket.contents[oscPacket.size++] = oscSlipDecoder->buffer[i];
-            }
-            if (oscPacket.size > MAX_OSC_PACKET_SIZE) {
-                return OscErrorDecodedSlipPacketTooLong; // error: decoded packet too large
-            }
-            i++;
-        }
-        oscSlipDecoder->processPacket(&oscPacket);
+    // Return if byte not END byte
+    if (byte != SLIP_END) {
+        return OscErrorNone;
     }
+
+    // Reset index
+    oscSlipDecoder->bufferIndex = 0;
+
+    // Decode packet
+    OscPacket oscPacket;
+    OscPacketInitialise(&oscPacket);
+    unsigned int index = 0;
+    while (oscSlipDecoder->buffer[index] != SLIP_END) {
+        if (oscSlipDecoder->buffer[index] == SLIP_ESC) {
+            switch (oscSlipDecoder->buffer[++index]) {
+                case SLIP_ESC_END:
+                    oscPacket.contents[oscPacket.size++] = SLIP_END;
+                    break;
+                case SLIP_ESC_ESC:
+                    oscPacket.contents[oscPacket.size++] = SLIP_ESC;
+                    break;
+                default:
+                    return OscErrorUnexpectedByteAfterSlipEsc; // error: unexpected byte value
+            }
+        } else {
+            oscPacket.contents[oscPacket.size++] = oscSlipDecoder->buffer[index];
+        }
+        if (oscPacket.size > MAX_OSC_PACKET_SIZE) {
+            return OscErrorDecodedSlipPacketTooLong; // error: decoded packet too large
+        }
+        index++;
+    }
+
+    // Call user function
+    if (oscSlipDecoder->processPacket == NULL) {
+        return OscErrorCallbackFunctionUndefined; // error: user function undefined
+    }
+    oscSlipDecoder->processPacket(&oscPacket);
     return OscErrorNone;
 }
 
