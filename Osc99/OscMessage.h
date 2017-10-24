@@ -66,8 +66,8 @@
 #define MAX_ARGUMENTS_SIZE (MAX_OSC_MESSAGE_SIZE - (MAX_OSC_ADDRESS_PATTERN_LENGTH + 4) - (MAX_OSC_TYPE_TAG_STRING_LENGTH + 4))
 
 /**
- * @brief OSC message structure.  Must be initialised using either
- * OscMessageInitialise or OscMessageInitialiseFromCharArray.
+ * @brief OSC message structure.  Structure members used internally and should
+ * not be used by the user application.
  */
 typedef struct {
     char oscAddressPattern[MAX_OSC_ADDRESS_PATTERN_LENGTH + 1]; // null terminated, must be first member so that first byte of structure is equal to '/'.
@@ -113,7 +113,7 @@ OscError OscMessageAppendAddressPattern(OscMessage * const oscMessage, const cha
 OscError OscMessageAddInt32(OscMessage * const oscMessage, const int32_t int32);
 OscError OscMessageAddFloat32(OscMessage * const oscMessage, const float float32);
 OscError OscMessageAddString(OscMessage * const oscMessage, const char * string);
-OscError OscMessageAddBlob(OscMessage * const oscMessage, const char * const source, const size_t sourceSize);
+OscError OscMessageAddBlob(OscMessage * const oscMessage, const char * const source, const size_t numberOfBytes);
 OscError OscMessageAddInt64(OscMessage * const oscMessage, const uint64_t int64);
 OscError OscMessageAddTimeTag(OscMessage * const oscMessage, const OscTimeTag oscTimeTag);
 OscError OscMessageAddDouble(OscMessage * const oscMessage, const Double64 double64);

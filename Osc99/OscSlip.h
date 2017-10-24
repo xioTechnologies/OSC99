@@ -26,8 +26,8 @@
 #define OSC_SLIP_DECODER_BUFFER_SIZE (MAX_TRANSPORT_SIZE)
 
 /**
- * @brief OSC SLIP decoder structure.  Must be initialised using
- * OscSlipDecoderInitialise.
+ * @brief OSC SLIP decoder structure.  Structure members used internally and
+ * should not be used by the user application.
  */
 typedef struct {
     char buffer[OSC_SLIP_DECODER_BUFFER_SIZE];

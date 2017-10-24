@@ -95,15 +95,15 @@ OscError OscPacketInitialiseFromContents(OscPacket * const oscPacket, const OscC
  *
  * @param oscPacket Address of the OSC packet to be initialised.
  * @param source Address of source byte array.
- * @param sourceSize Source size.
+ * @param numberOfBytes Number of bytes in byte array.
  * @return Error code (0 if successful).
  */
-OscError OscPacketInitialiseFromCharArray(OscPacket * const oscPacket, const char * const source, const size_t sourceSize) {
+OscError OscPacketInitialiseFromCharArray(OscPacket * const oscPacket, const char * const source, const size_t numberOfBytes) {
     oscPacket->size = 0;
-    if (sourceSize > MAX_OSC_PACKET_SIZE) {
+    if (numberOfBytes > MAX_OSC_PACKET_SIZE) {
         return OscErrorPacketSizeTooLarge; // error: size exceeds maximum packet size
     }
-    while (oscPacket->size < sourceSize) {
+    while (oscPacket->size < numberOfBytes) {
         oscPacket->contents[oscPacket->size] = source[oscPacket->size];
         oscPacket->size++;
     }

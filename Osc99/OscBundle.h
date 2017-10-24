@@ -45,7 +45,8 @@
 #define MAX_OSC_BUNDLE_ELEMENTS_SIZE (MAX_OSC_BUNDLE_SIZE - sizeof(OSC_BUNDLE_HEADER) - sizeof(OscTimeTag))
 
 /**
- * @brief OSC bundle structure.  Must be initialised using OscBundleInitialise.
+ * @brief OSC bundle structure.  Structure members used internally and should
+ * not be used by the user application.
  */
 typedef struct {
     char header[sizeof (OSC_BUNDLE_HEADER)]; // must be the first member so that the first byte of structure is equal to '#'.
@@ -74,7 +75,7 @@ bool OscBundleIsEmpty(OscBundle * const oscBundle);
 size_t OscBundleGetRemainingCapacity(const OscBundle * const oscBundle);
 size_t OscBundleGetSize(const OscBundle * const oscBundle);
 OscError OscBundleToCharArray(const OscBundle * const oscBundle, size_t * const oscBundleSize, char * const destination, const size_t destinationSize);
-OscError OscBundleInitialiseFromCharArray(OscBundle * const oscBundle, const char * const source, const size_t sourceSize);
+OscError OscBundleInitialiseFromCharArray(OscBundle * const oscBundle, const char * const source, const size_t numberOfBytes);
 bool OscBundleIsBundleElementAvailable(const OscBundle * const oscBundle);
 OscError OscBundleGetBundleElement(OscBundle * const oscBundle, OscBundleElement * const oscBundleElement);
 

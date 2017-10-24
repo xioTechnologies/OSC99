@@ -213,27 +213,26 @@ OscError OscMessageAddString(OscMessage * const oscMessage, const char * string)
  * @endcode
  *
  * @param oscMessage Address of the OSC message structure.
- * @param source Address of the char array to be added as argument.
- * @param sourceSize Size (number of bytes) of the char array to be added as
- * argument.
+ * @param source Address of the byte array to be added as argument.
+ * @param numberOfBytes Number of bytes in byte array to be added as argument.
  * @return Error code (0 if successful).
  */
-OscError OscMessageAddBlob(OscMessage * const oscMessage, const char * const source, const size_t sourceSize) {
+OscError OscMessageAddBlob(OscMessage * const oscMessage, const char * const source, const size_t numberOfBytes) {
     if (oscMessage->oscTypeTagStringLength > MAX_NUMBER_OF_ARGUMENTS) {
         return OscErrorTooManyArguments; // error: too many arguments
     }
-    if ((oscMessage->argumentsSize + sizeof (OscArgument32) + sourceSize) > MAX_ARGUMENTS_SIZE) {
+    if ((oscMessage->argumentsSize + sizeof (OscArgument32) + numberOfBytes) > MAX_ARGUMENTS_SIZE) {
         return OscErrorArgumentsSizeTooLarge; // error: message full
     }
     size_t argumentsSize = oscMessage->argumentsSize; // local copy in case function returns error
     OscArgument32 blobSize;
-    blobSize.int32 = (int32_t) sourceSize;
+    blobSize.int32 = (int32_t) numberOfBytes;
     oscMessage->arguments[argumentsSize++] = blobSize.byteStruct.byte3;
     oscMessage->arguments[argumentsSize++] = blobSize.byteStruct.byte2;
     oscMessage->arguments[argumentsSize++] = blobSize.byteStruct.byte1;
     oscMessage->arguments[argumentsSize++] = blobSize.byteStruct.byte0;
     int sourceIndex;
-    for (sourceIndex = 0; sourceIndex < sourceSize; sourceIndex++) {
+    for (sourceIndex = 0; sourceIndex < numberOfBytes; sourceIndex++) {
         oscMessage->arguments[argumentsSize++] = source[sourceIndex];
     }
     while ((argumentsSize % 4) != 0) {
@@ -608,7 +607,7 @@ size_t OscMessageGetSize(const OscMessage * const oscMessage) {
  */
 OscError OscMessageToCharArray(const OscMessage * const oscMessage, size_t * const oscMessageSize, char * const destination, const size_t destinationSize) {
     *oscMessageSize = 0; // size will be 0 if function unsuccessful
-    size_t messageSize = 0;
+    size_t destinationIndex = 0;
     int i;
 
     // Address pattern
@@ -622,32 +621,32 @@ OscError OscMessageToCharArray(const OscMessage * const oscMessage, size_t * con
         return OscErrorDestinationTooSmall; // error: destination too small
     }
     for (i = 0; i < oscMessage->oscAddressPatternLength; i++) {
-        destination[messageSize++] = oscMessage->oscAddressPattern[i];
+        destination[destinationIndex++] = oscMessage->oscAddressPattern[i];
     }
-    if (TerminateOscString(destination, &messageSize, destinationSize) != 0) {
+    if (TerminateOscString(destination, &destinationIndex, destinationSize) != 0) {
         return OscErrorDestinationTooSmall; // error: destination too small
     }
 
     // Type tag string
-    if ((messageSize + oscMessage->oscTypeTagStringLength) > destinationSize) {
+    if ((destinationIndex + oscMessage->oscTypeTagStringLength) > destinationSize) {
         return OscErrorDestinationTooSmall; // error: destination too small
     }
     for (i = 0; i < oscMessage->oscTypeTagStringLength; i++) {
-        destination[messageSize++] = oscMessage->oscTypeTagString[i];
+        destination[destinationIndex++] = oscMessage->oscTypeTagString[i];
     }
-    if (TerminateOscString(destination, &messageSize, destinationSize) != 0) {
+    if (TerminateOscString(destination, &destinationIndex, destinationSize) != 0) {
         return OscErrorDestinationTooSmall; // error: destination too small
     }
 
     // Arguments
-    if ((messageSize + oscMessage->argumentsSize) > destinationSize) {
+    if ((destinationIndex + oscMessage->argumentsSize) > destinationSize) {
         return OscErrorDestinationTooSmall; // error: destination too small
     }
     for (i = 0; i < oscMessage->argumentsSize; i++) {
-        destination[messageSize++] = oscMessage->arguments[i];
+        destination[destinationIndex++] = oscMessage->arguments[i];
     }
 
-    *oscMessageSize = messageSize;
+    *oscMessageSize = destinationIndex;
     return OscErrorNone;
 }
 
@@ -685,20 +684,20 @@ static int TerminateOscString(char * const oscString, size_t * const oscStringSi
  *
  * @param oscMessage Address of the OSC message structure.
  * @param source Address of the char array.
- * @param sourceSize Number of bytes within the char array.
+ * @param numberOfBytes Number of bytes within the char array.
  * @return Error code (0 if successful).
  */
-OscError OscMessageInitialiseFromCharArray(OscMessage * const oscMessage, const char * const source, const size_t sourceSize) {
+OscError OscMessageInitialiseFromCharArray(OscMessage * const oscMessage, const char * const source, const size_t numberOfBytes) {
     OscMessageInitialise(oscMessage, "");
 
     // Return error if not valid OSC message
-    if ((sourceSize % 4) != 0) {
+    if ((numberOfBytes % 4) != 0) {
         return OscErrorSizeIsNotMultipleOfFour; // error: size not multiple of 4
     }
-    if (sourceSize < MIN_OSC_MESSAGE_SIZE) {
+    if (numberOfBytes < MIN_OSC_MESSAGE_SIZE) {
         return OscErrorMessageSizeTooSmall; // error: too few bytes to contain an OSC message
     }
-    if (sourceSize > MAX_OSC_MESSAGE_SIZE) {
+    if (numberOfBytes > MAX_OSC_MESSAGE_SIZE) {
         return OscErrorMessageSizeTooLarge; // error: size exceeds maximum OSC message size
     }
     if (source[0] != (char) OscContentsTypeMessage) {
@@ -712,7 +711,7 @@ OscError OscMessageInitialiseFromCharArray(OscMessage * const oscMessage, const 
         if (++oscMessage->oscAddressPatternLength > MAX_OSC_ADDRESS_PATTERN_LENGTH) {
             return OscErrorAddressPatternTooLong; // error: OSC address pattern too long
         }
-        if (++sourceIndex >= sourceSize) {
+        if (++sourceIndex >= numberOfBytes) {
             return OscErrorSourceEndsBeforeEndOfAddressPattern; // error: unexpected end of source
         }
     }
@@ -720,7 +719,7 @@ OscError OscMessageInitialiseFromCharArray(OscMessage * const oscMessage, const 
 
     // Advance index to OSC type tag string
     while (source[sourceIndex - 1] != ',') { // skip index past comma
-        if (++sourceIndex >= sourceSize) {
+        if (++sourceIndex >= numberOfBytes) {
             return OscErrorSourceEndsBeforeStartOfTypeTagString; // error: unexpected end of source
         }
     }
@@ -731,7 +730,7 @@ OscError OscMessageInitialiseFromCharArray(OscMessage * const oscMessage, const 
         if (++oscMessage->oscTypeTagStringLength > MAX_OSC_TYPE_TAG_STRING_LENGTH) {
             return OscErrorTypeTagStringToLong; // error: type tag string too long
         }
-        if (++sourceIndex >= sourceSize) {
+        if (++sourceIndex >= numberOfBytes) {
             return OscErrorSourceEndsBeforeEndOfTypeTagString; // error: unexpected end of source
         }
     }
@@ -739,13 +738,13 @@ OscError OscMessageInitialiseFromCharArray(OscMessage * const oscMessage, const 
 
     // Advance index to arguments
     do {
-        if (++sourceIndex > sourceSize) {
+        if (++sourceIndex > numberOfBytes) {
             return OscErrorUnexpectedEndOfSource; // error: unexpected end of source
         }
     } while (sourceIndex % 4 != 0);
 
     // Arguments
-    while (sourceIndex < sourceSize) {
+    while (sourceIndex < numberOfBytes) {
         oscMessage->arguments[oscMessage->argumentsSize++] = source[sourceIndex++];
     }
 

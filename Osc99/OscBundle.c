@@ -223,28 +223,28 @@ OscError OscBundleToCharArray(const OscBundle * const oscBundle, size_t * const 
 }
 
 /**
- * @brief Initialises an OSC bundle from a char array contained within an OSC
+ * @brief Initialises an OSC bundle from a byte array contained within an OSC
  * packet or containing OSC bundle.
  *
  * This function is used internally and should not be used by the user
  * application.
  *
  * @param oscBundle Address of the OSC bundle structure.
- * @param source Address of the char array.
- * @param sourceSize Number of bytes within the char array.
+ * @param source Address of the byte array.
+ * @param numberOfBytes Number of bytes in byte array.
  * @return Error code (0 if successful).
  */
-OscError OscBundleInitialiseFromCharArray(OscBundle * const oscBundle, const char * const source, const size_t sourceSize) {
+OscError OscBundleInitialiseFromCharArray(OscBundle * const oscBundle, const char * const source, const size_t numberOfBytes) {
     int sourceIndex = 0;
 
     // Return error if not valid bundle
-    if (sourceSize % 4 != 0) {
+    if (numberOfBytes % 4 != 0) {
         return OscErrorSizeIsNotMultipleOfFour; // error: size not multiple of 4
     }
-    if (sourceSize < MIN_OSC_BUNDLE_SIZE) {
+    if (numberOfBytes < MIN_OSC_BUNDLE_SIZE) {
         return OscErrorBundleSizeTooSmall; // error: too few bytes to contain bundle
     }
-    if (sourceSize > MAX_OSC_BUNDLE_SIZE) {
+    if (numberOfBytes > MAX_OSC_BUNDLE_SIZE) {
         return OscErrorBundleSizeTooLarge; // error: size exceeds maximum bundle size
     }
     if (source[sourceIndex] != (char) OscContentsTypeBundle) {
@@ -276,7 +276,7 @@ OscError OscBundleInitialiseFromCharArray(OscBundle * const oscBundle, const cha
     oscBundle->oscBundleElementsIndex = 0;
     do {
         oscBundle->oscBundleElements[oscBundle->oscBundleElementsSize++] = source[sourceIndex++];
-    } while (sourceIndex < sourceSize);
+    } while (sourceIndex < numberOfBytes);
 
     return OscErrorNone;
 }
