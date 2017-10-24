@@ -35,8 +35,9 @@
 #define MAX_TRANSPORT_SIZE (1472)
 
 /**
- * @brief Comment out this definition if the OscErrorGetMessage function is not
- * required.  This will reduce the amount of program memory required.
+ * @brief Comment out this definition to prevent the OscErrorGetMessage function
+ * from providing detailed error messages.  This will reduce the amount of
+ * memory required.
  */
 #define OSC_ERROR_MESSAGES_ENABLED
 

@@ -14,8 +14,6 @@
 //------------------------------------------------------------------------------
 // Functions
 
-#ifdef OSC_ERROR_MESSAGES_ENABLED
-
 /**
  * @brief Returns the error message associated with the error code.
  *
@@ -30,6 +28,7 @@
  * @return Address of string.
  */
 char * OscErrorGetMessage(const OscError oscError) {
+#ifdef OSC_ERROR_MESSAGES_ENABLED
     switch (oscError) {
         case OscErrorNone:
             return (char *) &"No error.";
@@ -111,9 +110,10 @@ char * OscErrorGetMessage(const OscError oscError) {
             return (char *) &"Decoded SLIP packet size cannot exceed MAX_OSC_PACKET_SIZE.";
     }
     return (char *) &"Unknown error.";
-}
-
+#else
+    return (char *) &"OSC error.";
 #endif
+}
 
 //------------------------------------------------------------------------------
 // End of file

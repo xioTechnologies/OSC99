@@ -66,11 +66,7 @@ typedef enum {
 //------------------------------------------------------------------------------
 // Function prototypes
 
-#ifdef OSC_ERROR_MESSAGES_ENABLED
-
 char * OscErrorGetMessage(const OscError oscError);
-
-#endif
 
 #endif
 
