@@ -2,9 +2,6 @@
  * @file OscCommon.h
  * @author Seb Madgwick
  * @brief Definitions and types used throughout library.
- *
- * MAX_TRANSPORT_SIZE may be modified as required by the user application.
- *
  * @see http://opensoundcontrol.org/spec-1_0
  */
 
@@ -29,7 +26,7 @@
 
 /**
  * @brief Maximum packet size permitted by transport layer.  Defines the maximum
- * size of an OSC packet.  Reducing this value will reduce the amount of RAM
+ * size of an OSC packet.  Reducing this value will reduce the amount of memory
  * required.
  */
 #define MAX_TRANSPORT_SIZE (1472)
