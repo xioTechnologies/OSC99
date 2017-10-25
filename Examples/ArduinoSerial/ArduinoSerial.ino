@@ -9,7 +9,7 @@
  * Arduino libraries folder.  See: https://www.arduino.cc/en/guide/libraries
  *
  * 2) The Arduino Uno only has a very small amount of RAM (2 kB).  The value of
- * MAX_TRANSPORT_SIZE must be reduce to 200 in OscCommon.h.
+ * MAX_TRANSPORT_SIZE must be reduced to 200 in OscCommon.h.
  */
 
 #include "Osc99.h"
@@ -27,9 +27,9 @@ void loop() {
   // Send analogue inputs every 100 ms (10 Hz)
   static unsigned long previousMillis; // static means that the value will be remembered each loop
   unsigned long currentMillis = millis();
-  if(currentMillis - previousMillis > 100) {
+  if((currentMillis - previousMillis) > 100) {
     sendAnalogueInputsMessage();
-	previousMillis = currentMillis;
+    previousMillis = currentMillis;
   }
 
   // Process each received byte through the SLIP decoder
@@ -48,7 +48,7 @@ void ProcessPacket(OscPacket* const oscPacket) {
 void ProcessMessage(const OscTimeTag* const oscTimeTag, OscMessage* const oscMessage) {
 
   // If message address is "/hello" then send our hello message
-  if (OscAddressMatch(oscMessage->oscAddressPattern, "/hello")) {
+  if (OscAddressMatch(oscMessage->oscAddressPattern, "/hello") == true) {
     sendHelloMessage();
     return;
   }
@@ -56,10 +56,10 @@ void ProcessMessage(const OscTimeTag* const oscTimeTag, OscMessage* const oscMes
   // If message address is "/digital/write" then get use the message arguments to set a digital pin
   if (OscAddressMatch(oscMessage->oscAddressPattern, "/digital/write")) {
     int32_t pinNumber, pinState;
-    if(OscMessageGetInt32(oscMessage, &pinNumber)) {
+    if(OscMessageGetArgumentAsInt32(oscMessage, &pinNumber) != OscErrorNone) {
       return; // error: unable to get first int32 argument
     }
-    if(OscMessageGetInt32(oscMessage, &pinState)) {
+    if(OscMessageGetArgumentAsInt32(oscMessage, &pinState) != OscErrorNone) {
       return; // error: unable to get second int32 argument
     }
     if(pinNumber < 2) {
@@ -77,14 +77,14 @@ void ProcessMessage(const OscTimeTag* const oscTimeTag, OscMessage* const oscMes
 void sendHelloMessage() {
   OscMessage oscMessage;
   OscMessageInitialise(&oscMessage, "/hello");
-  OscMessageAddString(&oscMessage, "Hello! How are you?");
+  OscMessageAddString(&oscMessage, "Hi!");
   sendOscContents(&oscMessage);
 }
 
 void sendErrorMessage() {
   OscMessage oscMessage;
   OscMessageInitialise(&oscMessage, "/error");
-  OscMessageAddString(&oscMessage, "Sorry, I don't know what that means.");
+  OscMessageAddString(&oscMessage, "OSC address not recognised.");
   sendOscContents(&oscMessage);
 }
 
@@ -102,14 +102,14 @@ void sendOscContents(OscContents* oscContents) {
 
   // Create OSC packet from OSC message or bundle
   OscPacket oscPacket;
-  if(OscPacketInitialiseFromContents(&oscPacket, oscContents)) {
+  if(OscPacketInitialiseFromContents(&oscPacket, oscContents) != OscErrorNone) {
     return; // error: unable to create an OSC packet from the OSC contents
   }
 
   // Encode SLIP packet
   char slipPacket[MAX_OSC_PACKET_SIZE];
   size_t slipPacketSize;
-  if(OscSlipEncodePacket(&oscPacket, &slipPacketSize, slipPacket, sizeof (slipPacket))) {
+  if(OscSlipEncodePacket(&oscPacket, &slipPacketSize, slipPacket, sizeof (slipPacket)) != OscErrorNone) {
     return; // error: the encoded SLIP packet is too long for the size of slipPacket
   }
 
