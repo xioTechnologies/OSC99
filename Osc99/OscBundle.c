@@ -77,19 +77,19 @@ void OscBundleInitialise(OscBundle * const oscBundle, const OscTimeTag oscTimeTa
  * structure to be added to the OSC bundle.
  * @return Error code (0 if successful).
  */
-OscError OscBundleAddContents(OscBundle * const oscBundle, const OscContents * const oscContents) {
+OscError OscBundleAddContents(OscBundle * const oscBundle, const void * const oscContents) {
     if ((oscBundle->oscBundleElementsSize + sizeof (OscArgument32)) > MAX_OSC_BUNDLE_ELEMENTS_SIZE) {
         return OscErrorBundleFull; // error: bundle full
     }
     OscBundleElement oscBundleElement;
     oscBundleElement.contents = &oscBundle->oscBundleElements[oscBundle->oscBundleElementsSize + sizeof (OscArgument32)];
     OscError oscError = OscErrorInvalidContents; // error: invalid or uninitialised OSC contents
-    if (OSC_CONTENTS_IS_MESSAGE(oscContents) == true) {
+    if (OscContentsIsMessage(oscContents) == true) {
         size_t oscBundleElementSize;
         oscError = OscMessageToCharArray((OscMessage *) oscContents, &oscBundleElementSize, oscBundleElement.contents, OscBundleGetRemainingCapacity(oscBundle));
         oscBundleElement.size.int32 = (int32_t) oscBundleElementSize;
     }
-    if (OSC_CONTENTS_IS_BUNDLE(oscContents) == true) {
+    if (OscContentsIsBundle(oscContents) == true) {
         size_t oscBundleElementSize;
         oscError = OscBundleToCharArray((OscBundle *) oscContents, &oscBundleElementSize, oscBundleElement.contents, OscBundleGetRemainingCapacity(oscBundle));
         oscBundleElement.size.int32 = (int32_t) oscBundleElementSize;
@@ -247,7 +247,7 @@ OscError OscBundleInitialiseFromCharArray(OscBundle * const oscBundle, const cha
     if (numberOfBytes > MAX_OSC_BUNDLE_SIZE) {
         return OscErrorBundleSizeTooLarge; // error: size exceeds maximum bundle size
     }
-    if (source[sourceIndex] != (char) OscContentsTypeBundle) {
+    if (source[sourceIndex] != '#') {
         return OscErrorNoHashAtStartOfBundle; // error: first byte is not '#'
     }
 

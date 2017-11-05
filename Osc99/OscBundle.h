@@ -45,8 +45,8 @@
 #define MAX_OSC_BUNDLE_ELEMENTS_SIZE (MAX_OSC_BUNDLE_SIZE - sizeof(OSC_BUNDLE_HEADER) - sizeof(OscTimeTag))
 
 /**
- * @brief OSC bundle structure.  Structure are members used internally and
- * should not be used by the user application.
+ * @brief OSC bundle structure.  Structure members used internally and should
+ * not be used by the user application.
  */
 typedef struct {
     char header[sizeof (OSC_BUNDLE_HEADER)]; // must be the first member so that the first byte of structure is equal to '#'.
@@ -62,14 +62,14 @@ typedef struct {
  */
 typedef struct {
     OscArgument32 size; // int32
-    OscContents * contents; // pointer to bundle element contents
+    void * contents; // pointer to bundle element contents
 } OscBundleElement;
 
 //------------------------------------------------------------------------------
 // Function prototypes
 
 void OscBundleInitialise(OscBundle * const oscBundle, const OscTimeTag oscTimeTag);
-OscError OscBundleAddContents(OscBundle * const oscBundle, const OscContents * const oscContents);
+OscError OscBundleAddContents(OscBundle * const oscBundle, const void * const oscContents);
 void OscBundleEmpty(OscBundle * const oscBundle);
 bool OscBundleIsEmpty(OscBundle * const oscBundle);
 size_t OscBundleGetRemainingCapacity(const OscBundle * const oscBundle);

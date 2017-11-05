@@ -98,7 +98,7 @@ OscError OscMessageSetAddressPattern(OscMessage * const oscMessage, const char *
  * @return Error code (0 if successful).
  */
 OscError OscMessageAppendAddressPattern(OscMessage * const oscMessage, const char * appendedParts) {
-    if (*appendedParts != (char) OscContentsTypeMessage) {
+    if (*appendedParts != '/') {
         return OscErrorNoSlashAtStartOfMessage; // error: address must start with '/'
     }
     while (*appendedParts != '\0') {
@@ -614,7 +614,7 @@ OscError OscMessageToCharArray(const OscMessage * const oscMessage, size_t * con
     if (oscMessage->oscAddressPatternLength == 0) {
         return OscErrorUndefinedAddressPattern; // error: address pattern not set
     }
-    if (oscMessage->oscAddressPattern[0] != (char) OscContentsTypeMessage) {
+    if (oscMessage->oscAddressPattern[0] != '/') {
         return OscErrorNoSlashAtStartOfMessage; // error: address pattern does not start with '/'
     }
     if (oscMessage->oscAddressPatternLength > destinationSize) {
@@ -700,7 +700,7 @@ OscError OscMessageInitialiseFromCharArray(OscMessage * const oscMessage, const 
     if (numberOfBytes > MAX_OSC_MESSAGE_SIZE) {
         return OscErrorMessageSizeTooLarge; // error: size exceeds maximum OSC message size
     }
-    if (source[0] != (char) OscContentsTypeMessage) {
+    if (source[0] != '/') {
         return OscErrorNoSlashAtStartOfMessage; // error: first byte is not '/'
     }
 

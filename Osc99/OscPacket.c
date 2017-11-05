@@ -15,7 +15,7 @@
 //------------------------------------------------------------------------------
 // Function prototypes
 
-static OscError DeconstructContents(OscPacket * const oscPacket, const OscTimeTag * const oscTimeTag, const OscContents * const oscContents, const size_t contentsSize);
+static OscError DeconstructContents(OscPacket * const oscPacket, const OscTimeTag * const oscTimeTag, const void * const oscContents, const size_t contentsSize);
 
 //------------------------------------------------------------------------------
 // Functions
@@ -68,12 +68,12 @@ void OscPacketInitialise(OscPacket * const oscPacket) {
  * @param oscContents Address of either an OSC message or OSC bundle structure.
  * @return Error code (0 if successful).
  */
-OscError OscPacketInitialiseFromContents(OscPacket * const oscPacket, const OscContents * const oscContents) {
+OscError OscPacketInitialiseFromContents(OscPacket * const oscPacket, const void * const oscContents) {
     oscPacket->processMessage = NULL;
-    if (OSC_CONTENTS_IS_MESSAGE(oscContents) == true) {
+    if (OscContentsIsMessage(oscContents) == true) {
         return OscMessageToCharArray((OscMessage *) oscContents, &oscPacket->size, oscPacket->contents, MAX_OSC_PACKET_SIZE);
     }
-    if (OSC_CONTENTS_IS_BUNDLE(oscContents) == true) {
+    if (OscContentsIsBundle(oscContents) == true) {
         return OscBundleToCharArray((OscBundle *) oscContents, &oscPacket->size, oscPacket->contents, MAX_OSC_PACKET_SIZE);
     }
     return OscErrorInvalidContents; // error: invalid or uninitialised OSC contents
@@ -160,13 +160,13 @@ OscError OscPacketProcessMessages(OscPacket * const oscPacket) {
  * @param contentsSize Size of the OSC contents.
  * @return Error code (0 if successful).
  */
-static OscError DeconstructContents(OscPacket * const oscPacket, const OscTimeTag * const oscTimeTag, const OscContents * const oscContents, const size_t contentsSize) {
+static OscError DeconstructContents(OscPacket * const oscPacket, const OscTimeTag * const oscTimeTag, const void * const oscContents, const size_t contentsSize) {
     if (contentsSize == 0) {
         return OscErrorContentsEmpty; // error: contents empty
     }
 
     // Contents is an OSC message
-    if (OSC_CONTENTS_IS_MESSAGE(oscContents) == true) {
+    if (OscContentsIsMessage(oscContents) == true) {
         OscMessage oscMessage;
         const OscError oscError = OscMessageInitialiseFromCharArray(&oscMessage, oscContents, contentsSize);
         if (oscError != OscErrorNone) {
@@ -177,7 +177,7 @@ static OscError DeconstructContents(OscPacket * const oscPacket, const OscTimeTa
     }
 
     // Contents is an OSC bundle
-    if (OSC_CONTENTS_IS_BUNDLE(oscContents) == true) {
+    if (OscContentsIsBundle(oscContents) == true) {
         OscBundle oscBundle;
         OscError oscError = OscBundleInitialiseFromCharArray(&oscBundle, oscContents, contentsSize);
         if (oscError != OscErrorNone) {

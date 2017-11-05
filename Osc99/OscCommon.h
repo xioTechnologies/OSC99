@@ -1,7 +1,7 @@
 /**
  * @file OscCommon.h
  * @author Seb Madgwick
- * @brief Definitions and types used throughout library.
+ * @brief Definitions, types, and functions used throughout library.
  * @see http://opensoundcontrol.org/spec-1_0
  */
 
@@ -12,6 +12,7 @@
 // Includes
 
 #include <float.h> // DBL_MANT_DIG
+#include "stdbool.h"
 #include <stdint.h>
 
 //------------------------------------------------------------------------------
@@ -26,7 +27,7 @@
 
 /**
  * @brief Maximum packet size permitted by transport layer.  Defines the maximum
- * size of an OSC packet.  Reducing this value will reduce the amount of memory
+ * size of an OSC packet.  Reducing this value will reduce the amount of RAM
  * required.
  */
 #define MAX_TRANSPORT_SIZE (1472)
@@ -37,34 +38,6 @@
  * memory required.
  */
 #define OSC_ERROR_MESSAGES_ENABLED
-
-//------------------------------------------------------------------------------
-// Definitions - OSC contents
-
-/**
- * @brief Contents of OSC packet or OSC bundle element.  Must be either an OSC
- * message or OSC bundle.
- */
-typedef void OscContents;
-
-/**
- * @brief Enumerated types of contents.  The first byte of the contents
- * unambiguously distinguishes between an OSC bundle and an OSC message.
- */
-typedef enum {
-    OscContentsTypeMessage = '/',
-    OscContentsTypeBundle = '#',
-} OscContentsType;
-
-/**
- * @brief Macro that resolves as true if oscContents points to an OSC message.
- */
-#define OSC_CONTENTS_IS_MESSAGE(oscContents) ( *(char *) (oscContents) == OscContentsTypeMessage)
-
-/**
- * @brief Macro that resolves as true if oscContents points to an OSC bundle.
- */
-#define OSC_CONTENTS_IS_BUNDLE(oscContents) ( *(char *) (oscContents) == OscContentsTypeBundle)
 
 //------------------------------------------------------------------------------
 // Definitions - 32-bit argument types
@@ -218,6 +191,12 @@ typedef union {
     }
     byteStruct;
 } OscArgument64;
+
+//------------------------------------------------------------------------------
+// Function prototypes
+
+bool OscContentsIsMessage(const void * const oscContents);
+bool OscContentsIsBundle(const void * const oscContents);
 
 #endif
 
