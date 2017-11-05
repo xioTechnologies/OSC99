@@ -15,14 +15,14 @@
 // Functions
 
 /**
- * @brief Initialises an OSC bundle structure with a specified OSC time tag.
+ * @brief Initialises an OSC bundle with a specified OSC time tag.
  *
- * An OSC bundle structure must be initialised before use.  The oscTimeTag
- * argument may be specified as OSC_TIME_TAG_ZERO for an OSC time tag value of
- * zero.  This may be of use if the OSC time tag value is irrelevant to the user
- * application, if the contained OSC messages should be invoke immediately, or
- * if the OSC time tag value is intended to be overwritten after initialisation
- * of the OSC bundle structure.
+ * An OSC bundle must be initialised before use.  The oscTimeTag argument may be
+ * specified as OSC_TIME_TAG_ZERO for an OSC time-tag value of  zero.  This may
+ * be of use if the OSC time tag value is irrelevant to the user application, if
+ * the contained OSC messages should be invoke immediately, or if the OSC time-
+ * tag value is intended to be overwritten after initialisation of the OSC
+ * bundle.
  *
  * Example use:
  * @code
@@ -31,7 +31,7 @@
  * oscBundle.oscTimeTag.value = 0x100000000; // overwrite OSC time tag with value of 1 second
  * @endcode
  *
- * @param oscPacket Address of the OSC bundle structure to be initialised.
+ * @param oscPacket OSC bundle to be initialised.
  * @param oscTimeTag OSC time tag.
  */
 void OscBundleInitialise(OscBundle * const oscBundle, const OscTimeTag oscTimeTag) {
@@ -51,8 +51,8 @@ void OscBundleInitialise(OscBundle * const oscBundle, const OscTimeTag oscTimeTa
  * @brief Adds an OSC message or OSC bundle to an OSC bundle.
  *
  * The oscContents argument must point to an initialised OSC message or OSC
- * bundle structure.  This function may be called multiple times to add multiple
- * OSC messages or OSC bundles to a containing OSC bundle.  If the remaining
+ * bundle.  This function may be called multiple times to add multiple  OSC
+ * messages or OSC bundles to a containing OSC bundle.  If the remaining
  * capacity of the containing OSC bundle is insufficient to hold the additional
  * contents then the additional contents will be discarded and the function will
  * return an error.
@@ -71,10 +71,9 @@ void OscBundleInitialise(OscBundle * const oscBundle, const OscTimeTag oscTimeTa
  * OscBundleAddContents(&oscBundle, &oscBundleToAdd);
  * @endcode
  *
- * @param oscBundle Address of OSC bundle structure that will contain the OSC
- * message or OSC bundle to be added.
- * @param oscContents Address of the OSC message structure or OSC bundle
- * structure to be added to the OSC bundle.
+ * @param oscBundle OSC bundle that will contain the OSC message or OSC bundle
+ * to be added.
+ * @param oscContents OSC message or OSC bundle to be added to the OSC bundle.
  * @return Error code (0 if successful).
  */
 OscError OscBundleAddContents(OscBundle * const oscBundle, const void * const oscContents) {
@@ -116,7 +115,7 @@ OscError OscBundleAddContents(OscBundle * const oscBundle, const void * const os
  * OscBundleEmpty(&oscBundle);
  * @endcode
  *
- * @param oscBundle Address of OSC bundle structure to be emptied.
+ * @param oscBundle OSC bundle to be emptied.
  */
 void OscBundleEmpty(OscBundle * const oscBundle) {
     oscBundle->oscBundleElementsSize = 0;
@@ -135,7 +134,7 @@ void OscBundleEmpty(OscBundle * const oscBundle) {
  * }
  * @endcode
  *
- * @param oscBundle Address of the OSC bundle structure.
+ * @param oscBundle OSC bundle.
  * @return true is the OSC bundle is empty.
  */
 bool OscBundleIsEmpty(OscBundle * const oscBundle) {
@@ -153,7 +152,7 @@ bool OscBundleIsEmpty(OscBundle * const oscBundle) {
  * const size_t remainingCapacity = OscBundleGetRemainingCapacity(&oscBundle);
  * @endcode
  *
- * @param oscBundle Address of OSC bundle structure.
+ * @param oscBundle OSC bundle.
  * @return Remaining capacity (number of bytes) of an OSC bundle.
  */
 size_t OscBundleGetRemainingCapacity(const OscBundle * const oscBundle) {
@@ -177,7 +176,7 @@ size_t OscBundleGetRemainingCapacity(const OscBundle * const oscBundle) {
  * }
  * @endcode
  *
- * @param oscBundle Address of OSC bundle structure.
+ * @param oscBundle OSC bundle.
  * @return Size (number of bytes) of the OSC bundle.
  */
 size_t OscBundleGetSize(const OscBundle * const oscBundle) {
@@ -185,15 +184,15 @@ size_t OscBundleGetSize(const OscBundle * const oscBundle) {
 }
 
 /**
- * @brief Converts an OSC bundle into a char array to be contained within an OSC
+ * @brief Converts an OSC bundle into a byte array to be contained within an OSC
  * packet or containing OSC bundle.
  *
  * This function is used internally and should not be used by the user
  * application.
  *
- * @param oscBundle Address of OSC bundle structure.
- * @param oscBundleSize Address of the OSC bundle size.
- * @param destination Destination address of char array.
+ * @param oscBundle OSC bundle.
+ * @param oscBundleSize OSC bundle size.
+ * @param destination Destination byte array.
  * @param destinationSize Destination size that cannot exceed.
  * @return Error code (0 if successful).
  */
@@ -229,8 +228,8 @@ OscError OscBundleToCharArray(const OscBundle * const oscBundle, size_t * const 
  * This function is used internally and should not be used by the user
  * application.
  *
- * @param oscBundle Address of the OSC bundle structure.
- * @param source Address of the byte array.
+ * @param oscBundle OSC bundle.
+ * @param source Byte array.
  * @param numberOfBytes Number of bytes in byte array.
  * @return Error code (0 if successful).
  */
@@ -288,7 +287,7 @@ OscError OscBundleInitialiseFromCharArray(OscBundle * const oscBundle, const cha
  * This function is used internally and should not be used by the user
  * application.
  *
- * @param oscBundle Address of OSC bundle structure.
+ * @param oscBundle OSC bundle.
  * @return true if a bundle element is available.
  */
 bool OscBundleIsBundleElementAvailable(const OscBundle * const oscBundle) {
@@ -306,8 +305,8 @@ bool OscBundleIsBundleElementAvailable(const OscBundle * const oscBundle) {
  * This function is used internally and should not be used by the user
  * application.
  *
- * @param oscBundle Address of OSC bundle structure.
- * @param oscBundleElement Address of OSC bundle element.
+ * @param oscBundle OSC bundle.
+ * @param oscBundleElement OSC bundle element.
  * @return Error code (0 if successful).
  */
 OscError OscBundleGetBundleElement(OscBundle * const oscBundle, OscBundleElement * const oscBundleElement) {

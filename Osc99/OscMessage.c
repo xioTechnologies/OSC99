@@ -22,14 +22,14 @@ static int TerminateOscString(char * const oscString, size_t * const oscStringSi
 // Functions - Message construction
 
 /**
- * @brief Initialises an OSC message structure.
+ * @brief Initialises an OSC message.
  *
- * An OSC message structure must be initialised before use.  The
- * oscAddressPattern argument must be a null terminated string of zero of more
- * characters.  A message may be initialised without an address pattern by
- * parsing an oscAddressPattern value of "".  This may be of use if the address
- * pattern is undetermined at the time of initialisation.  In which case, the
- * address pattern may be set later using OscMessageSetAddressPattern.
+ * An OSC message must be initialised before use.  The oscAddressPattern
+ * argument must be a null terminated string of zero of more characters.  A
+ * message may be initialised without an address pattern by parsing an
+ * oscAddressPattern value of "".  This may be of use if the address pattern is
+ * undetermined at the time of initialisation.  In which case, the address
+ * pattern may be set later using OscMessageSetAddressPattern.
  *
  * Example use:
  * @code
@@ -37,7 +37,7 @@ static int TerminateOscString(char * const oscString, size_t * const oscStringSi
  * OscMessageInitialise(&oscMessage, "/example/address/pattern");
  * @endcode
  *
- * @param oscMessage Address of the OSC message to be initialised.
+ * @param oscMessage OSC message to be initialised.
  * @param oscAddressPattern OSC address pattern as null terminated string.
  * @return Error code (0 if successful).
  */
@@ -57,7 +57,7 @@ OscError OscMessageInitialise(OscMessage * const oscMessage, const char * oscAdd
 }
 
 /**
- * @brief Sets the OSC address pattern of an OSC message structure.
+ * @brief Sets the OSC address pattern of an OSC message.
  *
  * The oscAddressPattern argument must be a null terminated string of zero of
  * more characters.  The existing OSC address pattern will be overwritten.
@@ -69,7 +69,7 @@ OscError OscMessageInitialise(OscMessage * const oscMessage, const char * oscAdd
  * OscMessageSetAddressPattern(&oscMessage, "/example/address/pattern");
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
+ * @param oscMessage OSC message.
  * @param oscAddressPattern OSC address pattern as null terminated string.
  * @return Error code (0 if successful).
  */
@@ -93,8 +93,8 @@ OscError OscMessageSetAddressPattern(OscMessage * const oscMessage, const char *
  * OscMessageAppendAddressPattern(&oscMessage, "/pattern");
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
- * @param appendedParts Address of the OSC pattern parts to be appended.
+ * @param oscMessage OSC message.
+ * @param appendedParts OSC pattern parts to be appended.
  * @return Error code (0 if successful).
  */
 OscError OscMessageAppendAddressPattern(OscMessage * const oscMessage, const char * appendedParts) {
@@ -119,7 +119,7 @@ OscError OscMessageAppendAddressPattern(OscMessage * const oscMessage, const cha
  * OscMessageAddInt32(&oscMessage, 123);
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
+ * @param oscMessage OSC message.
  * @param int32 32-bit integer to be added as argument to the OSC message.
  * @return Error code (0 if successful).
  */
@@ -149,7 +149,7 @@ OscError OscMessageAddInt32(OscMessage * const oscMessage, const int32_t int32) 
  * OscMessageAddFloat32(&oscMessage, 3.14f);
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
+ * @param oscMessage OSC message.
  * @param float32 32-bit float to be added as argument to the OSC message.
  * @return Error code (0 if successful).
  */
@@ -179,7 +179,7 @@ OscError OscMessageAddFloat32(OscMessage * const oscMessage, const float float32
  * OscMessageAddString(&oscMessage, "Hello World!");
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
+ * @param oscMessage OSC message.
  * @param string String to be added as argument to the OSC message.
  * @return Error code (0 if successful).
  */
@@ -212,8 +212,8 @@ OscError OscMessageAddString(OscMessage * const oscMessage, const char * string)
  * OscMessageAddBlob(&oscMessage, source, sizeof(source));
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
- * @param source Address of the byte array to be added as argument.
+ * @param oscMessage OSC message.
+ * @param source Byte array to be added as argument.
  * @param numberOfBytes Number of bytes in byte array to be added as argument.
  * @return Error code (0 if successful).
  */
@@ -255,7 +255,7 @@ OscError OscMessageAddBlob(OscMessage * const oscMessage, const char * const sou
  * OscMessageAddInt64(&oscMessage, 123);
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
+ * @param oscMessage OSC message.
  * @param int64 64-bit integer to be added as argument to the OSC message.
  * @return Error code (0 if successful).
  */
@@ -289,7 +289,7 @@ OscError OscMessageAddInt64(OscMessage * const oscMessage, const uint64_t int64)
  * OscMessageAddTimeTag(&oscMessage, OSC_TIME_TAG_ZERO);
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
+ * @param oscMessage OSC message.
  * @param oscTimeTag OSC time tag to be added as argument to the OSC message.
  * @return Error code (0 if successful).
  */
@@ -321,7 +321,7 @@ OscError OscMessageAddTimeTag(OscMessage * const oscMessage, const OscTimeTag os
  * OscMessageAddDouble(&oscMessage, 3.14);
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
+ * @param oscMessage OSC message.
  * @param double64 64-bit double to be added as argument to the OSC message.
  * @return Error code (0 if successful).
  */
@@ -355,7 +355,7 @@ OscError OscMessageAddDouble(OscMessage * const oscMessage, const Double64 doubl
  * OscMessageAddAlternateString(&oscMessage, "Hello World!");
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
+ * @param oscMessage OSC message.
  * @param string String to be added as argument to the OSC message.
  * @return Error code (0 if successful).
  */
@@ -377,7 +377,7 @@ OscError OscMessageAddAlternateString(OscMessage * const oscMessage, const char 
  * OscMessageAddCharacter(&oscMessage, 'a');
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
+ * @param oscMessage OSC message.
  * @param string String to be added as argument to the OSC message.
  * @return Error code (0 if successful).
  */
@@ -406,7 +406,7 @@ OscError OscMessageAddCharacter(OscMessage * const oscMessage, const char asciiC
  * OscMessageAddRgbaColour(&oscMessage, rgbaColour);
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
+ * @param oscMessage OSC message.
  * @param rgbaColour 32-bit RGBA colour to be added as argument to the OSC
  * message.
  * @return Error code (0 if successful).
@@ -438,7 +438,7 @@ OscError OscMessageAddRgbaColour(OscMessage * const oscMessage, const RgbaColour
  * OscMessageAddMidiMessage(&oscMessage, midiMessage);
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
+ * @param oscMessage OSC message.
  * @param midiMessage 4 byte MIDI message to be added as argument to the OSC
  * message.
  * @return Error code (0 if successful).
@@ -469,7 +469,7 @@ OscError OscMessageAddMidiMessage(OscMessage * const oscMessage, const MidiMessa
  * OscMessageAddBool(&oscMessage, true);
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
+ * @param oscMessage OSC message.
  * @param midiMessage Boolean to be added as argument to the OSC message.
  * @return Error code (0 if successful).
  */
@@ -490,7 +490,7 @@ OscError OscMessageAddBool(OscMessage * const oscMessage, const bool boolean) {
  * OscMessageAddNil(&oscMessage);
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
+ * @param oscMessage OSC message.
  * @return Error code (0 if successful).
  */
 OscError OscMessageAddNil(OscMessage * const oscMessage) {
@@ -510,7 +510,7 @@ OscError OscMessageAddNil(OscMessage * const oscMessage) {
  * OscMessageAddInfinitum(&oscMessage);
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
+ * @param oscMessage OSC message.
  * @return Error code (0 if successful).
  */
 OscError OscMessageAddInfinitum(OscMessage * const oscMessage) {
@@ -530,7 +530,7 @@ OscError OscMessageAddInfinitum(OscMessage * const oscMessage) {
  * OscMessageAddBeginArray(&oscMessage);
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
+ * @param oscMessage OSC message.
  * @return Error code (0 if successful).
  */
 OscError OscMessageAddBeginArray(OscMessage * const oscMessage) {
@@ -550,7 +550,7 @@ OscError OscMessageAddBeginArray(OscMessage * const oscMessage) {
  * OscMessageAddEndArray(&oscMessage);
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
+ * @param oscMessage OSC message.
  * @return Error code (0 if successful).
  */
 OscError OscMessageAddEndArray(OscMessage * const oscMessage) {
@@ -575,7 +575,7 @@ OscError OscMessageAddEndArray(OscMessage * const oscMessage) {
  * }
  * @endcode
  *
- * @param oscBundle Address of OSC bundle structure.
+ * @param oscMessage OSC message.
  * @return Size (number of bytes) of the OSC bundle.
  */
 size_t OscMessageGetSize(const OscMessage * const oscMessage) {
@@ -593,15 +593,15 @@ size_t OscMessageGetSize(const OscMessage * const oscMessage) {
 }
 
 /**
- * @brief Converts an OSC message into a char array to be contained within an
+ * @brief Converts an OSC message into a byte array to be contained within an
  * OSC packet or OSC bundle.
  *
  * This function is used internally and should not be used by the user
  * application.
  *
- * @param oscMessage Address of OSC bundle structure.
- * @param oscMessageSize Address of the OSC bundle size.
- * @param destination Destination address of char array.
+ * @param oscMessage OSC message.
+ * @param oscMessageSize OSC message size.
+ * @param destination Destination byte array.
  * @param destinationSize Destination size that cannot exceed.
  * @return Error code (0 if successful).
  */
@@ -676,15 +676,15 @@ static int TerminateOscString(char * const oscString, size_t * const oscStringSi
 // Functions - Message deconstruction
 
 /**
- * @brief Initialises an OSC message from a char array contained within an OSC
+ * @brief Initialises an OSC message from a byte array contained within an OSC
  * packet or OSC bundle.
  *
  * This function is used internally and should not be used by the user
  * application.
  *
- * @param oscMessage Address of the OSC message structure.
- * @param source Address of the char array.
- * @param numberOfBytes Number of bytes within the char array.
+ * @param oscMessage OSC message.
+ * @param source Byte array.
+ * @param numberOfBytes Number of bytes within the byte array.
  * @return Error code (0 if successful).
  */
 OscError OscMessageInitialiseFromCharArray(OscMessage * const oscMessage, const char * const source, const size_t numberOfBytes) {
@@ -762,7 +762,7 @@ OscError OscMessageInitialiseFromCharArray(OscMessage * const oscMessage, const 
  * }
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
+ * @param oscMessage OSC message.
  * @return true if an argument is available.
  */
 bool OscMessageIsArgumentAvailable(OscMessage * const oscMessage) {
@@ -781,7 +781,7 @@ bool OscMessageIsArgumentAvailable(OscMessage * const oscMessage) {
  * printf("The next argument is: %c", (char)oscTypeTag);
  * @endcode
  *
- * @param oscMessage Address of OSC message structure.
+ * @param oscMessage OSC message.
  * @return Next type tag in type tag string.
  */
 OscTypeTag OscMessageGetArgumentType(OscMessage * const oscMessage) {
@@ -807,7 +807,7 @@ OscTypeTag OscMessageGetArgumentType(OscMessage * const oscMessage) {
  * }
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
+ * @param oscMessage OSC message.
  * @return Error code (0 if successful).
  */
 OscError OscMessageSkipArgument(OscMessage * const oscMessage) {
@@ -844,8 +844,8 @@ OscError OscMessageSkipArgument(OscMessage * const oscMessage) {
  * }
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
- * @param int32 Address where write the 32-bit integer value will be written.
+ * @param oscMessage OSC message.
+ * @param int32 32-bit integer argument.
  * @return Error code (0 if successful).
  */
 OscError OscMessageGetInt32(OscMessage * const oscMessage, int32_t * const int32) {
@@ -894,8 +894,8 @@ OscError OscMessageGetInt32(OscMessage * const oscMessage, int32_t * const int32
  * }
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
- * @param float32 Address where the 32-bit float value will be written.
+ * @param oscMessage OSC message.
+ * @param float32 32-bit float argument.
  * @return Error code (0 if successful).
  */
 OscError OscMessageGetFloat32(OscMessage * const oscMessage, float * const float32) {
@@ -944,8 +944,8 @@ OscError OscMessageGetFloat32(OscMessage * const oscMessage, float * const float
  * }
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
- * @param destination Address where the string will be written.
+ * @param oscMessage OSC message.
+ * @param destination String or alternate string argument
  * @param destinationSize Size of the destination that cannot be exceeded.
  * @return Error code (0 if successful).
  */
@@ -1011,10 +1011,9 @@ OscError OscMessageGetString(OscMessage * const oscMessage, char * const destina
  * }
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
- * @param blobSize Address where the blob size (number of bytes) will be
- * written.
- * @param destination Address where the byte array will be written.
+ * @param oscMessage OSC message.
+ * @param blobSize Blob argument size (number of bytes).
+ * @param destination Blob argument (byte array).
  * @param destinationSize Size of the destination that cannot be exceeded.
  * @return Error code (0 if successful).
  */
@@ -1081,8 +1080,8 @@ OscError OscMessageGetBlob(OscMessage * const oscMessage, size_t * const blobSiz
  * }
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
- * @param int64 Address where the 64-bit integer value will be written.
+ * @param oscMessage OSC message.
+ * @param int64 64-bit integer argument.
  * @return Error code (0 if successful).
  */
 OscError OscMessageGetInt64(OscMessage * const oscMessage, int64_t * const int64) {
@@ -1135,8 +1134,8 @@ OscError OscMessageGetInt64(OscMessage * const oscMessage, int64_t * const int64
  * }
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
- * @param oscTimeTag Address where the OSC time tag value will be written.
+ * @param oscMessage OSC message.
+ * @param oscTimeTag OSC time tag argument.
  * @return Error code (0 if successful).
  */
 OscError OscMessageGetTimeTag(OscMessage * const oscMessage, OscTimeTag * const oscTimeTag) {
@@ -1187,8 +1186,8 @@ OscError OscMessageGetTimeTag(OscMessage * const oscMessage, OscTimeTag * const 
  * }
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
- * @param double64 Address where the 64-bit double value will be written.
+ * @param oscMessage OSC message.
+ * @param double64 64-bit double argument.
  * @return Error code (0 if successful).
  */
 OscError OscMessageGetDouble(OscMessage * const oscMessage, Double64 * const double64) {
@@ -1241,8 +1240,8 @@ OscError OscMessageGetDouble(OscMessage * const oscMessage, Double64 * const dou
  * }
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
- * @param character Address where the character value will be written.
+ * @param oscMessage OSC message.
+ * @param character Character argument.
  * @return Error code (0 if successful).
  */
 OscError OscMessageGetCharacter(OscMessage * const oscMessage, char * const character) {
@@ -1287,8 +1286,8 @@ OscError OscMessageGetCharacter(OscMessage * const oscMessage, char * const char
  * }
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
- * @param rgbaColour Address where the 32 bit RGBA colour will be written.
+ * @param oscMessage OSC message.
+ * @param rgbaColour 32 bit RGBA colour argument.
  * @return Error code (0 if successful).
  */
 OscError OscMessageGetRgbaColour(OscMessage * const oscMessage, RgbaColour * const rgbaColour) {
@@ -1337,8 +1336,8 @@ OscError OscMessageGetRgbaColour(OscMessage * const oscMessage, RgbaColour * con
  * }
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
- * @param midiMessage Address where the 4 byte MIDI message will be written.
+ * @param oscMessage OSC message.
+ * @param midiMessage 4 byte MIDI message argument.
  * @return Error code (0 if successful).
  */
 OscError OscMessageGetMidiMessage(OscMessage * const oscMessage, MidiMessage * const midiMessage) {
@@ -1377,7 +1376,7 @@ OscError OscMessageGetMidiMessage(OscMessage * const oscMessage, MidiMessage * c
  * printf("Value = %d", int32);
  * @endcode
  *
- * @param oscMessage Address of OSC message.
+ * @param oscMessage OSC message.
  * @param int32 Address value will be written to.
  * @return Error code (0 if successful).
  */
@@ -1467,7 +1466,7 @@ OscError OscMessageGetArgumentAsInt32(OscMessage * const oscMessage, int32_t * c
  * printf("Value = %f", float32);
  * @endcode
  *
- * @param oscMessage Address of OSC message.
+ * @param oscMessage OSC message.
  * @param float32 Address value will be written to.
  * @return Error code (0 if successful).
  */
@@ -1556,8 +1555,8 @@ OscError OscMessageGetArgumentAsFloat32(OscMessage * const oscMessage, float * c
  * printf("Value = %s", string);
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
- * @param destination Address where the string will be written.
+ * @param oscMessage OSC message.
+ * @param destination String argument.
  * @param destinationSize Size of the destination that cannot be exceeded.
  * @return Error code (0 if successful).
  */
@@ -1628,10 +1627,9 @@ OscError OscMessageGetArgumentAsString(OscMessage * const oscMessage, char * con
  * }
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
- * @param blobSize Address where the blob size (number of bytes) will be
- * written.
- * @param destination Address where the byte array will be written.
+ * @param oscMessage OSC message.
+ * @param blobSize Blob argument size (number of bytes).
+ * @param destination Blob argument (byte array).
  * @param destinationSize Size of the destination that cannot be exceeded.
  * @return Error code (0 if successful).
  */
@@ -1690,7 +1688,7 @@ OscError OscMessageGetArgumentAsBlob(OscMessage * const oscMessage, size_t * con
  * printf("Value = %d", int64);
  * @endcode
  *
- * @param oscMessage Address of OSC message.
+ * @param oscMessage OSC message.
  * @param int64 Address value will be written to.
  * @return Error code (0 if successful).
  */
@@ -1780,7 +1778,7 @@ OscError OscMessageGetArgumentAsInt64(OscMessage * const oscMessage, int64_t * c
  * printf("Value = %u", (unsigned int)oscTimeTag.dwordStruct.seconds);
  * @endcode
  *
- * @param oscMessage Address of OSC message.
+ * @param oscMessage OSC message.
  * @param oscTimeTag Address value will be written to.
  * @return Error code (0 if successful).
  */
@@ -1870,7 +1868,7 @@ OscError OscMessageGetArgumentAsTimeTag(OscMessage * const oscMessage, OscTimeTa
  * printf("Value = %f", double64);
  * @endcode
  *
- * @param oscMessage Address of OSC message.
+ * @param oscMessage OSC message.
  * @param double64 Address value will be written to.
  * @return Error code (0 if successful).
  */
@@ -1960,7 +1958,7 @@ OscError OscMessageGetArgumentAsDouble(OscMessage * const oscMessage, Double64 *
  * printf("Value = %c", character);
  * @endcode
  *
- * @param oscMessage Address of OSC message.
+ * @param oscMessage OSC message.
  * @param character Address value will be written to.
  * @return Error code (0 if successful).
  */
@@ -2049,8 +2047,8 @@ OscError OscMessageGetArgumentAsCharacter(OscMessage * const oscMessage, char * 
  * printf("Value = %u,%u,%u,%u", rgbaColour.red, rgbaColour.green, rgbaColour.blue, rgbaColour.alpha);
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
- * @param rgbaColour Address where the 32 bit RGBA colour will be written.
+ * @param oscMessage OSC message.
+ * @param rgbaColour 32 bit RGBA colour argument.
  * @return Error code (0 if successful).
  */
 OscError OscMessageGetArgumentAsRgbaColour(OscMessage * const oscMessage, RgbaColour * const rgbaColour) {
@@ -2095,8 +2093,8 @@ OscError OscMessageGetArgumentAsRgbaColour(OscMessage * const oscMessage, RgbaCo
  * printf("Value = %u,%u,%u,%u", midiMessage.portID, midiMessage.status, midiMessage.data1, midiMessage.data2);
  * @endcode
  *
- * @param oscMessage Address of the OSC message structure.
- * @param midiMessage Address where the 4 byte MIDI message will be written.
+ * @param oscMessage OSC message.
+ * @param midiMessage 4 byte MIDI message argument.
  * @return Error code (0 if successful).
  */
 OscError OscMessageGetArgumentAsMidiMessage(OscMessage * const oscMessage, MidiMessage * const midiMessage) {
@@ -2142,7 +2140,7 @@ OscError OscMessageGetArgumentAsMidiMessage(OscMessage * const oscMessage, MidiM
  * printf("Value = %u", boolean);
  * @endcode
  *
- * @param oscMessage Address of OSC message.
+ * @param oscMessage OSC message.
  * @param boolean Address value will be written to.
  * @return Error code (0 if successful).
  */

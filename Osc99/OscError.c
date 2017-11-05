@@ -25,7 +25,7 @@
  * @endcode
  *
  * @param oscError Error code returned by library function.
- * @return Address of string.
+ * @return Error message string.
  */
 char * OscErrorGetMessage(const OscError oscError) {
 #ifdef OSC_ERROR_MESSAGES_ENABLED

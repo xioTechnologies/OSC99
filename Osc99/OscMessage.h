@@ -70,8 +70,8 @@
  * not be used by the user application.
  */
 typedef struct {
-    char oscAddressPattern[MAX_OSC_ADDRESS_PATTERN_LENGTH + 1]; // null terminated, must be first member so that first byte of structure is equal to '/'.
-    char oscTypeTagString[MAX_OSC_TYPE_TAG_STRING_LENGTH + 1]; // includes comma, null terminated
+    char oscAddressPattern[MAX_OSC_ADDRESS_PATTERN_LENGTH + 1]; // must be first member so that first byte of structure is equal to '/'.  Null terminated.
+    char oscTypeTagString[MAX_OSC_TYPE_TAG_STRING_LENGTH + 1]; // includes comma.  Null terminated
     char arguments[MAX_ARGUMENTS_SIZE];
     size_t oscAddressPatternLength; // does not include null characters
     size_t oscTypeTagStringLength; // includes comma but not null characters

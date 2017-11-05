@@ -15,7 +15,7 @@
 
 /**
  * @brief Returns true if the OSC contents is an OSC message. 
- * @param oscContents Address of OSC packet, OSC bundle, or OSC message.
+ * @param oscContents OSC packet, OSC bundle, or OSC message.
  * @return True if the OSC contents is an OSC message.
  */
 bool OscContentsIsMessage(const void * const oscContents) {
@@ -24,7 +24,7 @@ bool OscContentsIsMessage(const void * const oscContents) {
 
 /**
  * @brief Returns true if the OSC contents is an OSC bundle. 
- * @param oscContents Address of OSC packet, OSC bundle, or OSC message.
+ * @param oscContents OSC packet, OSC bundle, or OSC message.
  * @return True if the OSC contents is an OSC bundle.
  */
 bool OscContentsIsBundle(const void * const oscContents) {
