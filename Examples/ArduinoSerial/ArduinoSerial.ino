@@ -98,9 +98,9 @@ void sendAnalogueInputsMessage() {
   sendOscContents(&oscMessage);
 }
 
-void sendOscContents(OscContents* oscContents) {
+void sendOscContents(void * oscContents) {
 
-  // Create OSC packet from OSC message or bundle
+  // Create OSC packet from OSC message or OSC bundle
   OscPacket oscPacket;
   if(OscPacketInitialiseFromContents(&oscPacket, oscContents) != OscErrorNone) {
     return; // error: unable to create an OSC packet from the OSC contents
