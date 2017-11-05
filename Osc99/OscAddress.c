@@ -97,8 +97,8 @@ bool OscAddressMatchPartial(const char * oscAddressPattern, const char * const o
  *
  * This is an internal function and cannot be called by the user application.
  *
- * @param oscAddressPattern Pointer to first character of OSC address pattern.
- * @param oscAddress Pointer to first character of target OSC address.
+ * @param oscAddressPattern First character of OSC address pattern.
+ * @param oscAddress First character of target OSC address.
  * @param isPartial Flag indicating if a partial match is acceptable.
  * @return true if OSC address pattern and target OSC address match.
  */
@@ -141,8 +141,8 @@ static bool MatchLiteral(const char * oscAddressPattern, const char * oscAddress
  *
  * This is an internal function and cannot be called by the user application.
  *
- * @param oscAddressPattern Pointer to first character of OSC address pattern.
- * @param oscAddress Pointer to first character of target OSC address.
+ * @param oscAddressPattern First character of OSC address pattern.
+ * @param oscAddress First character of target OSC address.
  * @param isPartial Flag indicating if a partial match is acceptable.
  * @return true if OSC address pattern and target OSC address match.
  */
@@ -185,8 +185,8 @@ static bool MatchExpression(const char * * const oscAddressPattern, const char *
  *
  * This is an internal function and cannot be called by the user application.
  *
- * @param oscAddressPattern Pointer to first character of OSC address pattern.
- * @param oscAddress Pointer to first character of target OSC address.
+ * @param oscAddressPattern First character of OSC address pattern.
+ * @param oscAddress First character of target OSC address.
  * @param isPartial Flag indicating if a partial match is acceptable.
  * @return true if OSC address pattern and target OSC address match.
  */
@@ -242,8 +242,8 @@ static bool MatchStar(const char * * const oscAddressPattern, const char * * con
  *
  * This is an internal function and cannot be called by the user application.
  *
- * @param oscAddressPattern Pointer to first character of OSC address pattern.
- * @param oscAddress Pointer to first character of target OSC address.
+ * @param oscAddressPattern First character of OSC address pattern.
+ * @param oscAddress First character of target OSC address.
  * @param isPartial Flag indicating if a partial match is acceptable.
  * @return true if OSC address pattern and target OSC address match.
  */
@@ -300,8 +300,8 @@ static bool MatchCharacter(const char * * const oscAddressPattern, const char * 
  *
  * This is an internal function and cannot be called by the user application.
  *
- * @param oscAddressPattern Pointer to first character of OSC address pattern.
- * @param oscAddress Pointer to first character of target OSC address.
+ * @param oscAddressPattern First character of OSC address pattern.
+ * @param oscAddress First character of target OSC address.
  * @return true if OSC address pattern and target OSC address match.
  */
 static bool MatchBrackets(const char * * const oscAddressPattern, const char * * const oscAddress) {
@@ -379,8 +379,8 @@ static bool MatchBrackets(const char * * const oscAddressPattern, const char * *
  *
  * This is an internal function and cannot be called by the user application.
  *
- * @param oscAddressPattern Pointer to first character of OSC address pattern.
- * @param oscAddress Pointer to first character of target OSC address.
+ * @param oscAddressPattern First character of OSC address pattern.
+ * @param oscAddress First character of target OSC address.
  * @param isPartial Flag indicating if a partial match is acceptable.
  * @return true if OSC address pattern and target OSC address match.
  */
@@ -445,7 +445,7 @@ static bool MatchCurlyBraces(const char * * const oscAddressPattern, const char 
  * }
  * @endcode
  *
- * @param oscAddressPattern Pointer to first character of OSC address pattern.
+ * @param oscAddressPattern First character of OSC address pattern.
  * @return true if the OSC address pattern is literal.
  */
 bool OscAddressIsLiteral(const char * oscAddressPattern) {
