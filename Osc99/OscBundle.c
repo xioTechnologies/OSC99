@@ -18,7 +18,7 @@
  * @brief Initialises an OSC bundle with a specified OSC time tag.
  *
  * An OSC bundle must be initialised before use.  The oscTimeTag argument may be
- * specified as OSC_TIME_TAG_ZERO for an OSC time-tag value of  zero.  This may
+ * specified as oscTimeTagZero for an OSC time-tag value of  zero.  This may
  * be of use if the OSC time tag value is irrelevant to the user application, if
  * the contained OSC messages should be invoke immediately, or if the OSC time-
  * tag value is intended to be overwritten after initialisation of the OSC
@@ -27,7 +27,7 @@
  * Example use:
  * @code
  * OscBundle oscBundle;
- * OscBundleInitialise(&oscBundle, OSC_TIME_TAG_ZERO);
+ * OscBundleInitialise(&oscBundle, oscTimeTagZero);
  * oscBundle.oscTimeTag.value = 0x100000000; // overwrite OSC time tag with value of 1 second
  * @endcode
  *
@@ -63,10 +63,10 @@ void OscBundleInitialise(OscBundle * const oscBundle, const OscTimeTag oscTimeTa
  * OscMessageInitialise(&oscMessageToAdd, "/example/address/pattern");
  *
  * OscBundle oscBundleToAdd;
- * OscBundleInitialise(&oscBundleToAdd, OSC_TIME_TAG_ZERO);
+ * OscBundleInitialise(&oscBundleToAdd, oscTimeTagZero);
  *
  * OscBundle oscBundle;
- * OscBundleInitialise(&oscBundle, OSC_TIME_TAG_ZERO);
+ * OscBundleInitialise(&oscBundle, oscTimeTagZero);
  * OscBundleAddContents(&oscBundle, &oscMessageToAdd);
  * OscBundleAddContents(&oscBundle, &oscBundleToAdd);
  * @endcode

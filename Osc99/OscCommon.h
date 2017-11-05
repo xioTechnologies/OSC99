@@ -145,11 +145,6 @@ typedef union {
 } OscTimeTag;
 
 /**
- * @brief OSC time-tag value of zero.
- */
-#define OSC_TIME_TAG_ZERO ((OscTimeTag){0})
-
-/**
  * @brief 64-bit double.  Defined as double or long double depending on
  * platform.
  */
@@ -191,6 +186,11 @@ typedef union {
     }
     byteStruct;
 } OscArgument64;
+
+//------------------------------------------------------------------------------
+// Variable declarations
+
+extern const OscTimeTag oscTimeTagZero;
 
 //------------------------------------------------------------------------------
 // Function prototypes

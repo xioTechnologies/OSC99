@@ -286,7 +286,7 @@ OscError OscMessageAddInt64(OscMessage * const oscMessage, const uint64_t int64)
  *
  * Example use:
  * @code
- * OscMessageAddTimeTag(&oscMessage, OSC_TIME_TAG_ZERO);
+ * OscMessageAddTimeTag(&oscMessage, oscTimeTagZero);
  * @endcode
  *
  * @param oscMessage OSC message.
