@@ -122,7 +122,7 @@ void OscBundleEmpty(OscBundle * const oscBundle) {
 }
 
 /**
- * @brief Returns true is the OSC bundle is empty.
+ * @brief Returns true if the OSC bundle is empty.
  *
  * An empty OSC bundle contains no OSC bundle elements (OSC messages or OSC
  * bundles) but does retain an OSC time tag.
@@ -135,7 +135,7 @@ void OscBundleEmpty(OscBundle * const oscBundle) {
  * @endcode
  *
  * @param oscBundle OSC bundle.
- * @return true is the OSC bundle is empty.
+ * @return True if the OSC bundle is empty.
  */
 bool OscBundleIsEmpty(OscBundle * const oscBundle) {
     return oscBundle->oscBundleElementsSize == 0;
@@ -288,7 +288,7 @@ OscError OscBundleInitialiseFromCharArray(OscBundle * const oscBundle, const cha
  * application.
  *
  * @param oscBundle OSC bundle.
- * @return true if a bundle element is available.
+ * @return True if a bundle element is available.
  */
 bool OscBundleIsBundleElementAvailable(const OscBundle * const oscBundle) {
     return (oscBundle->oscBundleElementsIndex + sizeof (OscArgument32)) < oscBundle->oscBundleElementsSize;

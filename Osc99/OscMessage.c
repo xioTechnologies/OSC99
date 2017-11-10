@@ -763,7 +763,7 @@ OscError OscMessageInitialiseFromCharArray(OscMessage * const oscMessage, const 
  * @endcode
  *
  * @param oscMessage OSC message.
- * @return true if an argument is available.
+ * @return True if an argument is available.
  */
 bool OscMessageIsArgumentAvailable(OscMessage * const oscMessage) {
     return oscMessage->oscTypeTagStringIndex <= oscMessage->oscTypeTagStringLength - 1;

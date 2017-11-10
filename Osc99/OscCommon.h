@@ -12,7 +12,7 @@
 // Includes
 
 #include <float.h> // DBL_MANT_DIG
-#include "stdbool.h"
+#include <stdbool.h>
 #include <stdint.h>
 
 //------------------------------------------------------------------------------
@@ -26,9 +26,8 @@
 #define LITTLE_ENDIAN_PLATFORM
 
 /**
- * @brief Maximum packet size permitted by transport layer.  Defines the maximum
- * size of an OSC packet.  Reducing this value will reduce the amount of RAM
- * required.
+ * @brief Maximum packet size permitted by the transport layer.  Reducing this
+ * value will reduce the amount of memory required.
  */
 #define MAX_TRANSPORT_SIZE (1472)
 

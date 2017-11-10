@@ -8,8 +8,8 @@
  * 1) The OSC99 source files (i.e. the "Osc99" directory) must be added to the
  * Arduino libraries folder.  See: https://www.arduino.cc/en/guide/libraries
  *
- * 2) The Arduino Uno only has a very small amount of RAM (2 kB).  The value of
- * MAX_TRANSPORT_SIZE must be reduced to 200 in OscCommon.h.
+ * 2) The Arduino Uno only has a small amount of RAM (2 kB).  The value of
+ * MAX_TRANSPORT_SIZE must be reduced to 150 in OscCommon.h.
  */
 
 #include "Osc99.h"
@@ -98,7 +98,7 @@ void sendAnalogueInputsMessage() {
   sendOscContents(&oscMessage);
 }
 
-void sendOscContents(void * oscContents) {
+void sendOscContents(const void* const oscContents) {
 
   // Create OSC packet from OSC message or OSC bundle
   OscPacket oscPacket;

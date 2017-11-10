@@ -38,7 +38,7 @@
  * OscSlipEncodePacket(&oscPacket, slipPacket, &slipPacketSize, sizeof(slipPacket));
  * @endcode
  *
- * @param oscPacket Address of OSC packet to be encoded.
+ * @param oscPacket OSC packet to be encoded.
  * @param destination Destination address of the OSC SLIP packet.
  * @param destinationSize Size of the destination.
  * @return Error code (0 if successful).

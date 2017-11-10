@@ -43,7 +43,7 @@ static bool MatchCurlyBraces(const char * * const oscAddressPattern, const char 
  *
  * @param oscAddressPattern OSC address pattern.
  * @param oscAddress Target OSC address.
- * @return true if the OSC address pattern and target oscAddress match.
+ * @return True if the OSC address pattern and target oscAddress match.
  */
 bool OscAddressMatch(const char * oscAddressPattern, const char * const oscAddress) {
     return MatchLiteral(oscAddressPattern, oscAddress, false);
@@ -79,7 +79,7 @@ bool OscAddressMatch(const char * oscAddressPattern, const char * const oscAddre
  *
  * @param oscAddressPattern OSC address pattern.
  * @param oscAddress Partial target OSC address.
- * @return true if the OSC address pattern matches the partial target OSC
+ * @return True if the OSC address pattern matches the partial target OSC
  * oscAddress.
  */
 bool OscAddressMatchPartial(const char * oscAddressPattern, const char * const oscAddress) {
@@ -100,7 +100,7 @@ bool OscAddressMatchPartial(const char * oscAddressPattern, const char * const o
  * @param oscAddressPattern First character of OSC address pattern.
  * @param oscAddress First character of target OSC address.
  * @param isPartial Flag indicating if a partial match is acceptable.
- * @return true if OSC address pattern and target OSC address match.
+ * @return True if OSC address pattern and target OSC address match.
  */
 static bool MatchLiteral(const char * oscAddressPattern, const char * oscAddress, const bool isPartial) {
     while (*oscAddressPattern != '\0') {
@@ -144,7 +144,7 @@ static bool MatchLiteral(const char * oscAddressPattern, const char * oscAddress
  * @param oscAddressPattern First character of OSC address pattern.
  * @param oscAddress First character of target OSC address.
  * @param isPartial Flag indicating if a partial match is acceptable.
- * @return true if OSC address pattern and target OSC address match.
+ * @return True if OSC address pattern and target OSC address match.
  */
 static bool MatchExpression(const char * * const oscAddressPattern, const char * * const oscAddress, const bool isPartial) {
     while (**oscAddressPattern != '\0') {
@@ -188,7 +188,7 @@ static bool MatchExpression(const char * * const oscAddressPattern, const char *
  * @param oscAddressPattern First character of OSC address pattern.
  * @param oscAddress First character of target OSC address.
  * @param isPartial Flag indicating if a partial match is acceptable.
- * @return true if OSC address pattern and target OSC address match.
+ * @return True if OSC address pattern and target OSC address match.
  */
 static bool MatchStar(const char * * const oscAddressPattern, const char * * const oscAddress, const bool isPartial) {
 
@@ -245,7 +245,7 @@ static bool MatchStar(const char * * const oscAddressPattern, const char * * con
  * @param oscAddressPattern First character of OSC address pattern.
  * @param oscAddress First character of target OSC address.
  * @param isPartial Flag indicating if a partial match is acceptable.
- * @return true if OSC address pattern and target OSC address match.
+ * @return True if OSC address pattern and target OSC address match.
  */
 static bool MatchCharacter(const char * * const oscAddressPattern, const char * * const oscAddress, const bool isPartial) {
     const char * oscAddressPatternCache = *oscAddressPattern;
@@ -302,7 +302,7 @@ static bool MatchCharacter(const char * * const oscAddressPattern, const char * 
  *
  * @param oscAddressPattern First character of OSC address pattern.
  * @param oscAddress First character of target OSC address.
- * @return true if OSC address pattern and target OSC address match.
+ * @return True if OSC address pattern and target OSC address match.
  */
 static bool MatchBrackets(const char * * const oscAddressPattern, const char * * const oscAddress) {
     (*oscAddressPattern)++; // increment past opening bracket
@@ -382,7 +382,7 @@ static bool MatchBrackets(const char * * const oscAddressPattern, const char * *
  * @param oscAddressPattern First character of OSC address pattern.
  * @param oscAddress First character of target OSC address.
  * @param isPartial Flag indicating if a partial match is acceptable.
- * @return true if OSC address pattern and target OSC address match.
+ * @return True if OSC address pattern and target OSC address match.
  */
 static bool MatchCurlyBraces(const char * * const oscAddressPattern, const char * * const oscAddress, const bool isPartial) {
     const char * endOfSubstring = *oscAddressPattern;
@@ -446,7 +446,7 @@ static bool MatchCurlyBraces(const char * * const oscAddressPattern, const char 
  * @endcode
  *
  * @param oscAddressPattern First character of OSC address pattern.
- * @return true if the OSC address pattern is literal.
+ * @return True if the OSC address pattern is literal.
  */
 bool OscAddressIsLiteral(const char * oscAddressPattern) {
     while (*oscAddressPattern != '\0') {
