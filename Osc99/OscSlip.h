@@ -26,7 +26,7 @@
 #define OSC_SLIP_DECODER_BUFFER_SIZE (MAX_TRANSPORT_SIZE)
 
 /**
- * @brief OSC SLIP decoder structure.  Structure members used internally and
+ * @brief OSC SLIP decoder structure.  Structure members are used internally and
  * should not be used by the user application.
  */
 typedef struct {

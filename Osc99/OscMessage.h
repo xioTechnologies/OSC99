@@ -66,8 +66,8 @@
 #define MAX_ARGUMENTS_SIZE (MAX_OSC_MESSAGE_SIZE - (MAX_OSC_ADDRESS_PATTERN_LENGTH + 4) - (MAX_OSC_TYPE_TAG_STRING_LENGTH + 4))
 
 /**
- * @brief OSC message structure.  Structure members used internally and should
- * not be used by the user application.
+ * @brief OSC message structure.  Structure members are used internally and
+ * should not be used by the user application.
  */
 typedef struct {
     char oscAddressPattern[MAX_OSC_ADDRESS_PATTERN_LENGTH + 1]; // must be first member so that first byte of structure is equal to '/'.  Null terminated.

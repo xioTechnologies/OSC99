@@ -28,8 +28,8 @@
 #define MAX_OSC_PACKET_SIZE (MAX_TRANSPORT_SIZE)
 
 /**
- * @brief OSC packet structure.  Structure members used internally and should
- * not be used by the user application.
+ * @brief OSC packet structure.  Structure members are used internally and
+ * should not be used by the user application.
  */
 typedef struct {
     char contents[MAX_OSC_PACKET_SIZE];

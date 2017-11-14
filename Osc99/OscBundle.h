@@ -45,8 +45,8 @@
 #define MAX_OSC_BUNDLE_ELEMENTS_SIZE (MAX_OSC_BUNDLE_SIZE - sizeof(OSC_BUNDLE_HEADER) - sizeof(OscTimeTag))
 
 /**
- * @brief OSC bundle structure.  Structure members used internally and should
- * not be used by the user application.
+ * @brief OSC bundle structure.  Structure members are used internally and
+ * should not be used by the user application.
  */
 typedef struct {
     char header[sizeof (OSC_BUNDLE_HEADER)]; // must be the first member so that the first byte of structure is equal to '#'.
