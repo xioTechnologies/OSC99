@@ -31,7 +31,7 @@
  * oscBundle.oscTimeTag.value = 0x100000000; // overwrite OSC time tag with value of 1 second
  * @endcode
  *
- * @param oscPacket OSC bundle to be initialised.
+ * @param oscBundle OSC bundle to be initialised.
  * @param oscTimeTag OSC time tag.
  */
 void OscBundleInitialise(OscBundle * const oscBundle, const OscTimeTag oscTimeTag) {

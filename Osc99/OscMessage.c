@@ -378,7 +378,7 @@ OscError OscMessageAddAlternateString(OscMessage * const oscMessage, const char 
  * @endcode
  *
  * @param oscMessage OSC message.
- * @param string String to be added as argument to the OSC message.
+ * @param asciiChar Character to be added as argument to the OSC message.
  * @return Error code (0 if successful).
  */
 OscError OscMessageAddCharacter(OscMessage * const oscMessage, const char asciiChar) {
@@ -470,7 +470,7 @@ OscError OscMessageAddMidiMessage(OscMessage * const oscMessage, const MidiMessa
  * @endcode
  *
  * @param oscMessage OSC message.
- * @param midiMessage Boolean to be added as argument to the OSC message.
+ * @param boolean Boolean to be added as argument to the OSC message.
  * @return Error code (0 if successful).
  */
 OscError OscMessageAddBool(OscMessage * const oscMessage, const bool boolean) {
