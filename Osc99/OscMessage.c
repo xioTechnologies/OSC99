@@ -1261,10 +1261,10 @@ OscError OscMessageGetCharacter(OscMessage * const oscMessage, char * const char
 }
 
 /**
- * @brief Gets a 32 bit RGBA colour argument from an OSC message.
+ * @brief Gets a 32-bit RGBA colour argument from an OSC message.
  *
  * The next argument available within the OSC message (indicated by the internal
- * index oscTypeTagStringIndex) must be a 32 bit RGBA colour else this function
+ * index oscTypeTagStringIndex) must be a 32-bit RGBA colour else this function
  * will return an error.  The internal index oscTypeTagStringIndex, will only
  * be incremented to the next argument if this function is successful.  The user
  * application may determine the next argument type by first calling
@@ -1287,7 +1287,7 @@ OscError OscMessageGetCharacter(OscMessage * const oscMessage, char * const char
  * @endcode
  *
  * @param oscMessage OSC message.
- * @param rgbaColour 32 bit RGBA colour argument.
+ * @param rgbaColour 32-bit RGBA colour argument.
  * @return Error code (0 if successful).
  */
 OscError OscMessageGetRgbaColour(OscMessage * const oscMessage, RgbaColour * const rgbaColour) {
@@ -1377,7 +1377,7 @@ OscError OscMessageGetMidiMessage(OscMessage * const oscMessage, MidiMessage * c
  * @endcode
  *
  * @param oscMessage OSC message.
- * @param int32 Address value will be written to.
+ * @param int32 32-bit integer argument.
  * @return Error code (0 if successful).
  */
 OscError OscMessageGetArgumentAsInt32(OscMessage * const oscMessage, int32_t * const int32) {
@@ -1467,7 +1467,7 @@ OscError OscMessageGetArgumentAsInt32(OscMessage * const oscMessage, int32_t * c
  * @endcode
  *
  * @param oscMessage OSC message.
- * @param float32 Address value will be written to.
+ * @param float32 32-bit float argument.
  * @return Error code (0 if successful).
  */
 OscError OscMessageGetArgumentAsFloat32(OscMessage * const oscMessage, float * const float32) {
@@ -1689,7 +1689,7 @@ OscError OscMessageGetArgumentAsBlob(OscMessage * const oscMessage, size_t * con
  * @endcode
  *
  * @param oscMessage OSC message.
- * @param int64 Address value will be written to.
+ * @param int64 64-bit integer argument.
  * @return Error code (0 if successful).
  */
 OscError OscMessageGetArgumentAsInt64(OscMessage * const oscMessage, int64_t * const int64) {
@@ -1779,7 +1779,7 @@ OscError OscMessageGetArgumentAsInt64(OscMessage * const oscMessage, int64_t * c
  * @endcode
  *
  * @param oscMessage OSC message.
- * @param oscTimeTag Address value will be written to.
+ * @param oscTimeTag OSC time tag argument.
  * @return Error code (0 if successful).
  */
 OscError OscMessageGetArgumentAsTimeTag(OscMessage * const oscMessage, OscTimeTag * const oscTimeTag) {
@@ -1869,7 +1869,7 @@ OscError OscMessageGetArgumentAsTimeTag(OscMessage * const oscMessage, OscTimeTa
  * @endcode
  *
  * @param oscMessage OSC message.
- * @param double64 Address value will be written to.
+ * @param double64 64-bit double argument.
  * @return Error code (0 if successful).
  */
 OscError OscMessageGetArgumentAsDouble(OscMessage * const oscMessage, Double64 * const double64) {
@@ -1959,7 +1959,7 @@ OscError OscMessageGetArgumentAsDouble(OscMessage * const oscMessage, Double64 *
  * @endcode
  *
  * @param oscMessage OSC message.
- * @param character Address value will be written to.
+ * @param character Character argument.
  * @return Error code (0 if successful).
  */
 OscError OscMessageGetArgumentAsCharacter(OscMessage * const oscMessage, char * const character) {
@@ -2033,10 +2033,10 @@ OscError OscMessageGetArgumentAsCharacter(OscMessage * const oscMessage, char * 
 }
 
 /**
- * @brief Interprets the next argument in the OSC message as a 32 bit RGBA
+ * @brief Interprets the next argument in the OSC message as a 32-bit RGBA
  * colour even if the argument is of another type.
  *
- * The argument provided must be either a blob or 32 bit RGBA colour.  The
+ * The argument provided must be either a blob or 32-bit RGBA colour.  The
  * internal index oscTypeTagStringIndex will only be incremented to the next
  * argument if this function is successful.
  *
@@ -2048,7 +2048,7 @@ OscError OscMessageGetArgumentAsCharacter(OscMessage * const oscMessage, char * 
  * @endcode
  *
  * @param oscMessage OSC message.
- * @param rgbaColour 32 bit RGBA colour argument.
+ * @param rgbaColour 32-bit RGBA colour argument.
  * @return Error code (0 if successful).
  */
 OscError OscMessageGetArgumentAsRgbaColour(OscMessage * const oscMessage, RgbaColour * const rgbaColour) {
@@ -2141,7 +2141,7 @@ OscError OscMessageGetArgumentAsMidiMessage(OscMessage * const oscMessage, MidiM
  * @endcode
  *
  * @param oscMessage OSC message.
- * @param boolean Address value will be written to.
+ * @param boolean Boolean argument.
  * @return Error code (0 if successful).
  */
 OscError OscMessageGetArgumentAsBool(OscMessage * const oscMessage, bool * const boolean) {

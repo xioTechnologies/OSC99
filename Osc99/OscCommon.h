@@ -108,7 +108,7 @@ typedef union {
 // Definitions - 64-bit argument types
 
 /**
- * @brief OSC time-tag.  Same representation used by NTP timestamps.
+ * @brief OSC time tag.  Same representation used by NTP timestamps.
  */
 typedef union {
     uint64_t value;

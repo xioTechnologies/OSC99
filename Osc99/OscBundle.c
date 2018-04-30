@@ -18,9 +18,9 @@
  * @brief Initialises an OSC bundle with a specified OSC time tag.
  *
  * An OSC bundle must be initialised before use.  The oscTimeTag argument may be
- * specified as oscTimeTagZero for an OSC time-tag value of  zero.  This may
- * be of use if the OSC time tag value is irrelevant to the user application, if
- * the contained OSC messages should be invoke immediately, or if the OSC time-
+ * specified as oscTimeTagZero for an OSC time tag value of  zero. This may be
+ * of use if the OSC time tag value is irrelevant to the user application, if
+ * the contained OSC messages should be invoke immediately, or if the OSC time
  * tag value is intended to be overwritten after initialisation of the OSC
  * bundle.
  *
