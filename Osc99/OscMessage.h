@@ -7,7 +7,7 @@
  * MAX_OSC_ADDRESS_PATTERN_LENGTH and MAX_NUMBER_OF_ARGUMENTS may be modified as
  * required by the user application.
  *
- * @see http://opensoundcontrol.org/spec-1_0
+ * See http://opensoundcontrol.org/spec-1_0
  */
 
 #ifndef OSC_MESSAGE_H

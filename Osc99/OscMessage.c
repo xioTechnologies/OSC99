@@ -3,7 +3,7 @@
  * @author Seb Madgwick
  * @brief Functions and structures for constructing and deconstructing OSC
  * messages.
- * @see http://opensoundcontrol.org/spec-1_0
+ * See http://opensoundcontrol.org/spec-1_0
  */
 
 //------------------------------------------------------------------------------

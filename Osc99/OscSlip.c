@@ -3,7 +3,7 @@
  * @author Seb Madgwick
  * @brief Functions and structures for encoding and decoding OSC packets using
  * the SLIP protocol.
- * @see http://en.wikipedia.org/wiki/Serial_Line_Internet_Protocol
+ * See http://en.wikipedia.org/wiki/Serial_Line_Internet_Protocol
  */
 
 //------------------------------------------------------------------------------

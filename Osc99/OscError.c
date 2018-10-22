@@ -2,7 +2,7 @@
  * @file OscError.c
  * @author Seb Madgwick
  * @brief Errors returned by library functions.
- * @see http://opensoundcontrol.org/spec-1_0
+ * See http://opensoundcontrol.org/spec-1_0
  */
 
 //------------------------------------------------------------------------------

@@ -3,7 +3,7 @@
  * @author Seb Madgwick
  * @brief Functions for matching and manipulating OSC address patterns and OSC
  * addresses.
- * @see http://opensoundcontrol.org/spec-1_0
+ * See http://opensoundcontrol.org/spec-1_0
  */
 
 #ifndef OSC_ADDRESS_H

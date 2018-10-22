@@ -2,7 +2,7 @@
  * @file OscCommon.h
  * @author Seb Madgwick
  * @brief Definitions, types, and functions used throughout library.
- * @see http://opensoundcontrol.org/spec-1_0
+ * See http://opensoundcontrol.org/spec-1_0
  */
 
 #ifndef OSC_COMMON_H
@@ -21,7 +21,7 @@
 /**
  * @brief Comment out this definition if the platform is big-endian.  For
  * example: Arduino, Atmel AVR, Microchip PIC, Intel x86-64 are little-endian.
- * @see http://en.wikipedia.org/wiki/Endianness
+ * See http://en.wikipedia.org/wiki/Endianness
  */
 #define LITTLE_ENDIAN_PLATFORM
 
@@ -43,7 +43,7 @@
 
 /**
  * @brief 32-bit RGBA colour.
- * @see http://en.wikipedia.org/wiki/RGBA_color_space
+ * See http://en.wikipedia.org/wiki/RGBA_color_space
  */
 typedef struct __attribute__((__packed__)) {
 #ifdef LITTLE_ENDIAN_PLATFORM

@@ -14,7 +14,7 @@
  * user application: LITTLE_ENDIAN_PLATFORM, MAX_TRANSPORT_SIZE,
  * OSC_ERROR_MESSAGES_ENABLED.
  *
- * @see http://opensoundcontrol.org/spec-1_0
+ * See http://opensoundcontrol.org/spec-1_0
  */
 
 #ifndef OSC99_H
